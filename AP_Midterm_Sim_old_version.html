@@ -2259,19 +2259,19 @@
     </header>
 
     <nav aria-label="الأقسام · Sections">
-      <button class="active" data-tab="tf" onclick="show('tf', this)">
+      <button class="active" data-tab="cheat" onclick="show('cheat', this)">📖 الشرح والأنماط</button>
+      <button data-tab="tf" onclick="show('tf', this)">
         صح/خطأ <span class="stat" id="navTf">0/15</span>
       </button>
       <button data-tab="mcq" onclick="show('mcq', this)">
         اختيارات <span class="stat" id="navMcq">0/12</span>
       </button>
-      <button data-tab="essay" onclick="show('essay', this)">سؤالان</button>
-      <button data-tab="cheat" onclick="show('cheat', this)">Patterns</button>
+      <button data-tab="essay" onclick="show('essay', this)">سؤالان UML</button>
     </nav>
 
     <main id="main">
       <!-- TRUE/FALSE -->
-      <section class="tab active" id="tf" aria-label="صح وخطأ">
+      <section class="tab" id="tf" aria-label="صح وخطأ">
         <div class="sec-head">
           <div class="kicker">القسم الأول · Section 01</div>
           <h2>صح أم خطأ<span class="en">True / False — 15 statements</span></h2>
@@ -2528,7 +2528,7 @@
       </section>
 
       <!-- FULL SYLLABUS STUDY GUIDE -->
-      <section class="tab" id="cheat" aria-label="شرح المنهج الكامل">
+      <section class="tab active" id="cheat" aria-label="شرح المنهج والأنماط الكامل">
         <div class="sec-head">
           <div class="kicker">شرح كامل · Full Study Guide</div>
           <h2>
