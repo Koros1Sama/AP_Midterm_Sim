@@ -50,16 +50,30 @@ body {
 }
 .topbar {
   position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
   backdrop-filter: blur(20px); border-bottom: 1px solid var(--ln-s);
 }
 .topbar-in {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; padding: 12px 18px; max-width: 940px; margin: 0 auto;
+  gap: 12px; padding: 10px 18px 6px; max-width: 940px; margin: 0 auto;
 }
 .brand { font-family: var(--fm); font-size: .85rem; font-weight: 700; color: var(--acc); display: flex; align-items: center; gap: 8px; }
 .brand-badge { background: var(--acc-g); border: 1px solid var(--acc); padding: 2px 7px; border-radius: 6px; font-size: .7rem; }
-.btn-top-reset { background: var(--acc-g); border: 1px solid var(--acc); color: var(--acc-b); padding: 6px 16px; border-radius: 999px; font-size: .8rem; font-weight: 700; cursor: pointer; transition: all var(--dur) var(--ease); display: inline-flex; align-items: center; gap: 6px; }
+
+.topbar-actions {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 0 18px 10px; max-width: 940px; margin: 0 auto;
+}
+.nav-pill-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 18px; font-size: .8rem; font-weight: 700; border-radius: 999px;
+  white-space: nowrap; text-decoration: none; background: var(--sf2); color: var(--acc);
+  border: 1px solid var(--acc); box-shadow: 0 2px 10px var(--acc-g);
+  transition: all var(--dur) var(--ease); flex: 1; text-align: center;
+}
+.nav-pill-btn:hover { background: var(--acc); color: var(--bg); transform: translateY(-1px); }
+
+.btn-top-reset { background: var(--acc-g); border: 1px solid var(--acc); color: var(--acc-b); padding: 7px 16px; border-radius: 999px; font-size: .8rem; font-weight: 700; cursor: pointer; transition: all var(--dur) var(--ease); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .btn-top-reset:hover { background: var(--acc); color: var(--bg); }
 
 .tswitch { display: flex; gap: 6px; align-items: center; }
@@ -142,6 +156,12 @@ main { max-width: 940px; margin: 0 auto; padding: 18px; }
 .direct-model-ans { display: none; margin-top: 14px; padding: 16px; background: var(--bg-s); border: 1px solid var(--acc); border-radius: var(--r-s); }
 .direct-model-ans.show { display: block; animation: rise .25s var(--ease); }
 
+@media (max-width: 600px) {
+  .topbar-actions { padding: 0 14px 10px; flex-wrap: wrap; }
+  .nav-pill-btn { width: 100%; font-size: .84rem; padding: 9px 16px; }
+  .btn-top-reset { font-size: .75rem; padding: 5px 12px; }
+}
+
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
@@ -149,13 +169,15 @@ main { max-width: 940px; margin: 0 auto; padding: 18px; }
 <div class="topbar">
   <div class="topbar-in">
     <div class="brand"><span class="brand-badge">AP EXAM</span> بنك الأسئلة والشروحات</div>
-    <a href="AP_Midterm_Sim.html" style="margin:0 6px;font-size:.72rem;padding:5px 12px;background:var(--sf2);color:var(--acc);border:1px solid var(--acc);border-radius:999px;text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;">📖 عارض السلايدات الشامل</a>
-    <button class="btn-top-reset" id="btn-top-reset">تراجع عن الكل ↺</button>
     <div class="tswitch">
       <button class="tdot active" data-t="amber" aria-label="Amber"></button>
       <button class="tdot" data-t="mist" aria-label="Mist"></button>
       <button class="tdot" data-t="neon" aria-label="Neon"></button>
     </div>
+  </div>
+  <div class="topbar-actions">
+    <a href="AP_Midterm_Sim.html" class="nav-pill-btn">📖 عارض السلايدات وشرح المنهج الشامل ✨</a>
+    <button class="btn-top-reset" id="btn-top-reset">تراجع عن الكل ↺</button>
   </div>
 </div>
 
@@ -198,7 +220,7 @@ const QUESTIONS = [{"id": "L1-Q1", "lec": 1, "slide_ref": "L1-S18", "type": "mcq
 let state = {
   selectedLec: "all",
   selectedType: "all",
-  answers: {}, // qid -> choice
+  answers: {},
   theme: "amber"
 };
 
@@ -268,7 +290,6 @@ function handleMCQChoice(qid, oi) {
   const exp = document.getElementById("exp-" + qid);
   const q = QUESTIONS.find(x => x.id === qid);
 
-  // If already selected, clicking it again UNSELECTS (toggle off)
   if (state.answers[qid] === oi) {
     delete state.answers[qid];
     card.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("sel-ok", "sel-no"));
@@ -277,7 +298,6 @@ function handleMCQChoice(qid, oi) {
     return;
   }
 
-  // Select new choice
   state.answers[qid] = oi;
   const picked = q.opts[oi];
   const correct = picked.ok;
@@ -302,7 +322,6 @@ function handleTFChoice(qid, val) {
   const exp = document.getElementById("exp-" + qid);
   const q = QUESTIONS.find(x => x.id === qid);
 
-  // If already selected, clicking again UNSELECTS
   if (state.answers[qid] === val) {
     delete state.answers[qid];
     card.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("sel-ok", "sel-no"));
@@ -427,7 +446,6 @@ document.querySelectorAll("#type-filters .fchip").forEach(btn => btn.addEventLis
   renderQuestions();
 }));
 
-// Reset Buttons
 document.getElementById("btn-top-reset").addEventListener("click", resetAllChoices);
 document.getElementById("btn-reset-banner").addEventListener("click", resetAllChoices);
 
