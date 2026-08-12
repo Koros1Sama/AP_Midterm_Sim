@@ -1,0 +1,4606 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="amber">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="محاكاة تفاعلية لاختبار البرمجة المتقدمة — د. بيداء لعلع. Interactive Advanced Programming midterm simulator with 3 themes."
+    />
+    <title>Advanced Programming — Midterm Lab · د. بيداء لعلع</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&family=Reem+Kufi:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         THREE THEMES — switchable via [data-theme] on <html>.
+         Each theme defines its own ground, surfaces, accent, text.
+         Transitions on the root vars make switching smooth.
+         ============================================================ */
+      :root {
+        --r-sm: 8px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+        --ease: cubic-bezier(0.32, 0.72, 0, 1);
+        --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+        --dur: 0.4s;
+        --font-display: "Outfit", "Reem Kufi", sans-serif;
+        --font-ar: "Noto Kufi Arabic", "Reem Kufi", sans-serif;
+        --font-mono: "IBM Plex Mono", monospace;
+      }
+
+      /* ---- THEME 1: Midnight Amber (default, dark, warm academic) ---- */
+      [data-theme="amber"] {
+        --bg: #0d0c0a;
+        --bg-soft: #16140f;
+        --surface: #1c1914;
+        --surface-2: #25211a;
+        --line: #34302a;
+        --line-soft: #28241f;
+        --ink: #f4ede0;
+        --ink-mut: #a89e8c;
+        --ink-faint: #6b6357;
+        --accent: #d4a24c;
+        --accent-bright: #e8b85e;
+        --accent-deep: #8a6a2e;
+        --accent-glow: rgba(212, 162, 76, 0.18);
+        --ok: #7fa67a;
+        --ok-bg: rgba(127, 166, 122, 0.12);
+        --err: #c47a5e;
+        --err-bg: rgba(196, 122, 94, 0.13);
+        --shadow-soft:
+          0 1px 2px rgba(20, 16, 8, 0.4), 0 8px 24px -8px rgba(20, 16, 8, 0.5);
+        --shadow-lift:
+          0 2px 4px rgba(20, 16, 8, 0.3),
+          0 20px 50px -12px rgba(40, 30, 12, 0.55);
+        --shadow-accent: 0 8px 30px -6px rgba(212, 162, 76, 0.25);
+        --glow-a: rgba(212, 162, 76, 0.12);
+        --glow-b: rgba(138, 106, 46, 0.1);
+        --glow-c: rgba(127, 166, 122, 0.06);
+        --grain-op: 0.025;
+      }
+
+      /* ---- THEME 2: Daylight Mist (light, soft, airy) ---- */
+      [data-theme="mist"] {
+        --bg: #f5f2ec;
+        --bg-soft: #ebe7df;
+        --surface: #ffffff;
+        --surface-2: #faf7f1;
+        --line: #d8d2c5;
+        --line-soft: #e4dfd4;
+        --ink: #2a2520;
+        --ink-mut: #6b6357;
+        --ink-faint: #9a9082;
+        --accent: #9a6b2e;
+        --accent-bright: #b8842e;
+        --accent-deep: #6b4818;
+        --accent-glow: rgba(154, 107, 46, 0.1);
+        --ok: #4a7a4a;
+        --ok-bg: rgba(74, 122, 74, 0.1);
+        --err: #b8553e;
+        --err-bg: rgba(184, 85, 62, 0.1);
+        --shadow-soft:
+          0 1px 2px rgba(60, 50, 30, 0.04),
+          0 8px 24px -8px rgba(60, 50, 30, 0.1);
+        --shadow-lift:
+          0 2px 4px rgba(60, 50, 30, 0.05),
+          0 20px 50px -12px rgba(60, 50, 30, 0.15);
+        --shadow-accent: 0 8px 30px -6px rgba(154, 107, 46, 0.2);
+        --glow-a: rgba(154, 107, 46, 0.08);
+        --glow-b: rgba(120, 90, 50, 0.06);
+        --glow-c: rgba(74, 122, 74, 0.04);
+        --grain-op: 0.015;
+      }
+
+      /* ---- THEME 3: Neon Pulse (dark, vivid cyber) ---- */
+      [data-theme="neon"] {
+        --bg: #07060f;
+        --bg-soft: #0e0c1c;
+        --surface: #131028;
+        --surface-2: #1a1638;
+        --line: #2a2450;
+        --line-soft: #221e42;
+        --ink: #ecebff;
+        --ink-mut: #9892c7;
+        --ink-faint: #6159a0;
+        --accent: #00e5d4;
+        --accent-bright: #4dffe8;
+        --accent-deep: #008a7e;
+        --accent-glow: rgba(0, 229, 212, 0.2);
+        --ok: #b6ff5c;
+        --ok-bg: rgba(182, 255, 92, 0.1);
+        --err: #ff4d8d;
+        --err-bg: rgba(255, 77, 141, 0.12);
+        --shadow-soft:
+          0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px -8px rgba(0, 229, 212, 0.1);
+        --shadow-lift:
+          0 2px 4px rgba(0, 0, 0, 0.4),
+          0 20px 50px -12px rgba(0, 229, 212, 0.18);
+        --shadow-accent: 0 8px 30px -6px rgba(0, 229, 212, 0.4);
+        --glow-a: rgba(0, 229, 212, 0.15);
+        --glow-b: rgba(255, 77, 141, 0.12);
+        --glow-c: rgba(182, 255, 92, 0.08);
+        --grain-op: 0.03;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      body {
+        font-family: var(--font-ar);
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.8;
+        font-size: 16px;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background var(--dur) var(--ease),
+          color var(--dur) var(--ease);
+      }
+      /* Mesh gradient atmosphere — theme-tinted */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            900px 500px at 85% -5%,
+            var(--glow-a),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 600px at 5% 15%,
+            var(--glow-b),
+            transparent 55%
+          ),
+          radial-gradient(
+            600px 400px at 50% 100%,
+            var(--glow-c),
+            transparent 60%
+          );
+        transition: background var(--dur) var(--ease);
+      }
+      /* Film grain overlay */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: var(--grain-op);
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        transition: opacity var(--dur) var(--ease);
+      }
+      main,
+      header,
+      nav,
+      footer,
+      .topbar {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ===== TOPBAR — sticky, holds theme switch + progress + reset ===== */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--bg) 80%, transparent);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border-bottom: 1px solid var(--line-soft);
+        transition:
+          background var(--dur) var(--ease),
+          border-color var(--dur) var(--ease);
+      }
+      .topbar-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .brand .logo-mark {
+        width: 26px;
+        height: 26px;
+        display: grid;
+        place-items: center;
+        background: var(--accent-glow);
+        border: 1px solid var(--accent);
+        border-radius: 7px;
+        font-size: 0.85rem;
+      }
+      .topbar-spacer {
+        flex: 1;
+      }
+      .progress-mini {
+        flex: 0 1 140px;
+        height: 6px;
+        background: var(--line-soft);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .progress-mini .fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(
+          90deg,
+          var(--accent-deep),
+          var(--accent-bright)
+        );
+        border-radius: 999px;
+        transition: width 0.6s var(--ease);
+      }
+      .progress-mini .pct {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-mut);
+        margin-right: 6px;
+        min-width: 34px;
+        text-align: left;
+      }
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        color: var(--ink-mut);
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all var(--dur) var(--ease);
+      }
+      .icon-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--surface-2);
+      }
+      .icon-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* theme switcher — 3 dots */
+      .theme-switch {
+        display: flex;
+        gap: 5px;
+        padding: 4px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+      }
+      .theme-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all var(--dur) var(--ease);
+      }
+      .theme-dot:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .theme-dot[data-t="amber"] {
+        background: linear-gradient(135deg, #d4a24c, #8a6a2e);
+      }
+      .theme-dot[data-t="mist"] {
+        background: linear-gradient(135deg, #f5f2ec, #d8d2c5);
+      }
+      .theme-dot[data-t="neon"] {
+        background: linear-gradient(135deg, #00e5d4, #ff4d8d);
+      }
+      .theme-dot.active {
+        border-color: var(--accent);
+        transform: scale(1.15);
+        box-shadow: 0 0 0 2px var(--bg);
+      }
+
+      /* ===== HERO — asymmetric, with live stats ===== */
+      .hero {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 56px 24px 32px;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 40px;
+        align-items: end;
+      }
+      .hero-text .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-glow);
+        border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+        padding: 5px 12px;
+        border-radius: 999px;
+        margin-bottom: 20px;
+      }
+      .hero-text .eyebrow .pulse {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-bright);
+        box-shadow: 0 0 8px var(--accent-bright);
+        animation: pulse 2s var(--ease) infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.8);
+        }
+      }
+      .hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 5.5vw, 3.4rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+      }
+      .hero h1 .accent {
+        color: var(--accent-bright);
+        font-style: italic;
+        font-weight: 700;
+      }
+      .hero h1 .en {
+        display: block;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        font-weight: 500;
+        color: var(--ink-mut);
+        direction: ltr;
+        text-align: left;
+        margin-top: 10px;
+        letter-spacing: -0.01em;
+        font-style: normal;
+      }
+      .hero .lede {
+        margin-top: 20px;
+        color: var(--ink-mut);
+        font-size: 0.95rem;
+        line-height: 1.75;
+        max-width: 480px;
+      }
+      .hero .lede .en {
+        display: block;
+        direction: ltr;
+        text-align: left;
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+        margin-top: 4px;
+      }
+
+      /* hero stat panel — the signature element */
+      .hero-stats {
+        padding: 7px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xl);
+        box-shadow: var(--shadow-lift);
+      }
+      .hero-stats .core {
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
+        border-radius: calc(var(--r-xl) - 7px);
+        padding: 22px;
+      }
+      .hero-stats .label {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 12px;
+      }
+      .hero-stats .gauge {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        margin: 0 auto 14px;
+      }
+      .hero-stats .gauge svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+      .hero-stats .gauge .track {
+        fill: none;
+        stroke: var(--line);
+        stroke-width: 9;
+      }
+      .hero-stats .gauge .fill {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 9;
+        stroke-linecap: round;
+        stroke-dasharray: 380;
+        stroke-dashoffset: 380;
+        transition: stroke-dashoffset 0.8s var(--ease);
+        filter: drop-shadow(0 0 6px var(--accent-glow));
+      }
+      .hero-stats .gauge .pct {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-stats .gauge .pct .num {
+        font-family: var(--font-display);
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: var(--accent-bright);
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .hero-stats .gauge .pct .lab {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-top: 3px;
+      }
+      .hero-stats .chips {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .hero-stats .chip {
+        text-align: center;
+        padding: 10px 4px;
+        background: var(--bg-soft);
+        border: 1px solid var(--line-soft);
+        border-radius: var(--r-md);
+      }
+      .hero-stats .chip .v {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--ink);
+        display: block;
+        line-height: 1;
+      }
+      .hero-stats .chip .k {
+        font-family: var(--font-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* ===== NAV — floating island pill ===== */
+      nav {
+        position: sticky;
+        top: 60px;
+        z-index: 45;
+        max-width: max-content;
+        margin: 0 auto;
+        padding: 5px;
+        background: color-mix(in srgb, var(--surface) 85%, transparent);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        box-shadow: var(--shadow-lift);
+        display: flex;
+        gap: 3px;
+        transition:
+          background var(--dur) var(--ease),
+          border-color var(--dur) var(--ease);
+      }
+      nav button {
+        background: transparent;
+        color: var(--ink-mut);
+        border: none;
+        padding: 9px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        transition: all var(--dur) var(--ease);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      nav button:hover {
+        color: var(--ink);
+        background: var(--accent-glow);
+      }
+      nav button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      nav button.active {
+        background: var(--accent);
+        color: var(--bg);
+        box-shadow: var(--shadow-accent);
+      }
+      nav button .stat {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        opacity: 0.7;
+      }
+      nav button.active .stat {
+        opacity: 0.85;
+      }
+
+      /* ===== TABS ===== */
+      .tab {
+        display: none;
+        padding: 36px 24px 100px;
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      .tab.active {
+        display: block;
+        animation: rise var(--dur) var(--ease-soft);
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .sec-head {
+        margin: 24px 0 8px;
+      }
+      .sec-head .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 6px;
+      }
+      .sec-head h2 {
+        font-family: var(--font-display);
+        font-size: clamp(1.3rem, 3vw, 1.85rem);
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+        line-height: 1.25;
+      }
+      .sec-head h2 .en {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--ink-faint);
+        direction: ltr;
+        text-align: left;
+        margin-top: 3px;
+      }
+      .tip-bar {
+        margin: 16px 0;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--line-soft);
+        border-left: 2px solid var(--accent);
+        border-radius: var(--r-md);
+        color: var(--ink-mut);
+        font-size: 0.85rem;
+        line-height: 1.7;
+      }
+      .tip-bar strong {
+        color: var(--ink);
+      }
+
+      /* ===== SECTION ACTION BAR (reset all) ===== */
+      .sec-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin: 16px 0 8px;
+      }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 14px;
+        background: transparent;
+        color: var(--ink-mut);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all var(--dur) var(--ease);
+      }
+      .btn-ghost:hover {
+        color: var(--err);
+        border-color: var(--err);
+        background: var(--err-bg);
+      }
+      .btn-ghost:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ===== QUESTION CARD — Double-Bezel ===== */
+      .qblock {
+        position: relative;
+        margin: 16px 0;
+        padding: 7px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xl);
+        box-shadow: var(--shadow-soft);
+        transition:
+          border-color var(--dur) var(--ease),
+          box-shadow var(--dur) var(--ease),
+          transform var(--dur) var(--ease),
+          background var(--dur) var(--ease);
+      }
+      .qblock:hover {
+        border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+        transform: translateY(-2px);
+      }
+      .qblock.solved {
+        border-color: color-mix(in srgb, var(--ok) 45%, transparent);
+      }
+      .qblock.solved-wrong {
+        border-color: color-mix(in srgb, var(--err) 50%, transparent);
+      }
+      .qblock .core {
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
+        border-radius: calc(var(--r-xl) - 7px);
+        padding: 18px 20px;
+        transition: background var(--dur) var(--ease);
+      }
+      .q-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .qnum {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        height: 32px;
+        padding: 0 4px;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--accent);
+        background: var(--accent-glow);
+        border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+        border-radius: var(--r-sm);
+        letter-spacing: 0.05em;
+      }
+      .qtext {
+        font-size: 1.02rem;
+        color: var(--ink);
+        line-height: 1.7;
+        font-weight: 500;
+        flex: 1;
+      }
+      .qtext .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.88rem;
+        font-weight: 400;
+        margin-top: 6px;
+      }
+
+      /* ===== ANSWER PANEL ===== */
+      .ans {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        margin-top: 0;
+        transition:
+          max-height var(--dur) var(--ease),
+          opacity var(--dur) var(--ease),
+          margin var(--dur) var(--ease);
+      }
+      .ans.show {
+        max-height: 5000px;
+        opacity: 1;
+        margin-top: 16px;
+      }
+      .ans-inner {
+        padding: 16px 18px;
+        background: var(--bg-soft);
+        border: 1px solid var(--line-soft);
+        border-right: 2px solid var(--ok);
+        border-radius: var(--r-md);
+        transition:
+          background var(--dur) var(--ease),
+          border-color var(--dur) var(--ease);
+      }
+      .ans.wrong .ans-inner {
+        border-right-color: var(--err);
+      }
+      .verdict {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 0.98rem;
+        margin-bottom: 8px;
+      }
+      .verdict.ok {
+        color: var(--ok);
+      }
+      .verdict.no {
+        color: var(--err);
+      }
+      .ans .exp {
+        color: var(--ink);
+        font-size: 0.9rem;
+        line-height: 1.9;
+      }
+      .ans .exp .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.84rem;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--line-soft);
+      }
+      .ans .exp strong,
+      .ans .exp b {
+        color: var(--accent-bright);
+        font-weight: 600;
+      }
+      .ans code {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent);
+        background: var(--accent-glow);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      .rationales {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px dashed var(--line);
+      }
+      .rationales .rhead {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .rationale {
+        padding: 10px 14px;
+        margin: 8px 0;
+        background: var(--surface);
+        border: 1px solid var(--line-soft);
+        border-radius: var(--r-md);
+        font-size: 0.85rem;
+        line-height: 1.7;
+        transition: border-color var(--dur) var(--ease);
+      }
+      .rationale:hover {
+        border-color: var(--line);
+      }
+      .rationale .lbl {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 600;
+        border-radius: 6px;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+      .rationale .lbl.c {
+        background: var(--ok-bg);
+        color: var(--ok);
+        border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent);
+      }
+      .rationale .lbl.w {
+        background: var(--err-bg);
+        color: var(--err);
+        border: 1px solid color-mix(in srgb, var(--err) 35%, transparent);
+      }
+      .rationale .rtext {
+        color: var(--ink);
+      }
+      .rationale .rtext .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.8rem;
+        margin-top: 6px;
+      }
+
+      /* ===== TRUE/FALSE ===== */
+      .tfopts {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .tfopt {
+        text-align: center;
+        padding: 14px 12px;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: var(--ink);
+        user-select: none;
+        transition: all var(--dur) var(--ease);
+        font-family: inherit;
+      }
+      .tfopt:hover {
+        border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+        background: var(--surface);
+        transform: translateY(-1px);
+      }
+      .tfopt:active {
+        transform: scale(0.98);
+      }
+      .tfopt:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .tfopt.sel-correct {
+        background: var(--ok-bg);
+        border-color: var(--ok);
+        color: var(--ok);
+      }
+      .tfopt.sel-wrong {
+        background: var(--err-bg);
+        border-color: var(--err);
+        color: var(--err);
+      }
+      .tfopt.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      .tfopt .mark {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        margin-left: 6px;
+      }
+
+      /* ===== MCQ ===== */
+      .mcopt {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin: 8px 0;
+        padding: 14px 16px;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        cursor: pointer;
+        transition: all var(--dur) var(--ease);
+      }
+      .mcopt:hover {
+        border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+        background: var(--surface);
+        transform: translateX(-2px);
+      }
+      .mcopt:active {
+        transform: scale(0.99);
+      }
+      .mcopt .letter {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--ink-faint);
+        background: var(--bg-soft);
+        border: 1px solid var(--line);
+        border-radius: var(--r-sm);
+        transition: all var(--dur) var(--ease);
+      }
+      .mcopt .otext {
+        flex: 1;
+        font-size: 0.93rem;
+        color: var(--ink);
+        line-height: 1.6;
+      }
+      .mcopt .opten {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.82rem;
+        margin-top: 4px;
+      }
+      .mcopt.sel-correct {
+        background: var(--ok-bg);
+        border-color: var(--ok);
+      }
+      .mcopt.sel-correct .letter {
+        background: var(--ok);
+        color: var(--bg);
+        border-color: var(--ok);
+      }
+      .mcopt.sel-wrong {
+        background: var(--err-bg);
+        border-color: var(--err);
+      }
+      .mcopt.sel-wrong .letter {
+        background: var(--err);
+        color: var(--bg);
+        border-color: var(--err);
+      }
+      .mcopt.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      .mcopt.reveal-correct {
+        background: var(--ok-bg);
+        border-color: var(--ok);
+        animation: reveal 0.6s var(--ease);
+      }
+      @keyframes reveal {
+        0% {
+          box-shadow: 0 0 0 0 var(--ok-bg);
+        }
+        100% {
+          box-shadow: 0 0 0 10px transparent;
+        }
+      }
+
+      /* ===== per-question reset button (the "undo") ===== */
+      .q-actions {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .reset-q {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 11px;
+        background: transparent;
+        color: var(--ink-faint);
+        border: 1px solid var(--line-soft);
+        border-radius: 999px;
+        cursor: pointer;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        transition: all var(--dur) var(--ease);
+      }
+      .qblock.answered .reset-q {
+        display: inline-flex;
+        animation: rise 0.3s var(--ease);
+      }
+      .reset-q:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-glow);
+      }
+      .reset-q:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      button.reveal {
+        margin-top: 14px;
+        padding: 9px 18px;
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+        border-radius: 999px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.83rem;
+        font-weight: 600;
+        transition: all var(--dur) var(--ease);
+      }
+      button.reveal:hover {
+        background: var(--accent);
+        color: var(--bg);
+        border-color: var(--accent);
+        box-shadow: var(--shadow-accent);
+      }
+      button.reveal:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ===== UML ===== */
+      .uml {
+        background: color-mix(in srgb, var(--bg) 80%, #000);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: 18px;
+        margin: 14px 0;
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        direction: ltr;
+        text-align: left;
+        overflow-x: auto;
+        color: var(--ink-mut);
+        white-space: pre;
+        line-height: 1.6;
+      }
+      .uml .cls {
+        color: var(--accent-bright);
+        font-weight: 600;
+      }
+      .uml .arrow {
+        color: var(--ok);
+      }
+      .uml .iface {
+        color: color-mix(in srgb, var(--accent) 60%, #b8a0d4);
+        font-style: italic;
+      }
+      .uml .kw {
+        color: var(--err);
+      }
+
+      .note {
+        margin: 18px 0;
+        padding: 14px 18px;
+        background: var(--accent-glow);
+        border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+        border-left: 2px solid var(--accent);
+        border-radius: var(--r-md);
+        color: var(--ink);
+        font-size: 0.88rem;
+        line-height: 1.8;
+        transition:
+          background var(--dur) var(--ease),
+          border-color var(--dur) var(--ease);
+      }
+      .note .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.8rem;
+        margin-top: 6px;
+      }
+
+      /* ===== SCORE BOX ===== */
+      .score-box {
+        margin: 28px 0;
+        padding: 7px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xl);
+        box-shadow: var(--shadow-soft);
+      }
+      .score-box .core {
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
+        border-radius: calc(var(--r-xl) - 7px);
+        padding: 32px 24px;
+        text-align: center;
+      }
+      .score-box .big-gauge {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        margin: 0 auto 16px;
+      }
+      .score-box .big-gauge svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+      .score-box .big-gauge .track {
+        fill: none;
+        stroke: var(--line);
+        stroke-width: 10;
+      }
+      .score-box .big-gauge .fill {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 10;
+        stroke-linecap: round;
+        stroke-dasharray: 440;
+        stroke-dashoffset: 440;
+        transition: stroke-dashoffset 0.8s var(--ease);
+        filter: drop-shadow(0 0 6px var(--accent-glow));
+      }
+      .score-box .big-gauge .pct {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .score-box .big-gauge .pct .num {
+        font-family: var(--font-display);
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: var(--accent-bright);
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .score-box .big-gauge .pct .lab {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-top: 4px;
+      }
+      .score-box .tally {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .score-box .tallylab {
+        color: var(--ink-faint);
+        font-size: 0.82rem;
+        margin-top: 4px;
+      }
+      /* celebratory message on completion */
+      .score-box .msg {
+        margin-top: 14px;
+        font-size: 0.85rem;
+        color: var(--ink-mut);
+        min-height: 1.2em;
+        transition: opacity 0.3s;
+      }
+
+      /* ===== DETAILS ===== */
+      details {
+        margin: 12px 0;
+        padding: 7px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        transition:
+          border-color var(--dur) var(--ease),
+          background var(--dur) var(--ease);
+      }
+      details[open] {
+        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+      details > summary {
+        cursor: pointer;
+        padding: 14px 16px 14px 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--ink);
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: calc(var(--r-lg) - 7px);
+        transition: background var(--dur) var(--ease);
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+      details > summary::after {
+        content: "+";
+        margin-right: auto;
+        font-family: var(--font-mono);
+        color: var(--accent);
+        font-size: 1.1rem;
+        font-weight: 400;
+        transition: transform var(--dur) var(--ease);
+      }
+      details[open] > summary::after {
+        content: "−";
+      }
+      details > summary:hover {
+        background: var(--accent-glow);
+      }
+      details > summary:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      details .body {
+        padding: 0 16px 16px;
+        color: var(--ink);
+        font-size: 0.9rem;
+        line-height: 1.9;
+      }
+      details .body p {
+        margin: 8px 0;
+      }
+      details .body code {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent);
+        background: var(--accent-glow);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      details .body ul {
+        margin: 6px 18px;
+      }
+      details .body li {
+        margin: 4px 0;
+      }
+      .pattern-tag {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+      .t-cre {
+        background: var(--err-bg);
+        color: var(--err);
+        border: 1px solid color-mix(in srgb, var(--err) 35%, transparent);
+      }
+      .t-str {
+        background: var(--accent-glow);
+        color: var(--accent);
+        border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+      .t-beh {
+        background: var(--ok-bg);
+        color: var(--ok);
+        border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent);
+      }
+
+      /* ===== TOAST ===== */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        z-index: 100;
+        padding: 12px 22px;
+        background: var(--surface);
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        color: var(--ink);
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-lift);
+        opacity: 0;
+        transition: all 0.35s var(--ease);
+        pointer-events: none;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        right: 16px;
+        z-index: 100;
+        padding: 8px 16px;
+        background: var(--accent);
+        color: var(--bg);
+        border-radius: var(--r-sm);
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: top var(--dur) var(--ease);
+      }
+      .skip-link:focus {
+        top: 16px;
+      }
+
+      footer {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 40px 24px;
+        text-align: center;
+        color: var(--ink-faint);
+        font-size: 0.78rem;
+        line-height: 1.8;
+        border-top: 1px solid var(--line-soft);
+      }
+      footer .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        margin-top: 4px;
+      }
+
+      /* ==========================================================
+         RESPONSIVE — three real breakpoints, each a genuine redesign
+         not just shrinking. Mobile-first thinking applied last.
+         1024 (tablet landscape) → 768 (tablet/portrait) → 480 (phone)
+         Plus safe-area for notched phones + touch-target sizing.
+         ========================================================== */
+
+      /* ---- TABLET LANDSCAPE & small laptops (≤ 1024px) ----
+         Hero collapses to single column; stats panel centers. */
+      @media (max-width: 1024px) {
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 28px;
+          padding: 44px 24px 28px;
+          max-width: 640px;
+        }
+        .hero-text {
+          text-align: center;
+        }
+        .hero-text .eyebrow {
+          margin-inline: auto;
+        }
+        .hero .lede {
+          margin-inline: auto;
+        }
+        .hero .lede .en,
+        .hero h1 .en {
+          text-align: center;
+        }
+        .hero-stats {
+          max-width: 360px;
+          margin: 0 auto;
+          width: 100%;
+        }
+      }
+
+      /* ---- TABLET PORTRAIT & large phones (≤ 768px) ----
+         Topbar reorganizes into 2 rows. Nav becomes scroll-snap strip. */
+      @media (max-width: 768px) {
+        .topbar-inner {
+          flex-wrap: wrap;
+          padding: 10px 16px;
+          gap: 10px;
+        }
+        .brand {
+          order: 1;
+        }
+        .theme-switch {
+          order: 2;
+          margin-right: auto;
+        }
+        .icon-btn#resetAll {
+          order: 3;
+        }
+        .topbar-spacer {
+          display: none;
+        }
+        /* progress row — full width second line */
+        .progress-mini {
+          order: 4;
+          flex: 1 1 100%;
+          height: 5px;
+        }
+        .pct {
+          order: 5;
+          margin-right: 0;
+          min-width: auto;
+          font-size: 0.68rem;
+        }
+
+        .hero {
+          padding: 36px 20px 24px;
+        }
+        .hero h1 {
+          font-size: clamp(1.7rem, 7vw, 2.2rem);
+        }
+
+        /* nav: centered when it fits, horizontal scroll when it overflows.
+           justify-content:center + overflow-x:auto together give exactly
+           this: browser centers the row if it fits the width, and switches
+           to scroll behavior only when content exceeds the container. */
+        nav {
+          top: 0;
+          max-width: calc(100% - 24px);
+          justify-content: center;
+          overflow-x: auto;
+          overflow-y: hidden;
+          scroll-snap-type: x proximity;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+          mask-image: linear-gradient(
+            90deg,
+            transparent,
+            #000 4%,
+            #000 96%,
+            transparent
+          );
+          -webkit-mask-image: linear-gradient(
+            90deg,
+            transparent,
+            #000 4%,
+            #000 96%,
+            transparent
+          );
+        }
+        nav::-webkit-scrollbar {
+          display: none;
+        }
+        nav button {
+          scroll-snap-align: center;
+          padding: 9px 14px;
+          font-size: 0.78rem;
+          flex-shrink: 0;
+        }
+
+        .tab {
+          padding: 28px 18px 90px;
+        }
+        .sec-head h2 {
+          font-size: clamp(1.25rem, 4vw, 1.5rem);
+        }
+      }
+
+      /* ---- PHONES (≤ 480px) ----
+         Full mobile redesign: denser cards, stacked options, larger
+         touch targets, single-column TF, bottom-sheet feel. */
+      @media (max-width: 480px) {
+        /* safe-area for notched phones */
+        .topbar {
+          padding-top: env(safe-area-inset-top);
+        }
+        footer {
+          padding-bottom: calc(40px + env(safe-area-inset-bottom));
+        }
+
+        .topbar-inner {
+          padding: 8px 14px;
+          gap: 8px;
+        }
+        .brand {
+          font-size: 0.62rem;
+          gap: 6px;
+        }
+        .brand .logo-mark {
+          width: 22px;
+          height: 22px;
+          font-size: 0.7rem;
+        }
+        .theme-dot {
+          width: 18px;
+          height: 18px;
+        }
+        .icon-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 0.95rem;
+        }
+
+        .hero {
+          padding: 28px 16px 20px;
+          gap: 22px;
+        }
+        .hero-text .eyebrow {
+          font-size: 0.62rem;
+          padding: 4px 10px;
+          margin-bottom: 14px;
+        }
+        .hero h1 {
+          font-size: clamp(1.5rem, 8vw, 1.9rem);
+          line-height: 1.1;
+        }
+        .hero .lede {
+          font-size: 0.88rem;
+          line-height: 1.7;
+        }
+
+        /* compact stats card */
+        .hero-stats .core {
+          padding: 18px 14px;
+        }
+        .hero-stats .gauge {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 12px;
+        }
+        .hero-stats .gauge .pct .num {
+          font-size: 1.7rem;
+        }
+        .hero-stats .gauge .pct .lab {
+          font-size: 0.55rem;
+        }
+        .hero-stats .chips {
+          gap: 6px;
+        }
+        .hero-stats .chip {
+          padding: 8px 2px;
+        }
+        .hero-stats .chip .v {
+          font-size: 1.05rem;
+        }
+        .hero-stats .chip .k {
+          font-size: 0.52rem;
+          letter-spacing: 0.06em;
+        }
+
+        .tab {
+          padding: 24px 14px 80px;
+        }
+        .sec-head {
+          margin-top: 18px;
+        }
+        .sec-head .kicker {
+          font-size: 0.62rem;
+        }
+
+        /* denser question cards, less bezel on small screens */
+        .qblock {
+          padding: 5px;
+          margin: 12px 0;
+        }
+        .qblock .core {
+          padding: 14px 13px;
+        }
+        .q-head {
+          gap: 10px;
+          margin-bottom: 12px;
+        }
+        .qnum {
+          min-width: 28px;
+          height: 28px;
+          font-size: 0.72rem;
+        }
+        .qtext {
+          font-size: 0.95rem;
+          line-height: 1.65;
+        }
+        .qtext .en {
+          font-size: 0.82rem;
+        }
+
+        /* TF: stacked vertically for thumb reach — bigger touch targets */
+        .tfopts {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .tfopt {
+          padding: 15px 14px;
+          font-size: 0.9rem;
+          min-height: 48px; /* iOS/Android touch target minimum */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .tfopt .mark {
+          font-size: 1.05rem;
+        }
+
+        /* MCQ: full-width options, larger letters, generous tap area */
+        .mcopt {
+          padding: 14px 13px;
+          margin: 8px 0;
+          min-height: 48px;
+          gap: 11px;
+        }
+        .mcopt:active {
+          transform: scale(0.985);
+        }
+        .mcopt .letter {
+          width: 30px;
+          height: 30px;
+          font-size: 0.82rem;
+        }
+        .mcopt .otext {
+          font-size: 0.9rem;
+        }
+        .mcopt .opten {
+          font-size: 0.78rem;
+        }
+
+        /* rationale cards — tighter */
+        .rationale {
+          padding: 11px 13px;
+          font-size: 0.82rem;
+          line-height: 1.65;
+        }
+        .rationale .rtext .en {
+          font-size: 0.76rem;
+        }
+        .rationale .lbl {
+          width: 20px;
+          height: 20px;
+          font-size: 0.68rem;
+        }
+
+        .ans-inner {
+          padding: 14px 15px;
+        }
+        .ans .exp {
+          font-size: 0.86rem;
+        }
+        .ans .exp .en {
+          font-size: 0.8rem;
+        }
+
+        button.reveal,
+        .btn-ghost,
+        .reset-q {
+          font-size: 0.78rem;
+          min-height: 40px;
+          padding: 9px 16px;
+        }
+
+        /* score gauge smaller */
+        .score-box .core {
+          padding: 26px 18px;
+        }
+        .score-box .big-gauge {
+          width: 130px;
+          height: 130px;
+        }
+        .score-box .big-gauge .pct .num {
+          font-size: 2rem;
+        }
+        .score-box .tally {
+          font-size: 1.15rem;
+        }
+
+        /* details tighter */
+        details > summary {
+          padding: 13px 14px;
+          font-size: 0.9rem;
+        }
+        details .body {
+          padding: 0 14px 14px;
+          font-size: 0.86rem;
+        }
+
+        /* tip-bar / note full-bleed feel */
+        .tip-bar,
+        .note {
+          font-size: 0.82rem;
+          padding: 12px 14px;
+        }
+
+        /* UML: smaller font, horizontal scroll hint */
+        .uml {
+          font-size: 0.62rem;
+          padding: 14px;
+        }
+
+        /* toast higher to clear the phone bottom bar */
+        .toast {
+          bottom: calc(20px + env(safe-area-inset-bottom));
+          left: 16px;
+          right: 16px;
+          transform: translateY(80px);
+          padding: 13px 18px;
+          text-align: center;
+        }
+        .toast.show {
+          transform: translateY(0);
+        }
+      }
+
+      /* ---- Very small phones (≤ 360px) — last-resort tightening ---- */
+      @media (max-width: 360px) {
+        .hero h1 {
+          font-size: 1.4rem;
+        }
+        .hero-stats .chips {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        nav button {
+          padding: 8px 11px;
+          font-size: 0.72rem;
+        }
+        .qtext {
+          font-size: 0.9rem;
+        }
+      }
+
+      /* ---- Landscape phones (short height) — prevent cramping ---- */
+      @media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+        .hero {
+          padding: 24px 20px 20px;
+        }
+        .hero h1 {
+          font-size: 1.6rem;
+        }
+        nav {
+          top: 0;
+        }
+      }
+
+      /* ---- Print: clean review sheet ---- */
+      @media print {
+        .topbar,
+        nav,
+        .hero-stats,
+        .reset-q,
+        .reveal,
+        .btn-ghost,
+        .icon-btn,
+        .theme-switch,
+        .toast,
+        .skip-link {
+          display: none !important;
+        }
+        body {
+          background: #fff;
+          color: #000;
+        }
+        body::before,
+        body::after {
+          display: none;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          max-width: 100%;
+          padding: 0;
+        }
+        .hero h1,
+        .hero .lede {
+          color: #000;
+        }
+        .tab {
+          display: block !important;
+          padding: 0;
+          max-width: 100%;
+        }
+        .qblock {
+          break-inside: avoid;
+          box-shadow: none;
+          border: 1px solid #999;
+          page-break-inside: avoid;
+        }
+        .ans {
+          max-height: none;
+          opacity: 1;
+        }
+        details {
+          break-inside: avoid;
+        }
+        details .body {
+          display: block !important;
+        }
+      }
+
+      /* ==========================================================
+         STUDY GUIDE — rich educational elements for the full
+         syllabus section (L1-L5 deep dive).
+         ========================================================== */
+      .guide {
+        margin: 24px 0;
+      }
+      .lecture {
+        margin: 28px 0;
+        padding: 7px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xl);
+        box-shadow: var(--shadow-soft);
+        transition:
+          border-color var(--dur) var(--ease),
+          background var(--dur) var(--ease);
+      }
+      .lecture:hover {
+        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+      .lecture > .lhead {
+        background: linear-gradient(180deg, var(--surface-2), var(--surface));
+        border-radius: calc(var(--r-xl) - 7px);
+        padding: 18px 22px 14px;
+      }
+      .lecture .ltag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-glow);
+        border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+        padding: 4px 10px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+      .lecture h3 {
+        font-family: var(--font-display);
+        font-size: clamp(1.15rem, 2.8vw, 1.45rem);
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.015em;
+        line-height: 1.3;
+      }
+      .lecture h3 .en {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--ink-faint);
+        direction: ltr;
+        text-align: left;
+        margin-top: 3px;
+      }
+      .lecture .lbody {
+        padding: 4px 22px 20px;
+      }
+      .lecture p {
+        margin: 12px 0;
+        font-size: 0.9rem;
+        line-height: 1.85;
+        color: var(--ink);
+      }
+      .lecture p .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.83rem;
+        margin-top: 4px;
+      }
+      .lecture strong,
+      .lecture b {
+        color: var(--accent-bright);
+        font-weight: 600;
+      }
+      .lecture ul,
+      .lecture ol {
+        margin: 10px 22px;
+        font-size: 0.88rem;
+        line-height: 1.85;
+      }
+      .lecture li {
+        margin: 5px 0;
+        color: var(--ink);
+      }
+      .lecture li .en {
+        color: var(--ink-faint);
+        font-family: var(--font-display);
+        font-size: 0.82rem;
+      }
+      .lecture h4 {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin: 18px 0 6px;
+      }
+      .lecture h4 .en {
+        color: var(--ink-faint);
+        font-weight: 500;
+        font-size: 0.78rem;
+      }
+      .lecture code,
+      .lecture .ic {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--accent);
+        background: var(--accent-glow);
+        padding: 1px 6px;
+        border-radius: 5px;
+        direction: ltr;
+        display: inline-block;
+      }
+      /* mini code block */
+      .lecture pre {
+        background: color-mix(in srgb, var(--bg) 82%, #000);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: 14px 16px;
+        margin: 12px 0;
+        overflow-x: auto;
+        direction: ltr;
+        text-align: left;
+      }
+      .lecture pre code {
+        background: transparent;
+        color: var(--ink-mut);
+        padding: 0;
+        font-size: 0.78rem;
+        line-height: 1.7;
+        white-space: pre;
+        display: block;
+      }
+      .lecture pre .kw {
+        color: var(--accent-bright);
+      }
+      .lecture pre .str {
+        color: var(--ok);
+      }
+      .lecture pre .com {
+        color: var(--ink-faint);
+        font-style: italic;
+      }
+      /* callout boxes */
+      .callout {
+        margin: 14px 0;
+        padding: 12px 16px;
+        border-radius: var(--r-md);
+        font-size: 0.86rem;
+        line-height: 1.75;
+        border: 1px solid;
+        border-right: 3px solid;
+      }
+      .callout .ch {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .callout.ok {
+        background: var(--ok-bg);
+        border-color: color-mix(in srgb, var(--ok) 35%, transparent);
+        border-right-color: var(--ok);
+        color: var(--ink);
+      }
+      .callout.ok .ch {
+        color: var(--ok);
+      }
+      .callout.bad {
+        background: var(--err-bg);
+        border-color: color-mix(in srgb, var(--err) 35%, transparent);
+        border-right-color: var(--err);
+        color: var(--ink);
+      }
+      .callout.bad .ch {
+        color: var(--err);
+      }
+      .callout.tip {
+        background: var(--accent-glow);
+        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+        border-right-color: var(--accent);
+        color: var(--ink);
+      }
+      .callout.tip .ch {
+        color: var(--accent);
+      }
+      .callout .en {
+        display: block;
+        font-family: var(--font-display);
+        direction: ltr;
+        text-align: left;
+        color: var(--ink-faint);
+        font-size: 0.8rem;
+        margin-top: 4px;
+      }
+      /* mini diagram */
+      .diagram {
+        background: color-mix(in srgb, var(--bg) 80%, #000);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: 16px;
+        margin: 12px 0;
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+        direction: ltr;
+        text-align: center;
+        overflow-x: auto;
+        color: var(--ink-mut);
+        white-space: pre;
+        line-height: 1.6;
+      }
+      .diagram .hl {
+        color: var(--accent-bright);
+        font-weight: 600;
+      }
+      .diagram .arr {
+        color: var(--ok);
+      }
+      /* participants grid */
+      .participants {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        margin: 12px 0;
+      }
+      .participant {
+        padding: 12px 14px;
+        background: var(--bg-soft);
+        border: 1px solid var(--line-soft);
+        border-radius: var(--r-md);
+        transition: border-color var(--dur) var(--ease);
+      }
+      .participant:hover {
+        border-color: var(--line);
+      }
+      .participant .pname {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+      .participant .pdesc {
+        font-size: 0.82rem;
+        color: var(--ink-mut);
+        line-height: 1.6;
+      }
+      /* when/when-not two-column */
+      .when-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 12px 0;
+      }
+      @media (max-width: 600px) {
+        .when-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .when-col {
+        padding: 12px 14px;
+        border-radius: var(--r-md);
+        font-size: 0.84rem;
+        line-height: 1.7;
+      }
+      .when-col.use {
+        background: var(--ok-bg);
+        border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
+      }
+      .when-col.avoid {
+        background: var(--err-bg);
+        border: 1px solid color-mix(in srgb, var(--err) 30%, transparent);
+      }
+      .when-col .whead {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .when-col.use .whead {
+        color: var(--ok);
+      }
+      .when-col.avoid .whead {
+        color: var(--err);
+      }
+      .when-col ul {
+        margin: 4px 16px;
+      }
+      /* lecture table of contents */
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 16px 0 8px;
+      }
+      .toc a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--ink-mut);
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 600;
+        transition: all var(--dur) var(--ease);
+      }
+      .toc a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-glow);
+      }
+      .toc a .num {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">تخطَّ إلى المحتوى · Skip to content</a>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <span class="logo-mark">◆</span> AP · Midterm Lab
+        </div>
+        <div class="topbar-spacer"></div>
+        <span class="pct" id="topPct">0%</span>
+        <div class="progress-mini"><div class="fill" id="progress"></div></div>
+        <div class="theme-switch" role="group" aria-label="الثيم · Theme">
+          <button
+            class="theme-dot active"
+            data-t="amber"
+            title="Midnight Amber"
+            aria-label="Midnight Amber"
+          ></button>
+          <button
+            class="theme-dot"
+            data-t="mist"
+            title="Daylight Mist"
+            aria-label="Daylight Mist"
+          ></button>
+          <button
+            class="theme-dot"
+            data-t="neon"
+            title="Neon Pulse"
+            aria-label="Neon Pulse"
+          ></button>
+        </div>
+        <button
+          class="icon-btn"
+          id="resetAll"
+          title="مسح كل الإجابات · Reset all"
+          aria-label="مسح كل الإجابات"
+        >
+          ⟲
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-text">
+        <span class="eyebrow"
+          ><span class="pulse"></span>دفعة 25 · Batch 25 — مراجعة نصفي</span
+        >
+        <h1>
+          البرمجة المتقدمة،
+          <span class="accent">محاكاة الاختبار.</span>
+          <span class="en">Advanced Programming · Midterm Simulator</span>
+        </h1>
+        <p class="lede">
+          27 سؤالاً تفاعلياً بنمط اختبار د. بيداء لعلع — صح/خطأ، اختيارات،
+          وسؤالان برسم UML. كل خيار يأتي مع شرح يربطه بالمنهج. ثلاث ثيمات،
+          تقدّمك يُحفظ تلقائياً، ويمكنك التراجع عن أي إجابة.
+          <span class="en"
+            >27 interactive questions in Dr. Bidaa's exam format — with three
+            themes, auto-saved progress, and per-question undo.</span
+          >
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="core">
+          <div class="label">تقدّمك الإجمالي · Your progress</div>
+          <div class="gauge">
+            <svg viewBox="0 0 130 130" aria-hidden="true">
+              <circle class="track" cx="65" cy="65" r="60"></circle>
+              <circle class="fill" id="heroArc" cx="65" cy="65" r="60"></circle>
+            </svg>
+            <div class="pct">
+              <span class="num" id="heroPct">0%</span>
+              <span class="lab">Complete</span>
+            </div>
+          </div>
+          <div class="chips">
+            <div class="chip">
+              <span class="v" id="cAnswered">0</span
+              ><span class="k">Answered</span>
+            </div>
+            <div class="chip">
+              <span class="v" id="cCorrect">0</span
+              ><span class="k">Correct</span>
+            </div>
+            <div class="chip">
+              <span class="v" id="cTotal">27</span><span class="k">Total</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav aria-label="الأقسام · Sections">
+      <button class="active" data-tab="tf" onclick="show('tf', this)">
+        صح/خطأ <span class="stat" id="navTf">0/15</span>
+      </button>
+      <button data-tab="mcq" onclick="show('mcq', this)">
+        اختيارات <span class="stat" id="navMcq">0/12</span>
+      </button>
+      <button data-tab="essay" onclick="show('essay', this)">سؤالان</button>
+      <button data-tab="cheat" onclick="show('cheat', this)">Patterns</button>
+    </nav>
+
+    <main id="main">
+      <!-- TRUE/FALSE -->
+      <section class="tab active" id="tf" aria-label="صح وخطأ">
+        <div class="sec-head">
+          <div class="kicker">القسم الأول · Section 01</div>
+          <h2>صح أم خطأ<span class="en">True / False — 15 statements</span></h2>
+        </div>
+        <div class="tip-bar">
+          اختر <strong>صح</strong> أو <strong>خطأ</strong>. يظهر شرح مرتبط
+          بالمنهج، ويمكنك التراجع عن إجابتك بزِرّ ↺ لإعادة المحاولة.
+        </div>
+        <div class="sec-actions">
+          <button class="btn-ghost" onclick="resetSection('tf')">
+            ⟲ مسح قسم صح/خطأ
+          </button>
+        </div>
+        <div id="tf-wrap"></div>
+        <div class="score-box">
+          <div class="core">
+            <div class="big-gauge">
+              <svg viewBox="0 0 160 160" aria-hidden="true">
+                <circle class="track" cx="80" cy="80" r="70"></circle>
+                <circle
+                  class="fill"
+                  id="tf-arc"
+                  cx="80"
+                  cy="80"
+                  r="70"
+                ></circle>
+              </svg>
+              <div class="pct">
+                <span class="num" id="tf-pct">0%</span>
+                <span class="lab">Score</span>
+              </div>
+            </div>
+            <div class="tally" id="tf-score">0 / 15</div>
+            <div class="tallylab">محصّلة قسم صح/خطأ · True/False</div>
+            <div class="msg" id="tf-msg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MCQ -->
+      <section class="tab" id="mcq" aria-label="اختيارات">
+        <div class="sec-head">
+          <div class="kicker">القسم الثاني · Section 02</div>
+          <h2>
+            اختيار من متعدد<span class="en"
+              >Multiple Choice — 12 questions</span
+            >
+          </h2>
+        </div>
+        <div class="tip-bar">
+          اختر خياراً — سيتلوّن فوراً، ويظهر شرح مفصّل لكل خيار: لماذا الصحيح
+          صحيح، وما الذي يجعل الخاطئ صحيحاً لو تغيّر السؤال. زِرّ ↺ للتراجع.
+        </div>
+        <div class="sec-actions">
+          <button class="btn-ghost" onclick="resetSection('mcq')">
+            ⟲ مسح قسم الاختيارات
+          </button>
+        </div>
+        <div id="mcq-wrap"></div>
+      </section>
+
+      <!-- ESSAY -->
+      <section class="tab" id="essay" aria-label="سؤالان مقاليان">
+        <div class="sec-head">
+          <div class="kicker">القسم الثالث · Section 03</div>
+          <h2>
+            سؤالان مقاليان — أحدهما برسم UML<span class="en"
+              >Two essays — one with a UML drawing</span
+            >
+          </h2>
+        </div>
+        <div class="note">
+          نمط د. بيداء: <strong>سؤالان</strong>، أحدهما يطلب رسم تصميم UML لأحد
+          الأنماط مع شرح المشاركين والعلاقات. تدرب على الرسم بورقة قبل
+          الاختبار.<span class="en"
+            >Dr. Bidaa's format: two questions, one asks for a UML drawing of a
+            design pattern with participants explained.</span
+          >
+        </div>
+
+        <article class="qblock">
+          <div class="core">
+            <div class="q-head">
+              <span class="qnum">Q1</span>
+              <div class="qtext">
+                اشرح نمط الـAdapter، وارسم تصميم UML يوضّح المشاركين والعلاقات
+                بينهم، مع مثال عملي.<span class="en"
+                  >Explain the Adapter pattern, draw a UML of its participants
+                  and relationships, with a practical example.</span
+                >
+              </div>
+            </div>
+            <button class="reveal" onclick="toggle('e1')">
+              إظهار الحل النموذجي · Show model answer
+            </button>
+            <div class="ans" id="e1">
+              <div class="ans-inner">
+                <p>
+                  <strong>التعريف · Definition:</strong> نمط إنشائي (Structural)
+                  يسمح لواجهتين غير متوافقتين بالعمل معاً، يعمل كمترجم
+                  (Translator) يحوّل طلبات من واجهة لأخرى دون تعديل أي من
+                  الطرفين.<span class="en"
+                    >A Structural pattern that lets two incompatible interfaces
+                    work together by acting as a Translator — converting
+                    requests without modifying either side.</span
+                  >
+                </p>
+                <p style="margin-top: 12px">
+                  <strong>المشاركون · Participants (4):</strong>
+                </p>
+                <ul style="margin: 6px 20px">
+                  <li>
+                    <strong>Client</strong> — يستخدم النظام ويتوقّع واجهة معينة
+                    (ITarget).
+                  </li>
+                  <li>
+                    <strong>ITarget (Interface)</strong> — الواجهة المتوقّعة من
+                    العميل (مثل <code>IPaymentProcessor</code>).
+                  </li>
+                  <li>
+                    <strong>Adapter</strong> — يطبّق ITarget ويحوي مرجعاً
+                    للـAdaptee، يحوّل الطلب (مثل <code>StripeAdapter</code>).
+                  </li>
+                  <li>
+                    <strong>Adaptee (Legacy/3rd-party)</strong> — الكلاس القديم
+                    بواجهة مختلفة (مثل <code>StripeGateway</code>).
+                  </li>
+                </ul>
+                <p style="margin-top: 12px">
+                  <strong>متى يُستخدم · When to use:</strong> عند دمج مكتبات
+                  خارجية أو أنظمة قديمة بلا تعديل كودها؛ توفير واجهة موحّدة
+                  لتطبيقات مختلفة. مثال واقعي: محوّل كهرباء.
+                </p>
+                <p style="margin-top: 12px">
+                  <strong>الرسم · UML Class Diagram:</strong>
+                </p>
+                <div class="uml">
+                  ┌─────────┐ uses ┌──────────────────────┐ │
+                  <span class="kw">Client</span> │ ─────────────────────▶ │
+                  <span class="iface">«interface» ITarget</span> │ └─────────┘ │
+                  + Request() │ └──────────▲─────────────┘ │ implements
+                  ┌──────────┴─────────────┐ │ │ ┌─────────┴────────┐ (other
+                  adapters...) │ <span class="cls">Adapter</span> │ │ - adaptee:
+                  Adaptee│ │ + Request() │ │ → adaptee.SpecificRequest()
+                  └─────────┬─────────┘ │ has-a (holds reference) ▼
+                  ┌──────────────────────┐ │
+                  <span class="cls">Adaptee</span> (Legacy) │ │ +
+                  SpecificRequest() │ └──────────────────────┘
+                </div>
+                <p style="margin-top: 12px">
+                  <strong>مثال · Example:</strong> تطبيق يتوقّع
+                  <code>IPaymentProcessor.Pay()</code> لكن Stripe توفّر
+                  <code>StripeGateway.ProcessStripePayment()</code>.
+                  الـStripeAdapter يطبّق IPaymentProcessor ويحوّل
+                  <code>Pay()</code> إلى <code>ProcessStripePayment()</code>.
+                  العميل لا يتواصل مباشرةً مع Stripe — مع Adapter فقط.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="qblock">
+          <div class="core">
+            <div class="q-head">
+              <span class="qnum">Q2</span>
+              <div class="qtext">
+                اشرح نمط الـDecorator، وارسم تصميم UML، مع ذكر المشكلة التي
+                يحلّها ولماذا يُفضّل على الوراثة (Inheritance).<span class="en"
+                  >Explain the Decorator pattern, draw its UML, state the
+                  problem it solves, and why it's preferred over
+                  Inheritance.</span
+                >
+              </div>
+            </div>
+            <button class="reveal" onclick="toggle('e2')">
+              إظهار الحل النموذجي · Show model answer
+            </button>
+            <div class="ans" id="e2">
+              <div class="ans-inner">
+                <p>
+                  <strong>التعريف · Definition:</strong> نمط إنشائي يضيف سلوكاً
+                  جديداً لكائن ديناميكياً (وقت التشغيل) دون تعديل الكود المصدري
+                  للكلاس، عبر تغليفه بطبقات (wrappers).<span class="en"
+                    >A Structural pattern that adds behavior dynamically at
+                    runtime without modifying the source class, by wrapping it
+                    in layers.</span
+                  >
+                </p>
+                <p style="margin-top: 12px">
+                  <strong>المشكلة · The Problem:</strong> محرّر نصوص يدعم
+                  Bold/Italic/Underline بكل التركيبات. بالوراثة نحتاج كلاس لكل
+                  تركيبة (BoldText, BoldItalicText...) =
+                  <strong>انفجار في عدد الكلاسات</strong>، صعب الصيانة، ويخالف
+                  Open/Closed Principle.
+                </p>
+                <p style="margin-top: 12px">
+                  <strong>لماذا Decorator بدل Inheritance:</strong> الوراثة
+                  ثابتة (compile-time) وتنتج كلاسات كثيرة؛ الـDecorator ديناميكي
+                  وكل decorator مسؤولية واحدة، يمكن تركيبها بأي ترتيب بأقل عدد
+                  كلاسات.
+                </p>
+                <p style="margin-top: 12px">
+                  <strong>المشاركون · Participants:</strong>
+                  <code>IText</code> (interface) ·
+                  <code>PlainText</code> (concrete) ·
+                  <code>TextDecorator</code> (base) ·
+                  <code>BoldDecorator</code> / <code>ItalicDecorator</code> /
+                  <code>UnderlineDecorator</code>.
+                </p>
+                <p style="margin-top: 12px"><strong>الرسم · UML:</strong></p>
+                <div class="uml">
+                  ┌─────────────────────────┐ │
+                  <span class="iface">«interface» IText</span> │ │ + Render() │
+                  └──────────▲──────────────┘ │ implements
+                  ┌──────────────┴───────────────┐ │ │ ┌──────────┴──────────┐
+                  ┌──────────────┴───────────────┐ │
+                  <span class="cls">PlainText</span> │ │
+                  <span class="cls">TextDecorator</span> │ │ + Render() │ │ -
+                  component: IText │ │ → "plain text" │ │ + Render() →
+                  component.Render()│ └──────────────────────┘
+                  └──────────────▲───────────────┘ │ extends
+                  ┌───────────────────┼───────────────────┐ │ │ │
+                  ┌─────────┴─────────┐ ┌───────┴─────────┐ ┌───────┴─────────┐
+                  │ <span class="cls">BoldDecorator</span> │ │<span class="cls"
+                    >ItalicDecorator</span
+                  >
+                  │ │<span class="cls">UnderlineDecorator</span> │ │+Render(){ │
+                  │+Render(){ │ │+Render(){ │ │ component.Render();│ │
+                  component.Render();│component.Render();│ │ add
+                  &lt;b&gt;..&lt;/b&gt;} │ │ add &lt;i&gt;..&lt;/i&gt;} │ │ add
+                  &lt;u&gt;..&lt;/u&gt;} │ └───────────────────┘
+                  └─────────────────┘ └─────────────────┘
+
+                  <span class="kw">Stacking:</span> Client → Underline → Italic
+                  → Bold → PlainText Output:
+                  &lt;u&gt;&lt;i&gt;&lt;b&gt;Hello&lt;/b&gt;&lt;/i&gt;&lt;/u&gt;
+                </div>
+                <p style="margin-top: 12px">
+                  <strong>متى يُستخدم · When to use:</strong> إضافة سلوك
+                  ديناميكي · تجنّب كثرة الكلاسات الفرعية · تركيبات ميزات · توسيع
+                  بلا تعديل مصدر. مثال: إضافات القهوة.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="note">
+          <strong>تدريب إضافي:</strong> ارسم بنفسك Adapter و Decorator و Facade
+          على ورقة قبل الاختبار — الرسم هو الذي يفرّق في درجة السؤال. راجع تبويب
+          «Patterns» للبقية.
+        </div>
+      </section>
+
+      <!-- FULL SYLLABUS STUDY GUIDE -->
+      <section class="tab" id="cheat" aria-label="شرح المنهج الكامل">
+        <div class="sec-head">
+          <div class="kicker">شرح كامل · Full Study Guide</div>
+          <h2>
+            المنهج كاملاً — من OOP إلى Clean Architecture
+            <span class="en"
+              >Full syllabus — from OOP &amp; SOLID to Design Patterns &amp;
+              Clean Architecture</span
+            >
+          </h2>
+        </div>
+
+        <div class="tip-bar">
+          هذا الشرح مبني على سلايدات د. بيداء لعلع (<span class="ic">L1</span
+          >–<span class="ic">L5</span>). خمس محاضرات تغطّي: أسس OOP و SOLID،
+          أنماط التصميم (Creational/Structural/Behavioral)، و Clean Architecture
+          مع Dependency Injection.
+        </div>
+
+        <div class="toc">
+          <a href="#lec1"><span class="num">L1</span> OOP &amp; SOLID</a>
+          <a href="#lec2"
+            ><span class="num">L2</span> Patterns &amp; Creational</a
+          >
+          <a href="#lec3"><span class="num">L3</span> Structural + UML</a>
+          <a href="#lec4"><span class="num">L4</span> Behavioral</a>
+          <a href="#lec5"><span class="num">L5</span> Clean Architecture</a>
+          <a href="#cheat-all"
+            ><span class="num">★</span> كل Patterns في صفحة</a
+          >
+        </div>
+
+        <div class="guide">
+          <!-- ===================== LECTURE 1 ===================== -->
+          <article class="lecture" id="lec1">
+            <div class="lhead">
+              <span class="ltag">● L1 · 35 سلايد</span>
+              <h3>
+                أسس البرمجة الكائنية و مبادئ SOLID
+                <span class="en"
+                  >Programming Foundations — OOP &amp; SOLID</span
+                >
+              </h3>
+            </div>
+            <div class="lbody">
+              <p>
+                <strong>لماذا البرمجة المتقدمة؟</strong> المشاريع الصغيرة
+                (حاسبة، إدارة درجات) لا تعكس تعقيد الأنظمة الحقيقية مثل Facebook
+                و Amazon و الأنظمة البنكية التي تخدم ملايين المستخدمين. الهدف:
+                التحوّل من <em>مبرمج</em> إلى <em>مهندس برمجيات</em> قادر على
+                بناء أنظمة قابلة للتوسّع، آمنة، وسهلة الصيانة.
+                <span class="en"
+                  >Transform from programmers into software engineers building
+                  scalable, maintainable, secure systems.</span
+                >
+              </p>
+
+              <h4>
+                أركان OOP الأربعة <span class="en">· The 4 Pillars of OOP</span>
+              </h4>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Encapsulation</div>
+                  <div class="pdesc">
+                    تغليف البيانات داخل الكلاسات وإخفاؤها. يقلّل التعقيد ويزيد
+                    إعادة الاستخدام.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Abstraction</div>
+                  <div class="pdesc">
+                    إظهار ما يلزم فقط وإخفاء التفاصيل الداخلية. يبني واجهات
+                    أبسط.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Inheritance</div>
+                  <div class="pdesc">
+                    إعادة استخدام خصائص وميثودات الكلاس الأب. يمنع تكرار الكود.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Polymorphism</div>
+                  <div class="pdesc">
+                    تعدّد الأشكال: نفس الميثود تتصرف بشكل مختلف حسب الكائن.
+                  </div>
+                </div>
+              </div>
+
+              <h4>
+                معدّلات الوصول في C# <span class="en">· Access Modifiers</span>
+              </h4>
+              <ul>
+                <li><span class="ic">public</span> — الجميع يستطيع الوصول.</li>
+                <li><span class="ic">private</span> — هذا الكلاس فقط.</li>
+                <li>
+                  <span class="ic">protected</span> — هذا الكلاس + الكلاسات
+                  الابنة.
+                </li>
+                <li><span class="ic">internal</span> — نفس المشروع فقط.</li>
+              </ul>
+
+              <h4>
+                مبادئ SOLID الخمسة
+                <span class="en">· The 5 SOLID Principles</span>
+              </h4>
+              <p>
+                هدفها المشترك: بناء أنظمة <strong>مرنة وقابلة للصيانة</strong>.
+              </p>
+
+              <div class="callout tip">
+                <span class="ch"
+                  >S · Single Responsibility · مسؤولية واحدة</span
+                >
+                الكلاس يكون له <strong>سبب واحد فقط للتغيير</strong>. مثال سيّئ:
+                كلاس <span class="ic">Employee</span> يحوي
+                <span class="ic">calculatePay()</span> +
+                <span class="ic">reportHours()</span> +
+                <span class="ic">save()</span> — كل قسم (محاسبة/موارد
+                بشرية/قواعد بيانات) يعدّله لأسباب مختلفة، فيسبب تعارضات. الحل:
+                افصلها لـ <span class="ic">PayrollCalculator</span> و
+                <span class="ic">HoursReporter</span> و
+                <span class="ic">EmployeeRepository</span>.
+              </div>
+
+              <div class="callout tip">
+                <span class="ch"
+                  >O · Open/Closed · مفتوح للإمتداد، مغلق للتعديل</span
+                >
+                صياغة Bertrand Meyer 1988: يجب أن يكون النظام
+                <strong>قابلاً للتوسيع دون تعديل الكود الموجود</strong>. مثال:
+                نظام يعرض ملخّصاً مالياً على صفحة ويب، ثم طُلب تقرير مطبوع بنفس
+                البيانات. الحل: افصل المسؤوليات
+                (Controller/Interactor/Presenters/Views) فتضيف مخرج PDF جديداً
+                دون لمس منطق العمل.
+              </div>
+
+              <div class="callout tip">
+                <span class="ch">L · Liskov Substitution · استبدال لیسکوف</span>
+                الكلاس الابن يجب أن يحلّ محلّ الأب
+                <strong>دون كسر السلوك</strong>. مثال كلاسيكي:
+                <span class="ic">Bird</span> → <span class="ic">Sparrow</span> ✓
+                يطير، لكن <span class="ic">Penguin</span> ✗ لا يطير = كسر العقد.
+                الوراثة السيّئة تلوّث البنية بآليات إضافية.
+              </div>
+
+              <div class="callout tip">
+                <span class="ch">I · Interface Segregation · فصل الواجهات</span>
+                لا تُجبر الكلاسات على تطبيق ميثودات لا تحتاجها. بدل واجهة كبيرة
+                (Robot يُجبر على <span class="ic">eat()</span>)، افصلها لواجهات
+                صغيرة: <span class="ic">IWorkable</span> و
+                <span class="ic">IEatable</span>. الفائدة: واجهات أصغر، اقتران
+                أقل، صيانة أسهل.
+              </div>
+
+              <div class="callout tip">
+                <span class="ch"
+                  >D · Dependency Inversion · عكس الاعتمادية</span
+                >
+                منطق العمل عالي المستوى يجب أن يعتمد على
+                <strong>التجريدات (interfaces)</strong> لا التطبيقات الملموسة.
+                الكائنات الملموسة يجب أن تُنشأ في مكان ما، لكن النواة تتعامل مع
+                interfaces فقط. (هذا أساس Clean Architecture في L5.)
+              </div>
+            </div>
+          </article>
+
+          <!-- ===================== LECTURE 2 ===================== -->
+          <article class="lecture" id="lec2">
+            <div class="lhead">
+              <span class="ltag">● L2 · 30 سلايد</span>
+              <h3>
+                مقدمة في أنماط التصميم + الأنماط الإنشائية
+                <span class="en"
+                  >Design Patterns Intro &amp; Creational Patterns</span
+                >
+              </h3>
+            </div>
+            <div class="lbody">
+              <div class="callout bad">
+                <span class="ch">مشاكل التصميم السيّئ</span>
+                تكرار الكود · كلاسات ضخمة · اقتران محكم (Tight Coupling) · صعوبة
+                الاختبار والصيانة والتوسيع. كلما كبر النظام، أصبح التصميم الجيد
+                ضرورياً.
+              </div>
+
+              <h4>
+                ما هو الـDesign Pattern؟
+                <span class="en">· What is a Design Pattern?</span>
+              </h4>
+              <p>
+                <strong>ليس</strong> لغة برمجة، ولا framework، ولا مكتبة، ولا
+                كود جاهز. Pattern ≠ Code. <strong>بل هو</strong> مخطط
+                (Blueprint) — حلّ مجرّب وقابل لإعادة الاستخدام لمشكلة تصميمية
+                متكررة. مثل مخطط البناء قبل البناء نفسه.
+                <span class="en"
+                  >A proven, reusable solution to a recurring software design
+                  problem. Like a blueprint, not the building itself.</span
+                >
+              </p>
+
+              <h4>
+                تاريخ الأنماط <span class="en">· History — Gang of Four</span>
+              </h4>
+              <p>
+                1994: أربعة مهندسي برمجيات نشروا كتاب
+                <strong
+                  >«Design Patterns: Elements of Reusable Object-Oriented
+                  Software»</strong
+                >
+                فعُرفوا بـ <strong>Gang of Four (GoF)</strong>. صنّفوا
+                <strong>23 نمطاً</strong> في ثلاث فئات:
+              </p>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Creational · إنشائية</div>
+                  <div class="pdesc">
+                    تركّز على <strong>كيفية إنشاء الكائنات</strong>. Singleton,
+                    Factory Method, Abstract Factory, Builder, Prototype.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Structural · هيكلية</div>
+                  <div class="pdesc">
+                    تركّز على <strong>كيفية تركيب الكلاسات والكائنات</strong>.
+                    Adapter, Facade, Decorator, Proxy, Composite, Bridge.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Behavioral · سلوكية</div>
+                  <div class="pdesc">
+                    تركّز على <strong>كيفية تفاعل الكائنات</strong>. Strategy,
+                    Observer, Command, State, Iterator.
+                  </div>
+                </div>
+              </div>
+
+              <h4>
+                لماذا نحتاج Creational Patterns؟
+                <span class="en">· Why Creational?</span>
+              </h4>
+              <p>
+                عندما نحتاج إنشاء كائنات كثيرة، هل ينشئ كل كلاس كائناته بنفسه؟
+                عادةً <strong>لا</strong>. إنشاء الكائنات يجب أن يُدار بعناية —
+                وهذا دور الأنماط الإنشائية.
+              </p>
+
+              <h4>
+                1) Singleton <span class="pattern-tag t-cre">Creational</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> نمط إنشائي يضمن أن يكون لكلاس ما
+                <strong>نسخة واحدة فقط</strong> مع توفير
+                <strong>نقطة وصول عامة</strong> لها.
+              </p>
+              <div class="callout bad">
+                <span class="ch">⚠️ ملاحظة مهمة</span>
+                Singleton يحلّ مشكلتين في آنٍ واحد، لذلك
+                <strong>يخالف Single Responsibility Principle</strong>: (1) ضمان
+                نسخة واحدة + (2) توفير نقطة وصول عامة.
+              </div>
+              <p><strong>الخطوتان الأساسيتان:</strong></p>
+              <ol>
+                <li>
+                  اجعل الـconstructor الافتراضي
+                  <span class="ic">private</span> لمنع الكلاسات الأخرى من
+                  استخدام <span class="ic">new</span>.
+                </li>
+                <li>
+                  أنشئ <span class="ic">static creation method</span> تستدعي
+                  الـconstructor الخاص مرّة، تخزّن الكائن في حقل ثابت، ثم تُعيده
+                  في كل مرة.
+                </li>
+              </ol>
+              <pre><code><span class="kw">public class</span> Logger
+{
+    <span class="kw">private static</span> Logger _instance;
+    <span class="kw">private</span> Logger() { } <span class="com">// منع new من الخارج</span>
+
+    <span class="kw">public static</span> Logger GetInstance()
+    {
+        <span class="kw">if</span> (_instance == <span class="kw">null</span>)
+            _instance = <span class="kw">new</span> Logger();
+        <span class="kw">return</span> _instance;
+    }
+}</code></pre>
+              <div class="when-grid">
+                <div class="when-col use">
+                  <div class="whead">✓ استخدمه في</div>
+                  <ul>
+                    <li>Logger</li>
+                    <li>Configuration Manager</li>
+                    <li>Cache Manager</li>
+                    <li>Database Connection</li>
+                    <li>Printer Spooler</li>
+                    <li>Application Settings</li>
+                  </ul>
+                </div>
+                <div class="when-col avoid">
+                  <div class="whead">✗ لا تستخدمه في</div>
+                  <ul>
+                    <li>Student</li>
+                    <li>Employee</li>
+                    <li>Product</li>
+                    <li>Customer</li>
+                    <li>Order</li>
+                    <li>(كل ما يحتاج نسخاً متعددة)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h4>
+                2) Factory Method
+                <span class="pattern-tag t-cre">Creational</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> نمط إنشائي يوفّر واجهة لإنشاء كائنات
+                في superclass، لكن يسمح للـsubclasses بتغيير نوع الكائنات
+                المنشأة. بدل <span class="ic">new</span> المباشر، يفوّض الإنشاء
+                لـmethod مخصّصة →
+                <strong>اقتران ضعيف (loose coupling)</strong> وقابلية توسّع.
+              </p>
+              <div class="diagram">
+                <span class="hl">Client</span> → <span class="hl">Factory</span>
+                <span class="arr">─creates─▶</span> Product (not
+                <span class="arr">new</span> directly)
+              </div>
+              <div class="when-grid">
+                <div class="when-col use">
+                  <div class="whead">✓ متى تستخدمه</div>
+                  <ul>
+                    <li>
+                      عندما لا تعرف الأنواع الدقيقة مسبقاً (Unknown Subclasses).
+                    </li>
+                    <li>مركزية منطق الإنشاء المعقّد.</li>
+                    <li>تسهيل الاختبار عبر mock objects.</li>
+                  </ul>
+                </div>
+                <div class="when-col avoid">
+                  <div class="whead">✗ لا تستخدمه</div>
+                  <ul>
+                    <li>للأنواع البسيطة الثابتة.</li>
+                    <li>إذا كان الإنشاء بسيطاً جداً.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- ===================== LECTURE 3 ===================== -->
+          <article class="lecture" id="lec3">
+            <div class="lhead">
+              <span class="ltag">● L3 · 67 سلايد — الأهم لسؤال الرسم</span>
+              <h3>
+                الأنماط الهيكلية + UML (الأنماط الأربعة المطلوبة للرسم)
+                <span class="en"
+                  >Structural Patterns + UML — the four drawing-required
+                  patterns</span
+                >
+              </h3>
+            </div>
+            <div class="lbody">
+              <p>
+                <strong>الأنماط الهيكلية</strong> تركّز على العلاقات، التركيب،
+                تعاون الكائنات، المرونة، وإعادة الاستخدام. تستخدم Interfaces و
+                Inheritance و Composition، و<strong
+                  >أغلبها يفضّل Composition على Inheritance</strong
+                >.
+              </p>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Inheritance</div>
+                  <div class="pdesc">
+                    علاقة <strong>IS-A</strong>: الكلب هو حيوان.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Composition</div>
+                  <div class="pdesc">
+                    علاقة <strong>HAS-A</strong>: السيارة لها محرك. (الأفضل.)
+                  </div>
+                </div>
+              </div>
+
+              <p>
+                <strong>تنبيه L3 المهم:</strong> كل نمط يحلّ مشكلة هيكلية
+                مختلفة، واختيار النمط الصحيح يعتمد على <em>المشكلة</em> لا على
+                التفضيل الشخصي. بدل تعديل الكلاسات الموجودة، الأنماط الهيكلية
+                تعيد تنظيم العلاقات بينها.
+              </p>
+
+              <h4>
+                1) Adapter — المترجم
+                <span class="pattern-tag t-str">Structural</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> يسمح لواجهتين غير متوافقتين بالعمل
+                معاً، يعمل كجسر يحوّل واجهة لأخرى.
+                <strong>Adapter = Translator</strong>.
+              </p>
+              <div class="callout tip">
+                <span class="ch">مثال واقعي</span>
+                محوّل شاحن هاتف أوروبي في مقبس بريطاني — لا تغيّر الهاتف ولا
+                المقبس، فقط تستخدم محوّلاً يحوّل الشكل.
+                <strong>المحوّل يغيّر الاتصال، لا الأجهزة.</strong>
+              </div>
+              <p>
+                <strong>السيناريو:</strong> خدمة بريد قديمة
+                <span class="ic">LegacyEmailService.SendEmail()</span>، لكن
+                تطبيقنا الجديد يتوقّع
+                <span class="ic">IMessageService.Send()</span>. الأسماء مختلفة →
+                الواجهتان غير متوافقتين.
+              </p>
+              <p>
+                <strong>الحل:</strong> أنشئ
+                <span class="ic">EmailAdapter</span> يطبّق
+                <span class="ic">IMessageService</span>، يحوي مرجعاً للـLegacy،
+                ويحوّل <span class="ic">Send()</span> إلى
+                <span class="ic">SendEmail()</span>.
+              </p>
+              <div class="diagram">
+                <span class="hl">Client</span>
+                │ Pay(250) ▼
+                <span class="hl">StripeAdapter</span> (implements
+                IPaymentProcessor) │ ProcessStripePayment(250) ▼
+                <span class="hl">StripeGateway</span> (Legacy / 3rd-party)
+
+                <span class="arr"
+                  >★ العميل لا يتواصل مباشرةً مع Stripe/PayPal</span
+                >
+              </div>
+              <p><strong>المشاركون (4):</strong></p>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Client</div>
+                  <div class="pdesc">يستخدم النظام ويتوقّع واجهة معيّنة.</div>
+                </div>
+                <div class="participant">
+                  <div class="pname">ITarget</div>
+                  <div class="pdesc">الواجهة المتوقّعة (interface).</div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Adapter</div>
+                  <div class="pdesc">
+                    يطبّق ITarget ويحوّل الطلبات للـAdaptee.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Adaptee</div>
+                  <div class="pdesc">الكلاس القديم/الخارجي بواجهة مختلفة.</div>
+                </div>
+              </div>
+              <div class="when-grid">
+                <div class="when-col use">
+                  <div class="whead">✓ استخدمه عند</div>
+                  <ul>
+                    <li>واجهتان غير متوافقتين.</li>
+                    <li>دمج مكتبات/أنظمة قديمة بلا تعديلها.</li>
+                    <li>إعادة استخدام كلاس في تطبيق جديد.</li>
+                    <li>توفير واجهة موحّدة لتطبيقات مختلفة.</li>
+                  </ul>
+                </div>
+                <div class="when-col avoid">
+                  <div class="whead">✗ لا تستخدمه عند</div>
+                  <ul>
+                    <li>الواجهتان متوافقتان أصلاً.</li>
+                    <li>يمكن تعديل الكلاس بسهولة.</li>
+                    <li>إعادة هيكلة بسيطة تحلّ المشكلة.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h4>
+                2) Facade — الواجهة المبسّطة
+                <span class="pattern-tag t-str">Structural</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> يوفّر واجهة مبسّطة واحدة لنظام فرعي
+                معقّد. العميل يتواصل مع الـFacade فقط، لا مع الـsubsystems.
+              </p>
+              <div class="callout tip">
+                <span class="ch">مثال واقعي</span>
+                «شاهد فيلم» بضغطة واحدة تشغّل TV + نظام الصوت + مشغّل + تختار
+                HDMI + تخفّض الإضاءة. الـFacade يحوي كل هذه الخطوات داخله.
+              </div>
+              <p>
+                <strong>المشكلة بلا Facade:</strong> في نظام تسوّق، عند «تأكيد
+                الطلب» يجب: التحقّق → معالجة الدفع → تحديث المخزون → إنشاء
+                فاتورة → إرسال إيميل. العميل يتواصل مع 5 خدمات مباشرة =
+                <strong>اقتران محكم + كود معقّد + صعوبة صيانة</strong>.
+              </p>
+              <div class="diagram">
+                <span class="hl">Client</span>
+                │ PlaceOrder() ▼
+                <span class="hl">ShoppingFacade</span>
+                <span class="arr">★ العميل لا يعرف الـsubsystems</span> ├─▶
+                OrderService ├─▶ PaymentService ├─▶ InventoryService ├─▶
+                InvoiceService └─▶ EmailService
+              </div>
+              <p>
+                <strong>الفكرة الجوهرية:</strong> الـFacade يعرف الـsubsystems،
+                لكن العميل لا يعرفها.
+              </p>
+
+              <h4>
+                3) Proxy — الوكيل/البديل
+                <span class="pattern-tag t-str">Structural</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> يوفّر بديلاً (placeholder/surrogate)
+                لكائن آخر للتحكم في الوصول إليه. العميل يتواصل مع الـProxy الذي
+                يقرر <strong>كيف ومتى</strong> الوصول للكائن الحقيقي.
+              </p>
+              <div class="callout tip">
+                <span class="ch">مثال واقعي — بطاقة ATM</span>
+                لسحب المال لا تصل حسابك مباشرة، بل تستخدم بطاقة ATM. البطاقة
+                تتحقّق من هويتك، تفحص الـPIN، تسمح أو ترفض، ثم تتواصل مع حسابك.
+              </div>
+              <p>
+                <strong>أسباب استخدامه:</strong> الأمان · الأداء · التحميل
+                الكسول (Lazy Loading) · التخزين (Caching) · التسجيل (Logging) ·
+                الوصول البعيد (Remote).
+              </p>
+              <div class="diagram">
+                <span class="hl">Client</span>
+                │ Withdraw() ▼
+                <span class="hl">BankAccountProxy</span> (authenticated?) │
+                ───── has-a ─────▶ <span class="hl">BankAccount</span> (real)
+              </div>
+
+              <h4>
+                4) Decorator — المزخرف/الملفّف
+                <span class="pattern-tag t-str">Structural</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> يضيف سلوكاً جديداً لكائن
+                <strong>ديناميكياً (وقت التشغيل)</strong> دون تعديل الكود
+                المصدري للكلاس، عبر تغليفه بطبقات (wrappers).
+              </p>
+              <div class="callout tip">
+                <span class="ch">مثال واقعي</span>
+                إضافات القهوة: سكر + حليب + كراميل — دون تغيير وصفة القهوة
+                الأصلية.
+              </div>
+              <p>
+                <strong>المشكلة:</strong> محرّر نصوص يدعم Bold/Italic/Underline
+                بكل التركيبات. بالوراثة نحتاج كلاس لكل تركيبة (BoldText,
+                ItalicText, BoldItalicText, BoldUnderlineText...) =
+                <strong>انفجار في عدد الكلاسات</strong>، صعب الصيانة، ويخالف
+                Open/Closed.
+              </p>
+              <div class="diagram">
+                PlainText ▲ │ (بدل الوراثة ← استخدم تغليف)
+                <span class="hl">TextDecorator</span> - component: IText ▲ ├──
+                BoldDecorator +Render(){ component.Render(); add &lt;b&gt; } ├──
+                ItalicDecorator +Render(){ component.Render(); add &lt;i&gt; }
+                └── UnderlineDecorator
+
+                <span class="arr">Stacking:</span> Client → Underline → Italic →
+                Bold → PlainText
+                <span class="arr">Output:</span>
+                &lt;u&gt;&lt;i&gt;&lt;b&gt;Hello&lt;/b&gt;&lt;/i&gt;&lt;/u&gt;
+              </div>
+              <p>
+                <strong>لماذا Decorator بدل Inheritance؟</strong> الوراثة ثابتة
+                (compile-time) وتنتج كلاسات كثيرة للتركيبات؛ الـDecorator
+                ديناميكي وكل wrapper مسؤولية واحدة، يمكن تركيبها بأي ترتيب بأقل
+                عدد كلاسات.
+              </p>
+            </div>
+          </article>
+
+          <!-- ===================== LECTURE 4 ===================== -->
+          <article class="lecture" id="lec4">
+            <div class="lhead">
+              <span class="ltag">● L4 · 36 سلايد</span>
+              <h3>
+                الأنماط السلوكية — Strategy و Observer
+                <span class="en"
+                  >Behavioral Patterns — Strategy &amp; Observer</span
+                >
+              </h3>
+            </div>
+            <div class="lbody">
+              <p>
+                الأنماط السلوكية تركّز على
+                <strong>كيفية تفاعل الكائنات وتوزيع المسؤوليات</strong>.
+              </p>
+
+              <h4>
+                1) Strategy — الاستراتيجية
+                <span class="pattern-tag t-beh">Behavioral</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> يعرّف عائلة من الخوارزميات، يغلّف كل
+                واحدة في كلاس منفصل، ويجعلها
+                <strong>قابلة للتبديل وقت التشغيل</strong>. العميل يختار
+                الخوارزمية دون تعديل الكلاس المستخدم.
+              </p>
+              <p>
+                <strong>التحفيز:</strong> نظام تسوّق يقبل
+                Visa/MasterCard/PayPal/Apple Pay/Cash. كيف نصمّمه؟
+              </p>
+              <div class="callout bad">
+                <span class="ch">الحل السيّئ — كل شيء في كلاس واحد</span>
+                وضع كل بوابات الدفع في كلاس واحد بـ
+                <span class="ic">if-else</span> ضخم. إضافة Google Pay أو Crypto
+                يتطلّب تعديل الكلاس = <strong>يخالف Open/Closed</strong>،
+                if-else ضخمة، اختبار صعب، صيانة صعبة.
+              </div>
+              <div class="diagram">
+                <span class="hl">IPaymentStrategy</span> (interface) ▲
+                ┌──────────┼──────────┐ │ │ │ Visa PayPal ApplePay
+                (ConcreteStrategies)
+
+                <span class="hl">ShoppingCart</span> (Context) — يحوي مرجعاً لـ
+                IStrategy
+                <span class="arr">★ لا يعرف تفاصيل الدفع، فقط Pay()</span>
+              </div>
+              <p><strong>المشاركون (3):</strong></p>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Strategy (interface)</div>
+                  <div class="pdesc">
+                    يعرّف الخوارزمية، مثل
+                    <span class="ic">IPaymentStrategy</span>.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Concrete Strategy</div>
+                  <div class="pdesc">
+                    تنفيذ الخوارزمية: <span class="ic">VisaPayment</span>،
+                    <span class="ic">PayPalPayment</span>.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Context</div>
+                  <div class="pdesc">
+                    الكلاس المستخدم: <span class="ic">ShoppingCart</span>. يحوي
+                    مرجعاً للاستراتيجية ولا يعرف تفاصيلها.
+                  </div>
+                </div>
+              </div>
+              <div class="when-grid">
+                <div class="when-col use">
+                  <div class="whead">✓ استخدمه عند</div>
+                  <ul>
+                    <li>خوارزميات متعددة تحلّ نفس المشكلة.</li>
+                    <li>
+                      تجنّب <span class="ic">if-else</span> أو
+                      <span class="ic">switch</span> الكبيرة.
+                    </li>
+                    <li>الحاجة لتبديل السلوك وقت التشغيل.</li>
+                  </ul>
+                </div>
+                <div class="when-col avoid">
+                  <div class="whead">أمثلة شائعة</div>
+                  <ul>
+                    <li>بوابات الدفع.</li>
+                    <li>حساب الشحن / الضريبة.</li>
+                    <li>خوارزميات الفرز.</li>
+                    <li>ضغط البيانات.</li>
+                    <li>طرق المصادقة.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h4>
+                2) Observer — المراقِب
+                <span class="pattern-tag t-beh">Behavioral</span>
+              </h4>
+              <p>
+                <strong>التعريف:</strong> يعرّف علاقة
+                <strong>one-to-many</strong> بين الكائنات، بحيث عند تغيّر حالة
+                كائن واحد، تُبلَّغ كل الكائنات المعتمدة عليه
+                <strong>تلقائياً</strong>.
+              </p>
+              <div class="callout tip">
+                <span class="ch">أمثلة واقعية</span>
+                إشعارات Facebook · مشتركي YouTube (عند رفع فيديو، كل المشتركين
+                يصلهم إشعار) · تطبيقات الطقس · تطبيقات سوق الأسهم.
+              </div>
+              <p>
+                <strong>سيناريو مقهى:</strong> حالة الطلب تتغيّر من «جارٍ
+                التحضير» إلى «جاهز». يجب إبلاغ: شاشة العرض + تطبيق العميل + SMS
+                + الإيميل + التحليلات — <em>تلقائياً</em>، دون نداء كل خدمة
+                يدوياً.
+              </p>
+              <div class="diagram">
+                <span class="hl">CoffeeOrder</span> (Subject) │ on "Ready":
+                NotifyAll() ▼ [ Observer List ] ├── OrderDisplay → Update() ├──
+                CustomerApp → Update() ├── SmsService → Update() ├──
+                EmailService → Update() └── AnalyticsService → Update()
+
+                <span class="arr"
+                  >★ Subject لا يعرف من هم المراقبون، فقط يبلّغهم</span
+                >
+              </div>
+              <p><strong>المشاركون:</strong></p>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Subject</div>
+                  <div class="pdesc">
+                    يسجّل/يحذف/يبلّغ المراقبين. مثل
+                    <span class="ic">CoffeeOrder</span>.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">IObserver</div>
+                  <div class="pdesc">
+                    interface يعرّف ميثود <span class="ic">Update()</span>.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Concrete Observers</div>
+                  <div class="pdesc">
+                    تنفيذات: <span class="ic">OrderDisplay</span>،
+                    <span class="ic">CustomerApp</span>،
+                    <span class="ic">SmsService</span>...
+                  </div>
+                </div>
+              </div>
+              <div class="callout ok">
+                <span class="ch">✓ إضافة مراقب جديد</span>
+                لإضافة EmailService جديد: أنشئ كلاس جديد يطبّق
+                <span class="ic">IObserver</span> وسجّله.
+                <strong>كلاس CoffeeOrder يبقى دون تعديل</strong> = تطبيق نموذجي
+                لـ Open/Closed Principle.
+              </div>
+            </div>
+          </article>
+
+          <!-- ===================== LECTURE 5 ===================== -->
+          <article class="lecture" id="lec5">
+            <div class="lhead">
+              <span class="ltag">● L5 · 104 سلايد</span>
+              <h3>
+                الـClean Architecture و الـDependency Injection
+                <span class="en"
+                  >Clean Architecture &amp; Dependency Injection</span
+                >
+              </h3>
+            </div>
+            <div class="lbody">
+              <div class="callout tip">
+                <span class="ch">هام للنصفي</span>
+                قد لا يكون L5 ضمن نصفي بشكل كامل، لكن مفاهيمه (خاصة Dependency
+                Inversion من SOLID و فصل الطبقات) قد تظهر. هذا أكثر قابلية
+                للتأخّر للنهائي.
+              </div>
+
+              <p>
+                <strong>هندسة البرمجيات</strong> هي البنية عالية المستوى للنظام:
+                كيف تتفاعل المكوّنات وتتصل لتلبية أهداف العمل. البنية الجيدة
+                تكون: قابلة للصيانة، للتوسّع، للاختبار، مرنة، آمنة، مستقلّة.
+              </p>
+
+              <h4>
+                مبدأ Separation of Concerns
+                <span class="en">· فصل الاهتمامات</span>
+              </h4>
+              <p>
+                تقسيم النظام لأجزاء مستقلّة، كل جزء له مسؤولية واحدة. هذا أساس
+                كل بنية نظيفة.
+              </p>
+
+              <h4>
+                مشكلة الـN-Tier التقليدية
+                <span class="en">· Layered Architecture Problems</span>
+              </h4>
+              <div class="diagram">
+                Presentation ▼ Business
+                <span class="arr">◆ يعتمد مباشرة على قاعدة البيانات!</span> ▼
+                Data Access ▼ SQL Server
+              </div>
+              <div class="callout bad">
+                <span class="ch">المشاكل</span>
+                منطق العمل يعتمد مباشرة على قاعدة البيانات → صعب الاختبار، صعب
+                التبديل، اقتران عالٍ، التغييرات تؤثر على ملفات كثيرة.
+                <strong>Transitive Dependency:</strong> تغيير صغير في DB ينتشر
+                صعوداً لكل الطبقات.
+              </div>
+
+              <h4>
+                الحل: Database-Centric ← Domain-Centric
+                <span class="en">· قلب النظام</span>
+              </h4>
+              <p>
+                التفكير التقليدي:
+                <strong>قاعدة البيانات هي قلب النظام</strong>
+                (Database-Centric). التفكير الحديث:
+                <strong>الـBusiness (Domain) هو قلب النظام</strong>، وقاعدة
+                البيانات مجرد أداة تخزين.
+              </p>
+
+              <h4>
+                ما هي الـClean Architecture؟
+                <span class="en">· What is Clean Architecture?</span>
+              </h4>
+              <p>
+                بنية برمجية اقترحها
+                <strong>Robert C. Martin (Uncle Bob)</strong>. الهدف الرئيسي:
+                <strong
+                  >«قواعد العمل يجب ألا تعتمد على التفاصيل التقنية
+                  الخارجية»</strong
+                >. قاعدة البيانات، الـUI، الـAPIs، والـFramework يمكن أن تتغيّر،
+                لكن منطق العمل يبقى مستقراً.
+              </p>
+
+              <h4>
+                القاعدة الذهبية: الاعتمادية تتّجه للداخل فقط
+                <span class="en">· The Dependency Rule</span>
+              </h4>
+              <div class="diagram">
+                Presentation (API / UI) ──┐ ▼ │ Application (Use Cases) │
+                <span class="arr">تعتمد للداخل</span> ▼ │ Domain (Business
+                Rules) ◀────┘ <span class="hl">★ القلب</span>
+
+                Infrastructure (DB, APIs) ──▶ تعتمد على Application &amp; Domain
+
+                <span class="arr"
+                  >★ الطبقات الداخلية لا تعرف شيئاً عن الخارجية</span
+                >
+              </div>
+
+              <h4>الطبقات الأربع <span class="en">· The Four Layers</span></h4>
+              <div
+                class="participants"
+                style="
+                  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                "
+              >
+                <div class="participant">
+                  <div class="pname">1. Domain · النواة</div>
+                  <div class="pdesc">
+                    الطبقة الأعمق والأهم. تحتوي Entities، Value Objects، قواعد
+                    العمل. <strong>لا تعتمد على أي شيء</strong> — لا DB ولا
+                    framework.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">2. Application · التطبيق</div>
+                  <div class="pdesc">
+                    حالات الاستخدام (Use Cases) + DTOs + Repository interfaces.
+                    تنسّق كائنات Domain. لا تعرف SQL.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">3. Infrastructure · البنية التحتية</div>
+                  <div class="pdesc">
+                    تفاصيل تقنية: EF Core، SQL Server، APIs خارجية، Email/SMS.
+                    تنفّذ interfaces الـApplication.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">4. Presentation · العرض</div>
+                  <div class="pdesc">
+                    نقطة الدخول: Controllers، HTTP requests/responses. لا تحوي
+                    منطق عمل.
+                  </div>
+                </div>
+              </div>
+
+              <h4>
+                Entity مقابل Data Model
+                <span class="en">· Entity vs Data Model</span>
+              </h4>
+              <div class="callout bad">
+                <span class="ch">مفهوم خاطئ شائع</span>
+                الظنّ أن Entity = جدول قاعدة بيانات.
+                <strong>هذا خطأ.</strong> Entity تمثّل <em>مفهوم عمل</em>،
+                والجدول مجرد طريقة واحدة لحفظها.
+              </div>
+              <div class="when-grid">
+                <div class="when-col avoid">
+                  <div class="whead">✗ Anemic Domain Model</div>
+                  <ul>
+                    <li>الكيان يخزّن بيانات فقط.</li>
+                    <li>منطق العمل في مكان آخر.</li>
+                    <li>ضعيف — لا يحمي قواعده.</li>
+                  </ul>
+                </div>
+                <div class="when-col use">
+                  <div class="whead">✓ Rich Domain Model</div>
+                  <ul>
+                    <li>منطق العمل داخل الـEntity.</li>
+                    <li>الـEntity يحمي حالته بنفسه.</li>
+                    <li>
+                      <span class="ic">Balance</span> له
+                      <span class="ic">private set</span>، التعديل عبر
+                      <span class="ic">Deposit()</span> فقط.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <h4>
+                Dependency Injection (DI)
+                <span class="en">· حقن الاعتمادية</span>
+              </h4>
+              <p>
+                ASP.NET Core يوفّر DI container مدمج يُنشئ الكائنات ويحقنها
+                تلقائياً عند الحاجة. التسجيل في
+                <span class="ic">Program.cs</span>:
+              </p>
+              <pre><code>builder.Services.AddScoped&lt;<span class="kw">IAccountRepository</span>, <span class="kw">AccountRepository</span>&gt;();
+builder.Services.AddScoped&lt;<span class="kw">IAccountService</span>, <span class="kw">AccountService</span>&gt;();
+
+<span class="com">// عند طلب IAccountRepository يُنشأ AccountRepository تلقائياً ويُحقن</span></code></pre>
+              <p><strong>أعمار الخدمات (Service Lifetimes):</strong></p>
+              <div class="participants">
+                <div class="participant">
+                  <div class="pname">Transient</div>
+                  <div class="pdesc">
+                    كائن جديد لكل طلب. للخدمات الخفيفة.
+                    <span class="ic">AddTransient()</span>
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Scoped</div>
+                  <div class="pdesc">
+                    كائن واحد لكل HTTP request. <strong>الأكثر شيوعاً.</strong>
+                    <span class="ic">AddScoped()</span>
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">Singleton</div>
+                  <div class="pdesc">
+                    كائن واحد للتطبيق كله. للـCache، Logger، Config.
+                    <span class="ic">AddSingleton()</span>
+                  </div>
+                </div>
+              </div>
+
+              <h4>
+                تدفّق طلب كامل <span class="en">· Complete Request Flow</span>
+              </h4>
+              <div class="diagram">
+                HTTP Request: POST /api/accounts/transfer ▼
+                <span class="hl">Controller</span> (Presentation) ▼
+                <span class="hl">Application Service</span> (Use Case) ▼
+                <span class="hl">Domain Entity</span> (Business Rules) ▼
+                <span class="hl">Repository</span> (Interface from Application)
+                ▼ SQL Server (Infrastructure)
+              </div>
+            </div>
+          </article>
+
+          <!-- ===================== ALL PATTERNS QUICK CARD ===================== -->
+          <article class="lecture" id="cheat-all">
+            <div class="lhead">
+              <span class="ltag">★ مرجع سريع</span>
+              <h3>
+                كل الأنماط في صفحة واحدة — للمراجعة الأخيرة
+                <span class="en">All patterns on one page — final review</span>
+              </h3>
+            </div>
+            <div class="lbody">
+              <div
+                class="participants"
+                style="
+                  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                "
+              >
+                <div class="participant">
+                  <div class="pname">
+                    🏭 Singleton <span class="pattern-tag t-cre">C</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>نسخة واحدة</strong> + نقطة وصول عامة. private ctor +
+                    static method. مثال: Logger. <em>يخالف SRP.</em>
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🏭 Factory Method <span class="pattern-tag t-cre">C</span>
+                  </div>
+                  <div class="pdesc">
+                    يفوّض <strong>الإنشاء</strong> لـmethod بدل
+                    <span class="ic">new</span>. subclasses تقرر النوع.
+                    <em>اقتران ضعيف.</em>
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🏗️ Adapter <span class="pattern-tag t-str">S</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>Translator</strong> بين واجهتين. Client · ITarget ·
+                    Adapter · Adaptee. مثال: محوّل كهرباء.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🏗️ Facade <span class="pattern-tag t-str">S</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>واجهة مبسّطة</strong> لنظام معقّد. العميل يتحدث مع
+                    Facade فقط. مثال: «شاهد فيلم».
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🏗️ Proxy <span class="pattern-tag t-str">S</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>بديل يتحكم بالوصول</strong>: أمان، lazy load، cache.
+                    مثال: بطاقة ATM.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🏗️ Decorator <span class="pattern-tag t-str">S</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>تغليف ديناميكي</strong> يضيف سلوكاً بلا وراثة. مثال:
+                    إضافات القهوة.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🧠 Strategy <span class="pattern-tag t-beh">B</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>عائلة خوارزميات</strong> قابلة للتبديل وقت التشغيل.
+                    IStrategy · Concrete · Context. مثال: طرق الدفع.
+                  </div>
+                </div>
+                <div class="participant">
+                  <div class="pname">
+                    🧠 Observer <span class="pattern-tag t-beh">B</span>
+                  </div>
+                  <div class="pdesc">
+                    <strong>one-to-many</strong> + إبلاغ تلقائي. Subject ·
+                    IObserver · Concrete. مثال: مشتركي YouTube.
+                  </div>
+                </div>
+              </div>
+
+              <div class="callout tip">
+                <span class="ch">💡 لسؤال الرسم</span>
+                ارسم بنفسك <strong>Adapter</strong> و
+                <strong>Decorator</strong> و <strong>Facade</strong> على ورقة —
+                هذه الأكثر احتمالاً لسؤال الـUML (L3 فيها رسوم جاهزة). ركّز على
+                المشاركين الأربعة لكل نمط والأسهم بينهم.
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <footer>
+      محاكاة تعليمية للمراجعة — البرمجة المتقدمة · د. بيداء لعلع · دفعة 25<span
+        class="en"
+        >Educational review simulator · Advanced Programming · Batch 25</span
+      >
+    </footer>
+
+    <script>
+      /* ============================================================
+         STATE PERSISTENCE — localStorage
+         ============================================================ */
+      const STORE_KEY = "ap_midterm_v3";
+      let state = { tf: {}, mcq: {}, theme: "amber" };
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORE_KEY);
+          if (raw) state = Object.assign(state, JSON.parse(raw));
+        } catch (e) {}
+        document.documentElement.setAttribute("data-theme", state.theme);
+        document.querySelectorAll(".theme-dot").forEach((d) => {
+          d.classList.toggle("active", d.dataset.t === state.theme);
+        });
+      }
+      function saveState() {
+        try {
+          localStorage.setItem(STORE_KEY, JSON.stringify(state));
+        } catch (e) {}
+      }
+
+      /* ============================================================
+         THEME SWITCHING
+         ============================================================ */
+      document.querySelectorAll(".theme-dot").forEach((dot) => {
+        dot.addEventListener("click", () => {
+          state.theme = dot.dataset.t;
+          document.documentElement.setAttribute("data-theme", state.theme);
+          document
+            .querySelectorAll(".theme-dot")
+            .forEach((d) => d.classList.toggle("active", d === dot));
+          saveState();
+          const names = {
+            amber: "Midnight Amber",
+            mist: "Daylight Mist",
+            neon: "Neon Pulse",
+          };
+          toast("الثيم: " + names[state.theme]);
+        });
+      });
+
+      /* ============================================================
+         TOAST
+         ============================================================ */
+      let toastTimer;
+      function toast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+      }
+
+      /* ============================================================
+         NAV / TABS
+         ============================================================ */
+      function show(id, btn) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll("nav button")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        btn.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function toggle(id) {
+        document.getElementById(id).classList.toggle("show");
+      }
+
+      /* ============================================================
+         DATA — bilingual TF + MCQ (same content, kept intact)
+         ============================================================ */
+      const TF = [
+        [
+          "نمط Singleton يضمن أن يكون لكلاس ما نسخة واحدة فقط مع توفير نقطة وصول عامة.",
+          "The Singleton pattern ensures a class has only one instance and provides a global access point to it.",
+          true,
+          "✅ صحيح — هذا تعريف Singleton الحرفي من المحاضرة الثانية (L2): خطوتان هما (private constructor) و(static creation method). أمثلة: Logger، Configuration Manager.",
+          "✅ Correct — this is the literal definition of Singleton from Lecture 2: two steps (private constructor + static creation method). Examples: Logger, Configuration Manager.",
+        ],
+        [
+          "Design Pattern هو كود جاهز (ready-made code) لإعادة الاستخدام المباشر.",
+          "A Design Pattern is ready-made code for direct reuse.",
+          false,
+          "❌ خطأ — Pattern ≠ Code. هو مخطط (Blueprint) وحل مجرّب قابل للتكيف لمشكلة متكررة، وليس كوداً جاهزاً أو مكتبة تُستدعى. لو كانت العبارة «حل مجرّب قابل للتطبيق» لكانت صحيحة.",
+          "❌ False — a Pattern ≠ Code. It's a blueprint / proven adaptable solution to a recurring problem, not ready-made code. If it said 'a proven adaptable solution', it would be true.",
+        ],
+        [
+          "نمط Adapter يغيّر الكود المصدري للكلاس القديم (Legacy) ليعمل مع الواجهة الجديدة.",
+          "The Adapter pattern modifies the source code of the legacy class to work with the new interface.",
+          false,
+          "❌ خطأ — العكس تماماً: Adapter لا يعدّل أي طرف (لا Client ولا Adaptee)، بل يحوّل الطلبات فقط. لو قالت «يحوّل الطلبات دون تعديل المصدر» لكانت صحيحة.",
+          "❌ False — the opposite: Adapter modifies NEITHER side; it only converts requests. If it said 'converts requests without modifying source', it would be true.",
+        ],
+        [
+          "Structural Patterns تفضّل Composition (HAS-A) على Inheritance (IS-A).",
+          "Structural Patterns prefer Composition (HAS-A) over Inheritance (IS-A).",
+          true,
+          "✅ صحيح — معظم الأنماط الهيكلية (Adapter, Decorator, Proxy) تفضّل التركيب على الوراثة لمرونة أكبر وتجنّب انفجار الكلاسات. المحاضرة L3 تركّز على هذا.",
+          "✅ Correct — most Structural patterns (Adapter, Decorator, Proxy) prefer composition over inheritance for flexibility and to avoid class explosion.",
+        ],
+        [
+          "نمط Decorator يستخدم الوراثة (Inheritance) لإضافة سلوك جديد للكائن.",
+          "The Decorator pattern uses Inheritance to add new behavior to an object.",
+          false,
+          "❌ خطأ — Decorator يغلّف الكائن (wrapping) ديناميكياً عبر Composition، ولا يعتمد على الوراثة. لو اعتمد الوراثة لحدث «انفجار الكلاسات». لو قالت «يستخدم التركيب/التغليف» لكانت صحيحة.",
+          "❌ False — Decorator wraps the object dynamically via Composition, NOT inheritance. If it said 'uses composition/wrapping', it would be true.",
+        ],
+        [
+          "نمط Strategy يخالف مبدأ Open/Closed عند إضافة خوارزمية جديدة.",
+          "The Strategy pattern violates the Open/Closed Principle when adding a new algorithm.",
+          false,
+          "❌ خطأ — العكس: Strategy يتبع OCP لأنك تضيف استراتيجية جديدة بكلاس جديد دون تعديل الكود الموجود. لو قالت «يتبع OCP» لكانت صحيحة.",
+          "❌ False — the opposite: Strategy follows OCP because you add a new algorithm as a new class without modifying existing code.",
+        ],
+        [
+          "نمط Observer يعرّف علاقة one-to-many بين الكائنات.",
+          "The Observer pattern defines a one-to-many relationship between objects.",
+          true,
+          "✅ صحيح — هذا جوهر Observer: عند تغيّر حالة Subject يُبلَّغ كل المراقبين تلقائياً. مثال يوتيوب: قناة واحدة → مشتركون كثيرون.",
+          "✅ Correct — this is the essence of Observer: on Subject state change, all dependents are notified. YouTube: one channel → many subscribers.",
+        ],
+        [
+          "نمط Facade يجعل العميل يتواصل مباشرةً مع كل subsystem.",
+          "The Facade pattern makes the client communicate directly with every subsystem.",
+          false,
+          "❌ خطأ — العكس: Facade يخفي subsystems والعميل يتواصل مع الـFacade فقط. لو قالت «يخفي subsystems ويوفّر نقطة دخول واحدة» لكانت صحيحة.",
+          "❌ False — the opposite: Facade hides subsystems and the client talks only to the Facade.",
+        ],
+        [
+          "نمط Proxy يُستخدم للتحكم في الوصول (أمان، تحميل كسول، caching).",
+          "The Proxy pattern is used to control access (security, lazy loading, caching).",
+          true,
+          "✅ صحيح — Proxy يوفّر بديلاً (placeholder) ويتحكم في كيف/متى الوصول للكائن الحقيقي. أمثلة: أمان (PIN)، تحميل كسول، تخزين، تسجيل، وصول بعيد.",
+          "✅ Correct — Proxy provides a placeholder controlling how/when access to the real object happens. Examples: security, lazy loading, caching, logging, remote.",
+        ],
+        [
+          "Factory Method يستخدم new مباشرةً لإنشاء الكائنات في الكلاس المستخدم.",
+          "The Factory Method uses `new` directly to create objects in the using class.",
+          false,
+          "❌ خطأ — Factory يفوّض الإنشاء لـmethod مخصّصة بدل new المباشر، لتقليل الاقتران. لو قالت «يفوّض الإنشاء لـmethod مخصّصة» لكانت صحيحة.",
+          "❌ False — Factory delegates creation to a dedicated method instead of direct `new`. If it said 'delegates creation to a dedicated method', it would be true.",
+        ],
+        [
+          "كائن الإله (God Object) مثال على تصميم جيد يطبّق Single Responsibility.",
+          "A God Object is an example of good design that follows Single Responsibility.",
+          false,
+          "❌ خطأ — God Object مضاد (anti-pattern): يجمع مسؤوليات كثيرة ويخالف SRP تماماً. لو قالت «مضاد يخالف SRP» لكانت صحيحة.",
+          "❌ False — a God Object is an anti-pattern that directly violates SRP.",
+        ],
+        [
+          "Tight Coupling (الاقتران المحكم) بين الكلاسات أمر مرغوب في التصميم الجيد.",
+          "Tight Coupling between classes is desirable in good design.",
+          false,
+          "❌ خطأ — نريد Loose Coupling لمرونة وسهولة صيانة واختبار. لو قالت «اقتران ضعيف مرغوب» لكانت صحيحة.",
+          "❌ False — we want Loose Coupling for flexibility and easier maintenance.",
+        ],
+        [
+          "كتاب Design Patterns للـGang of Four صنّف 23 نمطاً في ثلاث فئات.",
+          "The Gang of Four book 'Design Patterns' classified 23 patterns into three categories.",
+          true,
+          "✅ صحيح — GoF 1994: Creational + Structural + Behavioral. ثلاث فئات، 23 نمطاً.",
+          "✅ Correct — GoF 1994: Creational + Structural + Behavioral. Three categories, 23 patterns.",
+        ],
+        [
+          "Composition يعني علاقة IS-A بين الكائنات.",
+          "Composition means an IS-A relationship between objects.",
+          false,
+          "❌ خطأ — Composition = HAS-A (السيارة لها محرك). Inheritance = IS-A (الكلب حيوان). لو قالت «HAS-A» لكانت صحيحة.",
+          "❌ False — Composition = HAS-A. Inheritance = IS-A. If it said 'HAS-A', it would be true.",
+        ],
+        [
+          "نمط Decorator يتبع مبدأ Open/Closed لأنه يضيف سلوكاً بلا تعديل الكود الأصلي.",
+          "The Decorator pattern follows the Open/Closed Principle because it adds behavior without modifying the original code.",
+          true,
+          "✅ صحيح — Decorator يغلّف الكائن في طبقات جديدة دون لمس الكود الأصلي = تطبيق نموذجي لـOCP.",
+          "✅ Correct — Decorator wraps the object in new layers without touching the original code = textbook OCP.",
+        ],
+      ];
+
+      const MCQ = [
+        {
+          q_ar: "نمط التصميم الذي يضمن وجود نسخة واحدة فقط من الكلاس مع نقطة وصول عامة هو:",
+          q_en: "Which design pattern ensures a class has only one instance plus a global access point?",
+          opts: [
+            {
+              ar: "Factory",
+              en: "Factory",
+              ok: false,
+              why_ar:
+                "❌ Factory يتعامل مع «كيفية الإنشاء»، ليس «عدد النسخ». لو كان السؤال «أي نمط يفوّض الإنشاء لـsubclass؟» لكان Factory صحيحاً.",
+              why_en:
+                "❌ Factory deals with 'how to create', not 'number of instances'. If the question were 'which delegates creation to a subclass?', Factory would be correct.",
+            },
+            {
+              ar: "Singleton",
+              en: "Singleton",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Singleton = نسخة واحدة + نقطة وصول عامة. خطوتان: private constructor + static creation method. يخالف SRP.",
+              why_en:
+                "✅ Correct — Singleton = single instance + global access. Two steps: private constructor + static creation method. Violates SRP.",
+            },
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: false,
+              why_ar:
+                "❌ Adapter يحوّل واجهة لأخرى (Translator). لا علاقة له بعدد النسخ. لو كان السؤال «واجهتان غير متوافقتين» لكان Adapter صحيحاً.",
+              why_en:
+                "❌ Adapter converts one interface to another. Unrelated to instance count. If the question were about incompatible interfaces, Adapter would be correct.",
+            },
+            {
+              ar: "Observer",
+              en: "Observer",
+              ok: false,
+              why_ar:
+                "❌ Observer يبلّغ المعتمدين عند تغيّر الحالة. لو كان السؤال عن «one-to-many وإبلاغ تلقائي» لكان Observer صحيحاً.",
+              why_en:
+                "❌ Observer notifies dependents on state change. If the question were about one-to-many + auto-notification, Observer would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "إلى أي فئة تنتمي الأنماط Singleton و Factory Method و Prototype؟",
+          q_en: "Which category do Singleton, Factory Method, and Prototype belong to?",
+          opts: [
+            {
+              ar: "Structural (هيكلية)",
+              en: "Structural",
+              ok: false,
+              why_ar:
+                "❌ Structural تركّز على «تركيب الكائنات» (Adapter, Decorator). لو كان السؤال عن تركيب الكائنات لكانت Structural صحيحة.",
+              why_en:
+                "❌ Structural focuses on 'composing objects' (Adapter, Decorator). If about composing objects, Structural would be correct.",
+            },
+            {
+              ar: "Behavioral (سلوكية)",
+              en: "Behavioral",
+              ok: false,
+              why_ar:
+                "❌ Behavioral تركّز على «تفاعل الكائنات» (Strategy, Observer). لو كان السؤال عن تفاعل الكائنات لكانت Behavioral صحيحة.",
+              why_en:
+                "❌ Behavioral focuses on 'object interaction' (Strategy, Observer). If about interaction, Behavioral would be correct.",
+            },
+            {
+              ar: "Creational (إنشائية)",
+              en: "Creational",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Creational تركّز على «كيفية إنشاء الكائنات». Singleton، Factory، Prototype كلها إنشائية.",
+              why_en:
+                "✅ Correct — Creational focuses on 'how objects are created'. Singleton, Factory, Prototype are all creational.",
+            },
+            {
+              ar: "Architectural (معمارية)",
+              en: "Architectural",
+              ok: false,
+              why_ar:
+                "❌ ليست فئة من فئات الـGoF الـ23. «Architectural» يشير لـMVC/Clean Architecture، ليس ضمن التصنيف الكلاسيكي.",
+              why_en:
+                "❌ Not one of the GoF 23 categories. 'Architectural' refers to MVC/Clean Architecture, not the classic classification.",
+            },
+          ],
+        },
+        {
+          q_ar: "النمط الذي يسمح لواجهتين غير متوافقتين بالعمل معاً كمترجم:",
+          q_en: "Which pattern allows two incompatible interfaces to work together as a translator?",
+          opts: [
+            {
+              ar: "Facade",
+              en: "Facade",
+              ok: false,
+              why_ar:
+                "❌ Facade يبسّط نظاماً فرعياً بواجهة واحدة. لو كان السؤال «تبسيط نظام معقّد» لكان Facade صحيحاً.",
+              why_en:
+                "❌ Facade simplifies a subsystem with one interface. If about simplifying a complex system, Facade would be correct.",
+            },
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Adapter = Translator: يحوّل واجهة Adaptee إلى ITarget دون تعديل أي طرف. مثال: محوّل كهرباء.",
+              why_en:
+                "✅ Correct — Adapter = Translator: converts the Adaptee's interface to ITarget, modifying neither side.",
+            },
+            {
+              ar: "Proxy",
+              en: "Proxy",
+              ok: false,
+              why_ar:
+                "❌ Proxy يتحكم في الوصول لنفس الواجهة، لا يحوّل بين واجهتين. لو كان السؤال «التحكم في الوصول» لكان Proxy صحيحاً.",
+              why_en:
+                "❌ Proxy controls access to the SAME interface. If about access control, Proxy would be correct.",
+            },
+            {
+              ar: "Decorator",
+              en: "Decorator",
+              ok: false,
+              why_ar:
+                "❌ Decorator يضيف سلوكاً (تغليف)، لا يحوّل واجهات. لو كان السؤال «إضافة سلوك وقت التشغيل» لكان Decorator صحيحاً.",
+              why_en:
+                "❌ Decorator adds behavior (wrapping). If about adding behavior at runtime, Decorator would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "عندما تريد تبسيط نظام فرعي معقّد عبر واجهة واحدة موحّدة، تستخدم:",
+          q_en: "When you want to simplify a complex subsystem through a single unified interface, you use:",
+          opts: [
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: false,
+              why_ar:
+                "❌ Adapter يحوّل بين واجهتين، لا يبسّط نظاماً. لو كان السؤال «واجهتان غير متوافقتين» لكان Adapter صحيحاً.",
+              why_en:
+                "❌ Adapter converts between two interfaces. If about incompatible interfaces, Adapter would be correct.",
+            },
+            {
+              ar: "Facade",
+              en: "Facade",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Facade يوفّر واجهة مبسّطة واحدة لنظام معقّد. مثال: «شاهد فيلماً» بضغطة.",
+              why_en:
+                "✅ Correct — Facade provides a single simplified interface to a complex system.",
+            },
+            {
+              ar: "Strategy",
+              en: "Strategy",
+              ok: false,
+              why_ar:
+                "❌ Strategy يجعل الخوارزميات قابلة للتبديل، لا يبسّط واجهة. لو كان السؤال «تبديل خوارزميات» لكان Strategy صحيحاً.",
+              why_en:
+                "❌ Strategy makes algorithms interchangeable. If about swapping algorithms, Strategy would be correct.",
+            },
+            {
+              ar: "Observer",
+              en: "Observer",
+              ok: false,
+              why_ar:
+                "❌ Observer يبلّغ المعتمدين. لا علاقة له بتبسيط واجهة. لو كان السؤال «إشعارات تلقائية» لكان Observer صحيحاً.",
+              why_en:
+                "❌ Observer notifies dependents. If about auto-notifications, Observer would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "النمط الذي يضيف سلوكاً لكائن ديناميكياً دون تعديل مصدره:",
+          q_en: "Which pattern adds behavior to an object dynamically without modifying its source?",
+          opts: [
+            {
+              ar: "Decorator",
+              en: "Decorator",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Decorator يغلّف الكائن بطبقات (wrappers) عبر Composition. مثال: إضافات القهوة.",
+              why_en:
+                "✅ Correct — Decorator wraps the object in layers via Composition. Example: coffee add-ons.",
+            },
+            {
+              ar: "Singleton",
+              en: "Singleton",
+              ok: false,
+              why_ar:
+                "❌ Singleton يضمن نسخة واحدة، لا يضيف سلوكاً. لو كان السؤال «نسخة واحدة» لكان Singleton صحيحاً.",
+              why_en:
+                "❌ Singleton ensures a single instance. If about one instance, Singleton would be correct.",
+            },
+            {
+              ar: "Factory",
+              en: "Factory",
+              ok: false,
+              why_ar:
+                "❌ Factory يفوّض إنشاء الكائنات، لا يضيف سلوكاً. لو كان السؤال «تفويض الإنشاء» لكان Factory صحيحاً.",
+              why_en:
+                "❌ Factory delegates object creation. If about delegating creation, Factory would be correct.",
+            },
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: false,
+              why_ar:
+                "❌ Adapter يحوّل بين واجهتين، لا يضيف سلوكاً جديداً. لو كان السؤال «واجهتان معاً» لكان Adapter صحيحاً.",
+              why_en:
+                "❌ Adapter converts between interfaces. If about two interfaces working together, Adapter would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "بطاقة ATM التي تتحقّق من PIN ثم تسمح بالوصول للحساب مثال على نمط:",
+          q_en: "An ATM card that verifies the PIN before allowing account access is an example of which pattern?",
+          opts: [
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: false,
+              why_ar:
+                "❌ Adapter يحوّل واجهة لأخرى، لا يتحكم في الوصول. لو كان السؤال «محوّل بين واجهتين» لكان Adapter صحيحاً.",
+              why_en:
+                "❌ Adapter converts interfaces. If about a converter, Adapter would be correct.",
+            },
+            {
+              ar: "Facade",
+              en: "Facade",
+              ok: false,
+              why_ar:
+                "❌ Facade يبسّط نظاماً، لا يتحقّق من الصلاحيات. لو كان السؤال «تبسيط نظام» لكان Facade صحيحاً.",
+              why_en:
+                "❌ Facade simplifies a system. If about simplifying, Facade would be correct.",
+            },
+            {
+              ar: "Proxy",
+              en: "Proxy",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Proxy (Protection Proxy) يتحقّق من الصلاحية (PIN) ثم يسمح بالوصول للكائن الحقيقي.",
+              why_en:
+                "✅ Correct — Proxy (Protection Proxy) verifies permission (PIN) then allows access to the real object.",
+            },
+            {
+              ar: "Observer",
+              en: "Observer",
+              ok: false,
+              why_ar:
+                "❌ Observer يبلّغ المعتمدين، لا يتحكم في الوصول. لو كان السؤال «إشعارات تلقائية» لكان Observer صحيحاً.",
+              why_en:
+                "❌ Observer notifies dependents. If about auto-notifications, Observer would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "النمط الذي يجعل الخوارزميات قابلة للتبديل وقت التشغيل (مثل طرق الدفع):",
+          q_en: "Which pattern makes algorithms interchangeable at runtime (e.g., payment methods)?",
+          opts: [
+            {
+              ar: "Strategy",
+              en: "Strategy",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Strategy يغلّف كل خوارزمية في كلاس (ConcreteStrategy) يطبّق IStrategy، والـContext يحوي مرجعاً لها.",
+              why_en:
+                "✅ Correct — Strategy encapsulates each algorithm in a class implementing IStrategy; the Context holds a reference.",
+            },
+            {
+              ar: "Observer",
+              en: "Observer",
+              ok: false,
+              why_ar:
+                "❌ Observer يبلّغ المعتمدين، لا يبدّل خوارزميات. لو كان السؤال «one-to-many» لكان Observer صحيحاً.",
+              why_en:
+                "❌ Observer notifies dependents. If about one-to-many, Observer would be correct.",
+            },
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: false,
+              why_ar:
+                "❌ Adapter يحوّل بين واجهتين، لا يبدّل خوارزميات. لو كان السؤال «توافق واجهتين» لكان Adapter صحيحاً.",
+              why_en:
+                "❌ Adapter converts between interfaces. If about interface compatibility, Adapter would be correct.",
+            },
+            {
+              ar: "Decorator",
+              en: "Decorator",
+              ok: false,
+              why_ar:
+                "❌ Decorator يضيف سلوكاً تدريجياً، لا يبدّل خوارزمية كاملة. لو كان السؤال «إضافة سلوك» لكان Decorator صحيحاً.",
+              why_en:
+                "❌ Decorator adds behavior incrementally. If about adding behavior, Decorator would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "نظام إشعارات يوتيوب (اشتراك → إشعار تلقائي) مثال على نمط:",
+          q_en: "YouTube's notification system (subscribe → auto-notify on new video) is an example of which pattern?",
+          opts: [
+            {
+              ar: "Strategy",
+              en: "Strategy",
+              ok: false,
+              why_ar:
+                "❌ Strategy يبدّل الخوارزميات، لا يرسل إشعارات. لو كان السؤال «تبديل خوارزمية» لكان Strategy صحيحاً.",
+              why_en:
+                "❌ Strategy swaps algorithms. If about swapping an algorithm, Strategy would be correct.",
+            },
+            {
+              ar: "Observer",
+              en: "Observer",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Observer = one-to-many: القناة (Subject) عند تغيّر حالتها تبلّغ كل المشتركين (Observers) تلقائياً.",
+              why_en:
+                "✅ Correct — Observer = one-to-many: the channel (Subject) on state change notifies all subscribers (Observers).",
+            },
+            {
+              ar: "Facade",
+              en: "Facade",
+              ok: false,
+              why_ar:
+                "❌ Facade يبسّط نظاماً، لا يبلّغ مشتركين. لو كان السؤال «تبسيط واجهة» لكان Facade صحيحاً.",
+              why_en:
+                "❌ Facade simplifies a system. If about simplifying an interface, Facade would be correct.",
+            },
+            {
+              ar: "Singleton",
+              en: "Singleton",
+              ok: false,
+              why_ar:
+                "❌ Singleton يضمن نسخة واحدة، لا علاقة له بالإشعارات. لو كان السؤال «نسخة واحدة» لكان Singleton صحيحاً.",
+              why_en:
+                "❌ Singleton ensures a single instance. If about one instance, Singleton would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "في نمط Strategy، الكلاس الذي يستخدم الاستراتيجية المختارة (ويحوي مرجعاً لها) يسمى:",
+          q_en: "In the Strategy pattern, the class that uses the chosen strategy (and holds a reference to it) is called:",
+          opts: [
+            {
+              ar: "Concrete Strategy",
+              en: "Concrete Strategy",
+              ok: false,
+              why_ar:
+                "❌ Concrete Strategy هي الخوارزمية نفسها، لا التي تستخدمها. لو كان السؤال «الخوارزمية الفعلية» لكان صحيحاً.",
+              why_en:
+                "❌ Concrete Strategy is the algorithm itself. If about the actual algorithm, it would be correct.",
+            },
+            {
+              ar: "Context",
+              en: "Context",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Context يحوي مرجعاً لـIStrategy ويفوّض التنفيذ لها دون معرفة تفاصيلها.",
+              why_en:
+                "✅ Correct — Context holds a reference to IStrategy and delegates execution to it.",
+            },
+            {
+              ar: "Interface",
+              en: "Interface",
+              ok: false,
+              why_ar:
+                "❌ IStrategy هي العقد الذي تطبّقه الاستراتيجيات، ليست الكلاس المستخدم. لو كان السؤال «العقد المشترك» لكان صحيحاً.",
+              why_en:
+                "❌ IStrategy is the contract. If about the shared contract, it would be correct.",
+            },
+            {
+              ar: "Subject",
+              en: "Subject",
+              ok: false,
+              why_ar:
+                "❌ Subject مصطلح من Observer، ليس من Strategy. الخلط بين الـpatterns شائع. لو كان السؤال ضمن Observer لكان صحيحاً.",
+              why_en:
+                "❌ Subject is an Observer term. If within Observer, it would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "في نمط Observer، الكائن الذي يسجّل/يحذف/يبلّغ المراقبين يسمى:",
+          q_en: "In the Observer pattern, the object that registers/removes/notifies the observers is called:",
+          opts: [
+            {
+              ar: "Observer",
+              en: "Observer",
+              ok: false,
+              why_ar:
+                "❌ Observer هو الذي يستقبل الإشعار (ينفّذ Update)، لا الذي يرسله. لو كان السؤال «من يستقبل؟» لكان صحيحاً.",
+              why_en:
+                "❌ Observer is the one RECEIVING the notification. If about who receives, it would be correct.",
+            },
+            {
+              ar: "Concrete Observer",
+              en: "Concrete Observer",
+              ok: false,
+              why_ar:
+                "❌ Concrete Observer تنفيذ محدّد للمراقِب، لا الذي يدير القائمة. لو كان السؤال «تنفيذ محدّد للمراقِب» لكان صحيحاً.",
+              why_en:
+                "❌ Concrete Observer is a specific observer implementation. If about a specific implementation, it would be correct.",
+            },
+            {
+              ar: "Subject",
+              en: "Subject",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Subject مسؤول عن إدارة قائمة المراقبين: Attach/Detach/Notify. مثال: قناة يوتيوب.",
+              why_en:
+                "✅ Correct — Subject manages the observer list: Attach/Detach/Notify. Example: a YouTube channel.",
+            },
+            {
+              ar: "Decorator",
+              en: "Decorator",
+              ok: false,
+              why_ar:
+                "❌ Decorator من الـStructural، لا علاقة له بالإشعارات. لو كان السؤال «إضافة سلوك» لكان صحيحاً.",
+              why_en:
+                "❌ Decorator is Structural. If about adding behavior, it would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "أي نمط يخالف Single Responsibility Principle بطبيعته؟",
+          q_en: "Which pattern inherently violates the Single Responsibility Principle?",
+          opts: [
+            {
+              ar: "Adapter",
+              en: "Adapter",
+              ok: false,
+              why_ar:
+                "❌ Adapter مسؤولية واحدة: تحويل الواجهة. لو كان السؤال «أي نمط يحوّل واجهة؟» لكان صحيحاً.",
+              why_en:
+                "❌ Adapter has one responsibility. If about interface conversion, it would be correct.",
+            },
+            {
+              ar: "Singleton",
+              en: "Singleton",
+              ok: true,
+              why_ar:
+                "✅ صحيح — Singleton يجمع مسؤوليتين: ضمان نسخة واحدة + توفير نقطة وصول عامة. لهذا يخالف SRP.",
+              why_en:
+                "✅ Correct — Singleton combines two duties: ensuring one instance + providing global access. Hence it violates SRP.",
+            },
+            {
+              ar: "Facade",
+              en: "Facade",
+              ok: false,
+              why_ar:
+                "❌ Facade مسؤوليته «تبسيط الوصول» — لا يُعدّ مخالفاً صريحاً لـSRP كـSingleton.",
+              why_en:
+                "❌ Facade's job is simplifying access — not an explicit SRP violator like Singleton.",
+            },
+            {
+              ar: "Strategy",
+              en: "Strategy",
+              ok: false,
+              why_ar:
+                "❌ Strategy يتبع SRP وOCP. لو كان السؤال «أي نمط يتبع OCP؟» لكان Strategy صحيحاً.",
+              why_en:
+                "❌ Strategy follows SRP and OCP. If about following OCP, Strategy would be correct.",
+            },
+          ],
+        },
+        {
+          q_ar: "كتاب Design Patterns للـGang of Four يحوي كم نمطاً؟",
+          q_en: "How many patterns does the Gang of Four 'Design Patterns' book contain?",
+          opts: [
+            {
+              ar: "12",
+              en: "12",
+              ok: false,
+              why_ar: "❌ رقم منخفض جداً. الكتاب صنّف 23 نمطاً في 3 فئات.",
+              why_en:
+                "❌ Too low. The book classified 23 patterns in 3 categories.",
+            },
+            {
+              ar: "19",
+              en: "19",
+              ok: false,
+              why_ar: "❌ ليس الرقم الصحيح. الرقم الصحيح 23 نمطاً.",
+              why_en: "❌ Not the right number. The correct number is 23.",
+            },
+            {
+              ar: "23",
+              en: "23",
+              ok: true,
+              why_ar:
+                "✅ صحيح — GoF 1994: 23 نمطاً موزّعة على 3 فئات: 5 Creational + 7 Structural + 11 Behavioral.",
+              why_en: "✅ Correct — GoF 1994: 23 patterns across 3 categories.",
+            },
+            {
+              ar: "30",
+              en: "30",
+              ok: false,
+              why_ar: "❌ رقم مرتفع. الكتاب الأصلي 23 نمطاً فقط.",
+              why_en: "❌ Too high. The original book has only 23 patterns.",
+            },
+          ],
+        },
+      ];
+
+      /* ============================================================
+         BUILD + RENDER + STATE APPLICATION
+         ============================================================ */
+      function buildTF() {
+        const w = document.getElementById("tf-wrap");
+        w.innerHTML = "";
+        TF.forEach((q, i) => {
+          const d = document.createElement("article");
+          d.className = "qblock";
+          d.id = "tfq" + i;
+          d.innerHTML =
+            '<div class="core"><div class="q-head"><span class="qnum">' +
+            String(i + 1).padStart(2, "0") +
+            '</span><div class="qtext">' +
+            q[0] +
+            '<span class="en">' +
+            q[1] +
+            "</span></div></div>" +
+            '<div class="tfopts">' +
+            '<div class="tfopt" data-v="true" onclick="tfAnswer(' +
+            i +
+            ',true,this)" tabindex="0" role="button"><span class="mark">✓</span> صح · True</div>' +
+            '<div class="tfopt" data-v="false" onclick="tfAnswer(' +
+            i +
+            ',false,this)" tabindex="0" role="button"><span class="mark">✗</span> خطأ · False</div>' +
+            "</div>" +
+            '<div class="ans" id="tfa' +
+            i +
+            '"></div>' +
+            '<div class="q-actions"><button class="reset-q" onclick="resetQuestion(\'tf\',' +
+            i +
+            ')">↺ تراجع · Undo</button></div>' +
+            "</div>";
+          w.appendChild(d);
+        });
+      }
+      function buildMCQ() {
+        const w = document.getElementById("mcq-wrap");
+        w.innerHTML = "";
+        MCQ.forEach((q, i) => {
+          const d = document.createElement("article");
+          d.className = "qblock";
+          d.id = "mcqq" + i;
+          let opts = "";
+          q.opts.forEach((o, k) => {
+            opts +=
+              '<div class="mcopt" data-ok="' +
+              o.ok +
+              '" onclick="mcqPick(this)" tabindex="0" role="button"><span class="letter">' +
+              String.fromCharCode(65 + k) +
+              '</span><span class="otext">' +
+              o.ar +
+              '<span class="opten">' +
+              o.en +
+              "</span></span></div>";
+          });
+          d.innerHTML =
+            '<div class="core"><div class="q-head"><span class="qnum">' +
+            String(i + 1).padStart(2, "0") +
+            '</span><div class="qtext">' +
+            q.q_ar +
+            '<span class="en">' +
+            q.q_en +
+            "</span></div></div>" +
+            opts +
+            '<div class="ans" id="mcqa' +
+            i +
+            '"></div>' +
+            '<div class="q-actions"><button class="reset-q" onclick="resetQuestion(\'mcq\',' +
+            i +
+            ')">↺ تراجع · Undo</button></div>' +
+            "</div>";
+          w.appendChild(d);
+        });
+      }
+
+      /* TF answer handler */
+      function tfAnswer(i, choice, el) {
+        if (state.tf[i] !== undefined) return;
+        state.tf[i] = choice;
+        applyTF(i, choice, el);
+        saveState();
+        updateAll();
+      }
+      function applyTF(i, choice, el) {
+        const q = TF[i];
+        const correct = choice === q[2];
+        const block = document.getElementById("tfq" + i);
+        const wrap = el.parentElement;
+        wrap
+          .querySelectorAll(".tfopt")
+          .forEach((o) => o.classList.add("disabled"));
+        if (correct) {
+          el.classList.add("sel-correct");
+          block.classList.add("solved");
+        } else {
+          el.classList.add("sel-wrong");
+          block.classList.add("solved-wrong");
+          wrap
+            .querySelector('.tfopt[data-v="' + q[2] + '"]')
+            .classList.add("sel-correct");
+        }
+        block.classList.add("answered");
+        const ans = document.getElementById("tfa" + i);
+        ans.classList.add("show");
+        if (!correct) ans.classList.add("wrong");
+        ans.innerHTML =
+          '<div class="ans-inner"><div class="verdict ' +
+          (correct ? "ok" : "no") +
+          '">' +
+          (correct ? "✓ إجابة صحيحة · Correct" : "✗ إجابة خاطئة · Incorrect") +
+          "</div>" +
+          '<div class="exp"><strong>الإجابة الصحيحة: ' +
+          (q[2] ? "صح ✓" : "خطأ ✗") +
+          "</strong><br>" +
+          q[3] +
+          '<span class="en">' +
+          q[4] +
+          "</span></div></div>";
+      }
+
+      /* MCQ answer handler */
+      function mcqPick(el) {
+        const block = el.closest(".qblock");
+        if (block.querySelector(".sel-correct,.sel-wrong")) return;
+        const id = block.id.replace("mcqq", "");
+        const pickedOk = el.dataset.ok === "true";
+        state.mcq[id] = pickedOk;
+        applyMCQ(id, el, pickedOk);
+        saveState();
+        updateAll();
+      }
+      function applyMCQ(id, el, pickedOk) {
+        const q = MCQ[id];
+        const block = el.closest(".qblock");
+        if (pickedOk) {
+          el.classList.add("sel-correct");
+          block.classList.add("solved");
+        } else {
+          el.classList.add("sel-wrong");
+          block.classList.add("solved-wrong");
+          block
+            .querySelector('.mcopt[data-ok="true"]')
+            .classList.add("reveal-correct");
+        }
+        block.classList.add("answered");
+        block
+          .querySelectorAll(".mcopt")
+          .forEach((o) => o.classList.add("disabled"));
+        let rat =
+          '<div class="rationales"><div class="rhead">شرح كل خيار · Per-option rationale</div>';
+        q.opts.forEach((o, k) => {
+          rat +=
+            '<div class="rationale"><span class="lbl ' +
+            (o.ok ? "c" : "w") +
+            '">' +
+            String.fromCharCode(65 + k) +
+            (o.ok ? "✓" : "✗") +
+            '</span><span class="rtext">' +
+            o.why_ar +
+            '<span class="en">' +
+            o.why_en +
+            "</span></span></div>";
+        });
+        rat += "</div>";
+        const ans = document.getElementById("mcqa" + id);
+        ans.classList.add("show");
+        if (!pickedOk) ans.classList.add("wrong");
+        ans.innerHTML =
+          '<div class="ans-inner"><div class="verdict ' +
+          (pickedOk ? "ok" : "no") +
+          '">' +
+          (pickedOk ? "✓ إجابة صحيحة · Correct" : "✗ إجابة خاطئة · Incorrect") +
+          "</div>" +
+          rat +
+          "</div>";
+      }
+
+      /* ============================================================
+         RESET — per question, per section, all
+         ============================================================ */
+      function resetQuestion(type, i) {
+        if (type === "tf") {
+          delete state.tf[i];
+          const block = document.getElementById("tfq" + i);
+          block.classList.remove("answered", "solved", "solved-wrong");
+          block
+            .querySelectorAll(".tfopt")
+            .forEach((o) =>
+              o.classList.remove("disabled", "sel-correct", "sel-wrong"),
+            );
+          document.getElementById("tfa" + i).classList.remove("show", "wrong");
+          document.getElementById("tfa" + i).innerHTML = "";
+        } else {
+          delete state.mcq[i];
+          const block = document.getElementById("mcqq" + i);
+          block.classList.remove("answered", "solved", "solved-wrong");
+          block
+            .querySelectorAll(".mcopt")
+            .forEach((o) =>
+              o.classList.remove(
+                "disabled",
+                "sel-correct",
+                "sel-wrong",
+                "reveal-correct",
+              ),
+            );
+          document.getElementById("mcqa" + i).classList.remove("show", "wrong");
+          document.getElementById("mcqa" + i).innerHTML = "";
+        }
+        saveState();
+        updateAll();
+        toast("تم التراجع · Undone");
+      }
+      function resetSection(type) {
+        if (type === "tf") state.tf = {};
+        else state.mcq = {};
+        rebuild();
+        saveState();
+        updateAll();
+        toast(type === "tf" ? "تم مسح قسم صح/خطأ" : "تم مسح قسم الاختيارات");
+      }
+      function resetAll() {
+        state.tf = {};
+        state.mcq = {};
+        rebuild();
+        saveState();
+        updateAll();
+        toast("تم مسح كل الإجابات · All answers cleared");
+      }
+      document.getElementById("resetAll").addEventListener("click", resetAll);
+
+      /* ============================================================
+         RESTORE saved answers on load
+         ============================================================ */
+      function restoreState() {
+        // TF
+        Object.keys(state.tf).forEach((i) => {
+          const choice = state.tf[i];
+          const block = document.getElementById("tfq" + i);
+          if (!block) return;
+          const btn = block.querySelector('.tfopt[data-v="' + choice + '"]');
+          if (btn) applyTF(parseInt(i, 10), choice, btn);
+        });
+        // MCQ
+        Object.keys(state.mcq).forEach((id) => {
+          const block = document.getElementById("mcqq" + id);
+          if (!block) return;
+          const targetOk = state.mcq[id];
+          const opt = block.querySelector('.mcopt[data-ok="' + targetOk + '"]');
+          if (opt) applyMCQ(id, opt, targetOk);
+        });
+      }
+
+      /* rebuild = clear DOM + rebuild + restore */
+      function rebuild() {
+        buildTF();
+        buildMCQ();
+        restoreState();
+      }
+
+      /* ============================================================
+         METRICS / GAUGES / NAV BADGES
+         ============================================================ */
+      function updateAll() {
+        const tfAnswered = Object.keys(state.tf).length;
+        const tfCorrect = Object.values(state.tf).filter(
+          (c, i) => c === TF[Object.keys(state.tf)[i]][2],
+        ).length;
+        // safer correct count:
+        let tfC = 0;
+        Object.keys(state.tf).forEach((i) => {
+          if (state.tf[i] === TF[i][2]) tfC++;
+        });
+        const mcqAnswered = Object.keys(state.mcq).length;
+        let mcqC = 0;
+        Object.keys(state.mcq).forEach((id) => {
+          if (state.mcq[id] === true) mcqC++;
+        });
+
+        const totalAnswered = tfAnswered + mcqAnswered;
+        const totalCorrect = tfC + mcqC;
+        const totalQ = TF.length + MCQ.length; // 27
+        const overallPct = Math.round((totalAnswered / totalQ) * 100);
+
+        // progress bar
+        document.getElementById("progress").style.width = overallPct + "%";
+        document.getElementById("topPct").textContent = overallPct + "%";
+
+        // hero gauge
+        document.getElementById("heroPct").textContent = overallPct + "%";
+        document.getElementById("heroArc").style.strokeDashoffset =
+          380 * (1 - overallPct / 100);
+        document.getElementById("cAnswered").textContent = totalAnswered;
+        document.getElementById("cCorrect").textContent = totalCorrect;
+        document.getElementById("cTotal").textContent = totalQ;
+
+        // nav badges
+        document.getElementById("navTf").textContent = tfAnswered + "/15";
+        document.getElementById("navMcq").textContent = mcqAnswered + "/12";
+
+        // TF section gauge
+        const tfPct = tfAnswered ? Math.round((tfC / tfAnswered) * 100) : 0;
+        document.getElementById("tf-score").textContent =
+          tfC + " / " + tfAnswered + " answered";
+        document.getElementById("tf-pct").textContent =
+          (tfAnswered ? tfPct : 0) + "%";
+        document.getElementById("tf-arc").style.strokeDashoffset =
+          440 * (1 - (tfAnswered ? tfPct : 0) / 100);
+
+        // completion message
+        const msg = document.getElementById("tf-msg");
+        if (tfAnswered === 0) msg.textContent = "";
+        else if (tfAnswered < 15)
+          msg.textContent = "أكملت " + tfAnswered + " من 15 — واصل!";
+        else if (tfC === 15) msg.textContent = "🎉 ممتاز! إجابات كلها صحيحة.";
+        else if (tfC >= 12)
+          msg.textContent = "👏 أداء قوي — راجع الإجابات الخاطئة.";
+        else msg.textContent = "💪 راجع الشروحات وحاول مرة أخرى.";
+      }
+
+      /* ============================================================
+         INIT
+         ============================================================ */
+      loadState();
+      buildTF();
+      buildMCQ();
+      restoreState();
+      updateAll();
+    </script>
+  </body>
+</html>
