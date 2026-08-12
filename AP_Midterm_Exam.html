@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="amber">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="AP Midterm Exam Bank — بنك أسئلة مادة البرمجة المتقدمة التفاعلي والمترجم" />
+<title>AP Midterm Exam Bank · بنك الأسئلة والشروحات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --r-s: 8px; --r-m: 14px; --r-l: 20px;
+  --dur: .35s; --ease: cubic-bezier(.32,.72,0,1);
+  --fa: "Noto Kufi Arabic", sans-serif;
+  --fd: "Outfit", "Noto Kufi Arabic", sans-serif;
+  --fm: "IBM Plex Mono", monospace;
+}
+[data-theme="amber"] {
+  --bg: #0d0c0a; --bg-s: #16140f; --sf: #1c1914; --sf2: #25211a;
+  --ln: #34302a; --ln-s: #28241f; --ink: #f4ede0; --ink-m: #a89e8c; --ink-f: #6b6357;
+  --acc: #d4a24c; --acc-b: #e8b85e; --acc-g: rgba(212,162,76,.18);
+  --ok: #7fa67a; --ok-bg: rgba(127,166,122,.15);
+  --err: #c47a5e; --err-bg: rgba(196,122,94,.16);
+  --sh: 0 8px 24px -8px rgba(20,16,8,.5);
+}
+[data-theme="mist"] {
+  --bg: #f5f2ec; --bg-s: #ebe7df; --sf: #fff; --sf2: #faf7f1;
+  --ln: #d8d2c5; --ln-s: #e4dfd4; --ink: #2a2520; --ink-m: #6b6357; --ink-f: #9a9082;
+  --acc: #9a6b2e; --acc-b: #b8842e; --acc-g: rgba(154,107,46,.1);
+  --ok: #4a7a4a; --ok-bg: rgba(74,122,74,.12);
+  --err: #b8553e; --err-bg: rgba(184,85,62,.12);
+  --sh: 0 8px 24px -8px rgba(60,50,30,.1);
+}
+[data-theme="neon"] {
+  --bg: #07060f; --bg-s: #0e0c1c; --sf: #131028; --sf2: #1a1638;
+  --ln: #2a2450; --ln-s: #221e42; --ink: #ecebff; --ink-m: #9892c7; --ink-f: #6159a0;
+  --acc: #00e5d4; --acc-b: #4dffe8; --acc-g: rgba(0,229,212,.2);
+  --ok: #b6ff5c; --ok-bg: rgba(182,255,92,.15);
+  --err: #ff4d8d; --err-bg: rgba(255,77,141,.15);
+  --sh: 0 8px 24px -8px rgba(0,229,212,.1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--fa); background: var(--bg); color: var(--ink);
+  line-height: 1.8; font-size: 16px; min-height: 100vh;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  padding-bottom: 50px;
+}
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(20px); border-bottom: 1px solid var(--ln-s);
+}
+.topbar-in {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 18px; max-width: 940px; margin: 0 auto;
+}
+.brand { font-family: var(--fm); font-size: .85rem; font-weight: 700; color: var(--acc); display: flex; align-items: center; gap: 8px; }
+.brand-badge { background: var(--acc-g); border: 1px solid var(--acc); padding: 2px 7px; border-radius: 6px; font-size: .7rem; }
+.btn-top-reset { background: var(--acc-g); border: 1px solid var(--acc); color: var(--acc-b); padding: 6px 16px; border-radius: 999px; font-size: .8rem; font-weight: 700; cursor: pointer; transition: all var(--dur) var(--ease); display: inline-flex; align-items: center; gap: 6px; }
+.btn-top-reset:hover { background: var(--acc); color: var(--bg); }
+
+.tswitch { display: flex; gap: 6px; align-items: center; }
+.tdot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all var(--dur) var(--ease); }
+.tdot[data-t="amber"] { background: linear-gradient(135deg,#d4a24c,#8a6a2e); }
+.tdot[data-t="mist"] { background: linear-gradient(135deg,#f5f2ec,#d8d2c5); }
+.tdot[data-t="neon"] { background: linear-gradient(135deg,#00e5d4,#ff4d8d); }
+.tdot.active { border-color: var(--acc); transform: scale(1.15); }
+main { max-width: 940px; margin: 0 auto; padding: 18px; }
+.hero { padding: 16px 0 10px; margin-bottom: 12px; }
+.hero h1 { font-family: var(--fd); font-size: 1.85rem; font-weight: 800; color: var(--ink); }
+.hero h1 .ac { color: var(--acc-b); }
+.hero p { color: var(--ink-m); font-size: .9rem; margin-top: 4px; }
+
+.score-banner {
+  background: var(--sf); border: 1px solid var(--ln); border-radius: var(--r-m);
+  padding: 16px 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; box-shadow: var(--sh);
+  align-items: center;
+}
+.stat-box { text-align: center; }
+.stat-box .num { font-family: var(--fm); font-size: 1.4rem; font-weight: 700; color: var(--acc-b); }
+.stat-box .lbl { font-size: .75rem; color: var(--ink-f); }
+
+.filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center; justify-content: space-between; }
+.fgroup { display: flex; gap: 6px; flex-wrap: wrap; }
+.fchip { background: var(--sf); border: 1px solid var(--ln-s); color: var(--ink-m); padding: 6px 14px; border-radius: 999px; font-size: .78rem; font-weight: 600; cursor: pointer; transition: all var(--dur) var(--ease); }
+.fchip:hover { border-color: var(--acc); }
+.fchip.active { background: var(--acc-g); border-color: var(--acc); color: var(--acc-b); }
+
+.q-card {
+  background: var(--sf); border: 1px solid var(--ln-s); border-radius: var(--r-m);
+  padding: 20px; margin-bottom: 18px; box-shadow: var(--sh); transition: all var(--dur) var(--ease); position: relative;
+}
+.q-card:hover { border-color: var(--ln); }
+.q-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.q-head-left { display: flex; gap: 8px; align-items: center; }
+.q-badge { font-family: var(--fm); font-size: .68rem; font-weight: 700; color: var(--acc); background: var(--acc-g); border: 1px solid color-mix(in srgb, var(--acc) 30%, transparent); padding: 3px 9px; border-radius: 6px; }
+.q-type-badge { font-size: .68rem; color: var(--ink-f); background: var(--sf2); padding: 3px 9px; border-radius: 6px; font-weight: 600; }
+.slide-ref-link { font-family: var(--fm); font-size: .72rem; font-weight: 600; color: var(--acc); text-decoration: none; background: var(--bg-s); border: 1px solid var(--ln); padding: 3px 10px; border-radius: 6px; transition: all var(--dur) var(--ease); display: inline-flex; align-items: center; gap: 4px; }
+.slide-ref-link:hover { background: var(--acc); color: var(--bg); }
+
+.q-title-en { font-family: var(--fd); font-size: 1rem; font-weight: 600; color: var(--ink); direction: ltr; text-align: left; margin-bottom: 4px; line-height: 1.5; }
+.q-title-ar { font-family: var(--fa); font-size: .92rem; color: var(--ink-m); margin-bottom: 16px; line-height: 1.65; }
+
+.opts-grid { display: grid; gap: 9px; margin-top: 10px; }
+.opt-btn {
+  display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: var(--sf2); border: 1px solid var(--ln); border-radius: var(--r-s);
+  cursor: pointer; transition: all var(--dur) var(--ease); text-align: right; user-select: none;
+}
+.opt-btn:hover { border-color: var(--acc); background: var(--sf); }
+.opt-let { width: 26px; height: 26px; display: grid; place-items: center; font-family: var(--fm); font-size: .75rem; font-weight: 700; color: var(--ink-f); background: var(--bg-s); border: 1px solid var(--ln); border-radius: 6px; flex-shrink: 0; }
+.opt-text { flex: 1; }
+.opt-en { font-family: var(--fd); font-size: .86rem; direction: ltr; text-align: left; color: var(--ink); }
+.opt-ar { font-family: var(--fa); font-size: .82rem; color: var(--ink-m); margin-top: 2px; }
+
+.opt-btn.sel-ok { background: var(--ok-bg) !important; border-color: var(--ok) !important; }
+.opt-btn.sel-ok .opt-let { background: var(--ok) !important; color: var(--bg) !important; }
+.opt-btn.sel-no { background: var(--err-bg) !important; border-color: var(--err) !important; }
+.opt-btn.sel-no .opt-let { background: var(--err) !important; color: var(--bg) !important; }
+
+.tf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.tf-btn { padding: 14px; background: var(--sf2); border: 1px solid var(--ln); border-radius: var(--r-s); font-weight: 700; font-size: .9rem; text-align: center; cursor: pointer; transition: all var(--dur) var(--ease); user-select: none; }
+.tf-btn:hover { border-color: var(--acc); }
+.tf-btn.sel-ok { background: var(--ok-bg) !important; border-color: var(--ok) !important; color: var(--ok) !important; }
+.tf-btn.sel-no { background: var(--err-bg) !important; border-color: var(--err) !important; color: var(--err) !important; }
+
+.ans-exp-box {
+  margin-top: 14px; padding: 14px 16px; background: var(--bg-s); border-right: 4px solid var(--ok); border-radius: var(--r-s); display: none;
+}
+.ans-exp-box.show { display: block; animation: rise .25s var(--ease); }
+.ans-exp-box.wrong { border-right-color: var(--err); }
+.ans-status { font-weight: 700; font-size: .88rem; margin-bottom: 6px; }
+.ans-status.ok { color: var(--ok); } .ans-status.no { color: var(--err); }
+.ans-exp-en { font-family: var(--fd); font-size: .86rem; direction: ltr; text-align: left; color: var(--ink); margin-bottom: 6px; line-height: 1.6; }
+.ans-exp-ar { font-family: var(--fa); font-size: .86rem; color: var(--ink-m); line-height: 1.65; }
+
+.direct-box { margin-top: 12px; }
+.btn-reveal-direct { background: var(--acc-g); border: 1px solid var(--acc); color: var(--acc-b); padding: 9px 18px; border-radius: 999px; font-weight: 600; font-size: .82rem; cursor: pointer; transition: all var(--dur) var(--ease); }
+.btn-reveal-direct:hover { background: var(--acc); color: var(--bg); }
+.direct-model-ans { display: none; margin-top: 14px; padding: 16px; background: var(--bg-s); border: 1px solid var(--acc); border-radius: var(--r-s); }
+.direct-model-ans.show { display: block; animation: rise .25s var(--ease); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="brand-badge">AP EXAM</span> بنك الأسئلة والشروحات</div>
+    <a href="AP_Midterm_Sim.html" style="margin:0 6px;font-size:.72rem;padding:5px 12px;background:var(--sf2);color:var(--acc);border:1px solid var(--acc);border-radius:999px;text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;">📖 عارض السلايدات الشامل</a>
+    <button class="btn-top-reset" id="btn-top-reset">تراجع عن الكل ↺</button>
+    <div class="tswitch">
+      <button class="tdot active" data-t="amber" aria-label="Amber"></button>
+      <button class="tdot" data-t="mist" aria-label="Mist"></button>
+      <button class="tdot" data-t="neon" aria-label="Neon"></button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>أسئلة واختبارات <span class="ac">البرمجة المتقدمة النصفي.</span></h1>
+    <p>يمكنك الاختيار، التراجع أو تغيير الخيار في أي وقت. كل سؤال يحتوي على ترجمة وشرح كامل ورابط مرجع مباشر للسلايد.</p>
+  </div>
+
+  <div class="score-banner">
+    <div class="stat-box"><div class="num" id="st-total">0</div><div class="lbl">إجمالي الأسئلة</div></div>
+    <div class="stat-box"><div class="num" id="st-answered">0</div><div class="lbl">الأسئلة المجابة</div></div>
+    <div class="stat-box"><div class="num" id="st-score">0%</div><div class="lbl">نسبة الإجابات الصحيحة</div></div>
+    <div class="stat-box"><button class="btn-top-reset" id="btn-reset-banner">تراجع عن الكل ↺</button></div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="fgroup" id="lec-filters">
+      <button class="fchip active" data-f="all">جميع المحاضرات</button>
+      <button class="fchip" data-f="1">🧱 L1 (OOP & SOLID)</button>
+      <button class="fchip" data-f="2">🏭 L2 (Creational)</button>
+      <button class="fchip" data-f="3">🏗️ L3 (Structural)</button>
+      <button class="fchip" data-f="4">🧠 L4 (Behavioral)</button>
+      <button class="fchip" data-f="5">🏛️ L5 (Clean Arch)</button>
+    </div>
+    <div class="fgroup" id="type-filters">
+      <button class="fchip active" data-tf="all">جميع أنواع الأسئلة</button>
+      <button class="fchip" data-tf="mcq">اختيارات (MCQ)</button>
+      <button class="fchip" data-tf="tf">صح وخطأ (T/F)</button>
+      <button class="fchip" data-tf="direct">أسئلة مقالية directa</button>
+    </div>
+  </div>
+
+  <div id="questions-container"></div>
+</main>
+
+<script>
+const QUESTIONS = [{"id": "L1-Q1", "lec": 1, "slide_ref": "L1-S18", "type": "mcq", "en": "Which access modifier in C# restricts visibility strictly to the declaring class only?", "ar": "أي معدّل وصول في C# يقيد الرؤية والوصول فقط داخل الكلاس المعرف فيه دون غيره؟", "opts": [{"en": "public", "ar": "public", "ok": false, "why_en": "public is accessible from anywhere.", "why_ar": "public متاح من أي مكان."}, {"en": "private", "ar": "private", "ok": true, "why_en": "Correct — private limits visibility strictly to the declaring class.", "why_ar": "صحيح — private يقيد الرؤية داخل نفس الكلاس فقط."}, {"en": "protected", "ar": "protected", "ok": false, "why_en": "protected allows derived class access.", "why_ar": "protected يسمح بالوصول في الكلاسات الوارثة."}, {"en": "internal", "ar": "internal", "ok": false, "why_en": "internal allows access within the same project.", "why_ar": "internal يسمح بالوصول داخل نفس المشروع."}]}, {"id": "L1-Q2", "lec": 1, "slide_ref": "L1-S18", "type": "mcq", "en": "Which access modifier allows access within the same assembly/project only?", "ar": "أي معدل وصول يسمح بالوصول فقط داخل نفس المشروع (Assembly)؟", "opts": [{"en": "private", "ar": "private", "ok": false, "why_en": "private is class-only.", "why_ar": "private للكلاس فقط."}, {"en": "internal", "ar": "internal", "ok": true, "why_en": "Correct — internal is restricted to the current assembly.", "why_ar": "صحيح — internal محصور في المشروع الحالي."}, {"en": "protected", "ar": "protected", "ok": false, "why_en": "protected is class + children.", "why_ar": "protected للكلاس والأبناء."}, {"en": "public", "ar": "public", "ok": false, "why_en": "public is unconstrained.", "why_ar": "public غير مقيد."}]}, {"id": "L1-Q3", "lec": 1, "slide_ref": "L1-S20", "type": "tf", "en": "Single Responsibility Principle (SRP) states that a class should have more than one reason to change.", "ar": "ينص مبدأ المسؤولية الواحدة (SRP) على أنه يجب أن يملك الكلاس عدة أسباب للتغيير.", "answer": false, "why_en": "False — SRP states that a class should have ONLY ONE reason to change.", "why_ar": "خطأ — ينص SRP على أنه يجب أن يملك الكلاس سبباً واحداً فقط للتغيير."}, {"id": "L1-Q4", "lec": 1, "slide_ref": "L1-S20", "type": "mcq", "en": "An anti-pattern where a single class accumulates dozens of unrelated duties is known as:", "ar": "النمط السيئ (Anti-pattern) الذي يجمع فيه كلاس واحد عشرات المسؤوليات غير المرتبطة يُعرف بـ:", "opts": [{"en": "God Object", "ar": "كائن الإله (God Object)", "ok": true, "why_en": "Correct — God Object gathers too many responsibilities, violating SRP.", "why_ar": "صحيح — God Object يجمع مسؤوليات كثيرة ويخالف SRP."}, {"en": "Singleton", "ar": "Singleton", "ok": false, "why_en": "Singleton manages instance count.", "why_ar": "Singleton يدير عدد النسخ."}, {"en": "Factory", "ar": "Factory", "ok": false, "why_en": "Factory creates objects.", "why_ar": "Factory ينشئ كائنات."}, {"en": "Adapter", "ar": "Adapter", "ok": false, "why_en": "Adapter translates interfaces.", "why_ar": "Adapter يترجم الواجهات."}]}, {"id": "L1-S5", "lec": 1, "slide_ref": "L1-S23", "type": "mcq", "en": "According to Meyer (1988), the Open/Closed Principle (OCP) states that software entities should be:", "ar": "وفقاً لـ Meyer (1988)، ينص مبدأ المفتوح/المغلق (OCP) على أن الكيانات البرمجية يجب أن تكون:", "opts": [{"en": "Open for modification, closed for extension", "ar": "مفتوحة للتعديل، مغلقة للتوسيع", "ok": false, "why_en": "Incorrect — opposite of OCP.", "why_ar": "خطأ — عكس المبدأ."}, {"en": "Open for extension, closed for modification", "ar": "مفتوحة للتوسيع، مغلقة للتعديل", "ok": true, "why_en": "Correct — add new functionality by extending without modifying stable existing code.", "why_ar": "صحيح — أضف ميزات جديدة بالامتداد دون التعديل على الكود القائم."}, {"en": "Closed for both extension and modification", "ar": "مغلقة للتوسيع والتعديل", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "Open for both extension and modification", "ar": "مفتوحة للتوسيع والتعديل", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L1-Q6", "lec": 1, "slide_ref": "L1-S27", "type": "tf", "en": "In Liskov Substitution Principle (LSP), replacing a base class object with a derived class object should never break program behavior.", "ar": "في مبدأ استبدال ليسكوف (LSP)، يجب ألا يؤدي استبدال كائن الكلاس الأب بكائن الكلاس الابن إلى كسر سلوك البرنامج.", "answer": true, "why_en": "Correct — subclasses must be completely substitutable for their base class.", "why_ar": "صحيح — الكلاسات الابنة يجب أن تكون قابلة للاستبدال تماماً مكان الأب."}, {"id": "L1-Q7", "lec": 1, "slide_ref": "L1-S27", "type": "mcq", "en": "A classic violation of LSP occurs when creating a Penguin class inheriting from Bird because:", "ar": "يحدث انتهاك كلاسيكي لمبدأ LSP عند إنشاء كلاس Penguin يرث من Bird لأن:", "opts": [{"en": "Penguin can fly", "ar": "البطريق يستطيع الطيران", "ok": false, "why_en": "Penguins cannot fly.", "why_ar": "البطريق لا يطير."}, {"en": "Penguin cannot fly, breaking the expected fly behavior inherited from Bird", "ar": "البطريق لا يستطيع الطيران مما يكسر سلوك الطيران المتوقع الموروث من Bird", "ok": true, "why_en": "Correct — if Bird expects Fly(), substituting Penguin throws exception.", "why_ar": "صحيح — لو كان Bird يتوقع Fly()، فإن استبداله بـ Penguin يسبب استثناء."}, {"en": "Bird is an interface", "ar": "Bird عبارة عن interface", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}, {"en": "Penguin has no methods", "ar": "Penguin لا يملك ميثودات", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}]}, {"id": "L1-Q8", "lec": 1, "slide_ref": "L1-S30", "type": "mcq", "en": "Interface Segregation Principle (ISP) advocates for:", "ar": "يدعو مبدأ فصل الواجهات (ISP) إلى:", "opts": [{"en": "One giant interface with all methods", "ar": "واجهة واحدة ضخمة تحوي كل الميثودات", "ok": false, "why_en": "That violates ISP.", "why_ar": "هذا يخالف ISP."}, {"en": "Small, cohesive, specialized interfaces", "ar": "واجهات صغيرة، متماسكة، ومتخصصة", "ok": true, "why_en": "Correct — clients shouldn't be forced to depend on unused methods.", "why_ar": "صحيح — لا ينبغي إجبار الكلاسات على الاعتماد على دمج لا تحتاجها."}, {"en": "Eliminating interfaces entirely", "ar": "إلغاء الواجهات تماماً", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "Using private interfaces only", "ar": "استخدام واجهات خاصة فقط", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L1-Q9", "lec": 1, "slide_ref": "L1-S34", "type": "tf", "en": "Dependency Inversion Principle (DIP) states that high-level business rules should depend on concrete database implementations.", "ar": "ينص مبدأ عكس الاعتمادية (DIP) على أن قواعد العمل عالية المستوى يجب أن تعتمد على تنفيذات قواعد البيانات الملموسة.", "answer": false, "why_en": "False — DIP states high-level rules must depend on ABSTRACTIONS, not concrete details.", "why_ar": "خطأ — ينص DIP على اعتماد قواعد العمل على التجريدات (Interfaces) لا التفاصيل."}, {"id": "L1-Q10", "lec": 1, "slide_ref": "L1-S14", "type": "mcq", "en": "Grouping related data (properties) and methods into a single unit (class) to hide state complexity is:", "ar": "تجميع البيانات والميثودات المرتبطة في وحدة واحدة (كلاس) لحماية الحالة هو:", "opts": [{"en": "Encapsulation", "ar": "التغليف (Encapsulation)", "ok": true, "why_en": "Correct — Encapsulation hides state and groups functionality.", "why_ar": "صحيح — التغليف يحمي الحالة ويجمع الوظائف."}, {"en": "Inheritance", "ar": "الوراثة", "ok": false, "why_en": "Inheritance reuses code.", "why_ar": "الوراثة تعيد استخدام الكود."}, {"en": "Polymorphism", "ar": "تعدد الأشكال", "ok": false, "why_en": "Polymorphism provides multiple behaviors.", "why_ar": "تعدد الأشكال يوفر سلوكيات متعددة."}, {"en": "Abstraction", "ar": "التجريد", "ok": false, "why_en": "Abstraction simplifies interfaces.", "why_ar": "التجريد يبسط الواجهات."}]}, {"id": "L1-Q11", "lec": 1, "slide_ref": "L1-S21", "type": "direct", "en": "Explain how an Employee class containing `calculatePay()`, `reportHours()`, and `save()` violates SRP and causes bug ripple effects across departments.", "ar": "اشرح كيف يخالف كلاس Employee الذي يحتوي على `calculatePay()` و `reportHours()` و `save()` مبدأ SRP ويسبب تأثيرات جانبية للأخطاء بين الأقسام؟", "model_ans_en": "The Employee class couples 3 different departmental actors: CFO (payroll), COO (HR reports), and CTO (database DBA). They share utility methods like regularHours(). If accounting changes regularHours() for payroll calculations, it unintentionally breaks HR reports. Refactoring solution: Split into 3 independent classes: PayrollCalculator, HoursReporter, and EmployeeRepository.", "model_ans_ar": "يجمع كلاس Employee بين 3 جهات مختلفة: المحاسبة (الرواتب)، الموارد البشرية (التقارير)، وإدارة القواعد (الحفظ). وتتشارك هذه الجهات في ميثود مثل regularHours(). وتعديل هذه الميثود لأجل المحاسبة يؤدي لكسر تقارير الموارد البشرية بدون قصد. الحل: فصل الكلاس إلى 3 كلاسات متخصصة: PayrollCalculator و HoursReporter و EmployeeRepository."}, {"id": "L2-Q1", "lec": 2, "slide_ref": "L2-S7", "type": "mcq", "en": "A Design Pattern is best defined as:", "ar": "أفضل تعريف لنمط التصميم (Design Pattern) هو:", "opts": [{"en": "A specific programming language feature", "ar": "ميزة خاصة بلغة برمجة معينة", "ok": false, "why_en": "Patterns are language-agnostic.", "why_ar": "الأنماط مستقلة عن اللغات."}, {"en": "A proven, reusable blueprint to solve a recurring software design problem", "ar": "مخطط مجرب وقابل لإعادة الاستخدام لحل مشكلة تصميم متكررة", "ok": true, "why_en": "Correct — a pattern is a blueprint/template, not code.", "why_ar": "صحيح — النمط هو مخطط وهيكل حل، ليس كوداً."}, {"en": "A compiled framework or library", "ar": "مكتبة أو إطار عمل مترجم", "ok": false, "why_en": "Pattern != Framework.", "why_ar": "النمط ليس إطار عمل."}, {"en": "Ready code snippets to copy", "ar": "أكواد جاهزة للنسخ", "ok": false, "why_en": "Pattern != Code.", "why_ar": "النمط ليس كوداً."}]}, {"id": "L2-Q2", "lec": 2, "slide_ref": "L2-S8", "type": "mcq", "en": "How many classic design patterns were introduced by the Gang of Four (GoF) in 1994?", "ar": "كم نمط تصميم كلاسيكي قدّم كتاب Gang of Four (GoF) عام 1994؟", "opts": [{"en": "12", "ar": "12", "ok": false, "why_en": "Too low.", "why_ar": "منخفض."}, {"en": "23", "ar": "23", "ok": true, "why_en": "Correct — 23 patterns in 3 categories.", "why_ar": "صحيح — 23 نمطاً في 3 فئات."}, {"en": "30", "ar": "30", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "15", "ar": "15", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L2-Q3", "lec": 2, "slide_ref": "L2-S15", "type": "tf", "en": "The Singleton Pattern ensures that a class has only one instance while providing a global access point to it.", "ar": "يضمن نمط Singleton أن يمتلك الكلاس نسخة واحدة فقط مع توفير نقطة وصول عامة لها.", "answer": true, "why_en": "Correct — core definition of Singleton.", "why_ar": "صحيح — التعريف والهدف الجوهري لنمط Singleton."}, {"id": "L2-Q4", "lec": 2, "slide_ref": "L2-S17", "type": "mcq", "en": "What constructor access modifier is required to implement Singleton in C#?", "ar": "ما هو معدل الوصول الضروري للـ Constructor لتطبيق نمط Singleton في C#؟", "opts": [{"en": "public", "ar": "public", "ok": false, "why_en": "public allows external instantiation with new.", "why_ar": "public يسمح بإنشاء نسخ متعددة."}, {"en": "private", "ar": "private", "ok": true, "why_en": "Correct — private constructor prevents external instantiations via new.", "why_ar": "صحيح — private يمنع استخدام new من الخارج."}, {"en": "protected", "ar": "protected", "ok": false, "why_en": "protected allows subclass instantiations.", "why_ar": "protected يسمح للأبناء."}, {"en": "internal", "ar": "internal", "ok": false, "why_en": "internal allows project instantiations.", "why_ar": "internal يسمح للمشروع."}]}, {"id": "L2-Q5", "lec": 2, "slide_ref": "L2-S21", "type": "tf", "en": "Singleton is appropriate for entity classes that represent multiple distinct real-world objects like Student or Order.", "ar": "نمط Singleton مناسب لكلاسات الكيانات التي تمثل بطبيعتها كائنات متعددة مثل الطالب أو الطلب.", "answer": false, "why_en": "False — Singleton should NEVER be used for entities needing multiple instances.", "why_ar": "خطأ — لا يُستخدم Singleton أبداً للكيانات التي تتطلب نسخاً متعددة."}, {"id": "L2-Q6", "lec": 2, "slide_ref": "L2-S24", "type": "mcq", "en": "The Factory Method Pattern delegates object creation responsibility to:", "ar": "يفوض نمط Factory Method مسؤولية إنشاء الكائنات إلى:", "opts": [{"en": "A dedicated method or subclass implementation", "ar": "دالة إنشاء مخصصة أو كلاس فرعي منفذ", "ok": true, "why_en": "Correct — creation logic is delegated to factory methods.", "why_ar": "صحيح — تفويض كود الإنشاء لدالة مخصصة."}, {"en": "Direct new operators in client code", "ar": "معامل new المباشر في كود العميل", "ok": false, "why_en": "Direct new causes tight coupling.", "why_ar": "new المباشر يسبب اقتراناً وثيقاً."}, {"en": "Database triggers", "ar": "مقدِمات قاعدة البيانات", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}, {"en": "Global static fields", "ar": "حقول ساكنة عامة", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L2-Q7", "lec": 2, "slide_ref": "L2-S16", "type": "direct", "en": "Why does the Singleton Pattern violate the Single Responsibility Principle (SRP)? Name two valid use cases for Singleton.", "ar": "لماذا يخالف نمط Singleton مبدأ المسؤولية الواحدة (SRP)؟ واذكر حالتين مبررتين لاستخدامه.", "model_ans_en": "Singleton violates SRP because it combines two responsibilities: (1) managing its own lifecycle to ensure a single instance, and (2) providing a global access point to its functionality. Valid use cases: Logger, Configuration Manager, Application Settings, and Cache Manager.", "model_ans_ar": "يخالف Singleton مبدأ SRP لأنه يجمع بين مهمتين في كلاس واحد: (1) إدارة دوره حياته لضمان وجود نسخة واحدة، و (2) توفير نقطة وصول عامة لخدماته. حالات مبررة لاستخدامه: مسجل الأحداث (Logger)، مدير الإعدادات (Configuration Manager)، التخزين المؤقت (Cache Manager)."}, {"id": "L3-Q1", "lec": 3, "slide_ref": "L3-S12", "type": "mcq", "en": "Which structural design pattern converts the interface of a class into another interface clients expect?", "ar": "أي نمط تصميم هيكلي يحول واجهة كلاس إلى واجهة أخرى ينتظرها العميل؟", "opts": [{"en": "Facade Pattern", "ar": "نمط Facade", "ok": false, "why_en": "Facade simplifies subsystems.", "why_ar": "Facade يبسط النظام."}, {"en": "Adapter Pattern", "ar": "نمط Adapter", "ok": true, "why_en": "Correct — Adapter acts as a translator between incompatible interfaces.", "why_ar": "صحيح — Adapter يعمل كمترجم بين الواجهات غير المتوافقة."}, {"en": "Proxy Pattern", "ar": "نمط Proxy", "ok": false, "why_en": "Proxy controls access.", "why_ar": "Proxy يتحكم في الوصول."}, {"en": "Decorator Pattern", "ar": "نمط Decorator", "ok": false, "why_en": "Decorator adds behavior.", "why_ar": "Decorator يضيف سلوكاً."}]}, {"id": "L3-Q2", "lec": 3, "slide_ref": "L3-S6", "type": "tf", "en": "Structural Design Patterns generally prefer Composition (HAS-A) over Inheritance (IS-A).", "ar": "تفضل الأنماط الهيكلية بشكل عام التركيب (Composition - HAS-A) على الوراثة (Inheritance - IS-A).", "answer": true, "why_en": "Correct — Composition provides runtime flexibility without tight inheritance hierarchies.", "why_ar": "صحيح — التركيب يوفر مرونة وقت التشغيل دون تعقيد الوراثة."}, {"id": "L3-Q3", "lec": 3, "slide_ref": "L3-S32", "type": "mcq", "en": "The primary objective of the Facade Pattern is to:", "ar": "الهدف الأساسي لنمط Facade هو:", "opts": [{"en": "Control access to a remote object", "ar": "التحكم بالوصول لكائن بعيد", "ok": false, "why_en": "That is Proxy.", "why_ar": "هذا هو Proxy."}, {"en": "Provide a single, simplified interface to a complex subsystem", "ar": "توفير واجهة واحدة مبسطة لنظام فرعي معقد", "ok": true, "why_en": "Correct — Facade hides subsystem complexity behind a clean interface.", "why_ar": "صحيح — Facade يخفي تعقيد النظام الفرعي خلف واجهة بسيطة."}, {"en": "Attach new behavior dynamically at runtime", "ar": "إضافة سلوكيات جديدة ديناميكياً", "ok": false, "why_en": "That is Decorator.", "why_ar": "هذا هو Decorator."}, {"en": "Translate between incompatible interfaces", "ar": "الترجمة بين واجهتين غير متوافقين", "ok": false, "why_en": "That is Adapter.", "why_ar": "هذا هو Adapter."}]}, {"id": "L3-Q4", "lec": 3, "slide_ref": "L3-S56", "type": "tf", "en": "The Decorator Pattern allows adding behavior to objects dynamically at runtime without modifying source code.", "ar": "يسمح نمط Decorator بإضافة سلوكيات للكائنات ديناميكياً دون تعديل الكود المصدري.", "answer": true, "why_en": "Correct — Decorator wraps objects dynamically.", "why_ar": "صحيح — Decorator يغلف الكائنات ديناميكياً."}, {"id": "L3-Q5", "lec": 3, "slide_ref": "L3-S47", "type": "mcq", "en": "A Proxy pattern component that checks authentication and authorization before allowing access is a:", "ar": "مكون نمط الوكيل Proxy الذي يفحص الصلاحيات والأمان قبل السماح بالوصول هو:", "opts": [{"en": "Protection Proxy", "ar": "وكيل الحماية (Protection Proxy)", "ok": true, "why_en": "Correct — Protection Proxy controls security access.", "why_ar": "صحيح — Protection Proxy يتحكم بالوصول الأمني."}, {"en": "Remote Proxy", "ar": "وكيل بعيد", "ok": false, "why_en": "Remote proxy manages network calls.", "why_ar": "الوكيل البعيد يدير الاتصال الشبكي."}, {"en": "Virtual Proxy", "ar": "وكيل افتراضي", "ok": false, "why_en": "Virtual proxy handles lazy loading.", "why_ar": "الوكيل الافتراضي يدير التحميل الكسول."}, {"en": "Smart Reference", "ar": "مرجع ذكي", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L3-Q6", "lec": 3, "slide_ref": "L3-S59", "type": "direct", "en": "Compare Composition (HAS-A) vs Inheritance (IS-A). Why is Composition preferred in Structural Patterns?", "ar": "قارب بين التركيب Composition (HAS-A) والوراثة Inheritance (IS-A)؟ ولماذا يُفضل التركيب في الأنماط الهيكلية؟", "model_ans_en": "Inheritance represents an IS-A relationship (e.g., Dog is an Animal) and is static at compile time, leading to rigid class hierarchies. Composition represents a HAS-A relationship (e.g., Car has an Engine) and allows dynamic behavior swapping at runtime. Structural patterns prefer Composition because it promotes loose coupling and dynamic flexibility without modifying base classes.", "model_ans_ar": "الوراثة تعبر عن علاقة IS-A (مثال: الكلب هو حيوان) وهي ثابتة وقت التجميع وتسبب تعقيد شجرة الكلاسات. أما التركيب فيعبر عن علاقة HAS-A (مثال: السيارة تملك محركاً) ويسمح بتبديل السلوك ديناميكياً وقت التشغيل. يُفضل التركيب لأنه يحقق اقتراناً ضعيفاً ومرونة عالية دون تعديل الكلاسات الأصلية."}, {"id": "L4-Q1", "lec": 4, "slide_ref": "L4-S3", "type": "mcq", "en": "Which pattern encapsulates a family of algorithms into separate classes, making them interchangeable at runtime?", "ar": "أي نمط يغلف عائلة من الخوارزميات في كلاسات منفصلة ويجعلها قابلة للتبديل وقت التشغيل؟", "opts": [{"en": "Strategy Pattern", "ar": "نمط Strategy", "ok": true, "why_en": "Correct — Strategy encapsulates interchangeable algorithms.", "why_ar": "صحيح — Strategy يغلف الخوارزميات المتبادلة."}, {"en": "Observer Pattern", "ar": "نمط Observer", "ok": false, "why_en": "Observer handles notifications.", "why_ar": "Observer لتنبيهات الأحداث."}, {"en": "Command Pattern", "ar": "نمط Command", "ok": false, "why_en": "Command encapsulates requests.", "why_ar": "Command يغلف الطلبات."}, {"en": "State Pattern", "ar": "نمط State", "ok": false, "why_en": "State alters behavior on state.", "why_ar": "State يغير السلوك حسب الحالة."}]}, {"id": "L4-Q2", "lec": 4, "slide_ref": "L4-S22", "type": "tf", "en": "The Observer Pattern defines a one-to-many dependency so that when one object changes state, all dependent objects are notified automatically.", "ar": "يعرّف نمط Observer علاقة واحد إلى متعدد بحيث عندما تتغير حالة كائن، يُنبه جميع المعتمدين عليه تلقائياً.", "answer": true, "why_en": "Correct — core definition of Observer.", "why_ar": "صحيح — التعريف الأساسي لنمط Observer."}, {"id": "L4-Q3", "lec": 4, "slide_ref": "L4-S23", "type": "mcq", "en": "In Observer Pattern, the component maintaining observer subscriptions and invoking notifications is:", "ar": "في نمط Observer، الكائن الذي يحفظ اشتراكات المراقبين ويبث التنبيهات هو:", "opts": [{"en": "Subject (Publisher)", "ar": "الموضوع Subject (الناشر)", "ok": true, "why_en": "Correct — Subject manages observers and triggers Notify().", "why_ar": "صحيح — Subject يدير المراقبين ويستدعي Notify()."}, {"en": "Concrete Observer", "ar": "المراقب الملموس", "ok": false, "why_en": "Observer receives updates.", "why_ar": "Observer يستقبل التحديثات."}, {"en": "Strategy Context", "ar": "سياق الاستراتيجية", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "Adapter Bridge", "ar": "جسر المحول", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L4-Q4", "lec": 4, "slide_ref": "L4-S33", "type": "direct", "en": "How does adding a new Email Notification Observer demonstrate compliance with the Open/Closed Principle (OCP)?", "ar": "كيف يبرهن إضافة مراقب تنبيهات بريد جديد Email Observer على تطبيق مبدأ OCP؟", "model_ans_en": "When a new notification requirement arises (e.g. EmailService), we simply create a new class implementing the `IObserver` interface and register it with `coffeeOrder.Attach(emailService)`. The core `CoffeeOrder` (Subject) class remains untouched and unmodified, proving that the system is open for extension but closed for modification.", "model_ans_ar": "عند ظهور متطلب تنبيه جديد (مثل EmailService)، ننشئ كلاس جديد ينفذ واجهة `IObserver` ونسجله عبر `coffeeOrder.Attach(emailService)`. يبقى كلاس `CoffeeOrder` الأساسي دون أي تعديل، مما يثبت أن النظام مفتوح للتوسع ومغلق للتعديل (OCP)."}, {"id": "L5-Q1", "lec": 5, "slide_ref": "L5-S22", "type": "mcq", "en": "What is the Golden Rule of Clean Architecture regarding source code dependencies?", "ar": "ما هي القاعدة الذهبية للمعمارية النظيفة Clean Architecture فيما يتعلق باتجاه الاعتماديات؟", "opts": [{"en": "Dependencies must point ONLY INWARD towards Domain Layer", "ar": "الاعتماديات يجب أن تتجه للداخل فقط نحو طبقة Domain", "ok": true, "why_en": "Correct — inner layers know nothing about outer layers.", "why_ar": "صحيح — الطبقات الداخلية لا تعرف شيئاً عن الخارجية."}, {"en": "Domain Layer must depend on EF Core DbContext", "ar": "طبقة Domain تعتمد على DbContext", "ok": false, "why_en": "Domain is independent.", "why_ar": "Domain مستقلة."}, {"en": "Application Layer depends on Controllers", "ar": "Application تعتمد على Controllers", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "Database dictates business models", "ar": "قاعدة البيانات تحدد نماذج العمل", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L5-Q2", "lec": 5, "slide_ref": "L5-S34", "type": "tf", "en": "In Clean Architecture, Entity equals Database Table.", "ar": "في المعمارية النظيفة، الكيان Entity يساوي جدول قاعدة البيانات.", "answer": false, "why_en": "False — Common misconception! Entity represents a Business Concept, not a database table.", "why_ar": "خطأ — مفهوم خاطئ شائع! الكيان يمثل مفهوم عمل (Business Concept) وليس جدول قاعدة بيانات."}, {"id": "L5-Q3", "lec": 5, "slide_ref": "L5-S36", "type": "mcq", "en": "An Anemic Domain Model is considered an anti-pattern because:", "ar": "يُعتبر نموذج المجال الفقير (Anemic Domain Model) مضاد تصميم (Anti-pattern) لأنه:", "opts": [{"en": "Entities are merely dummy data containers while business logic is scattered elsewhere", "ar": "الكيانات مجرد حاويات بيانات بينما تتشتت قواعد العمل في مكان آخر", "ok": true, "why_en": "Correct — anemic models strip behavior from entities, violating OOP encapsulation.", "why_ar": "صحيح — النماذج الفقيرة تجرد الكيانات من السلوك وتخالف التغليف البرمجي."}, {"en": "It contains too many business methods", "ar": "يحتوي دمج عمل كثيرة جداً", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "It relies on ASP.NET Controllers", "ar": "يعتمد على متحكمات ASP.NET", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "It runs only in SQL Server", "ar": "يعمل فقط في SQL Server", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L5-Q4", "lec": 5, "slide_ref": "L5-S100", "type": "mcq", "en": "Match the ASP.NET Core Dependency Injection lifetime to its correct definition:", "ar": "طابق عمر خدمة حقن الاعتمادية بـ ASP.NET Core مع تعريفه الصحيح:", "opts": [{"en": "Transient = New instance every time requested, Scoped = One instance per HTTP request, Singleton = One instance for app lifetime", "ar": "Transient = نسخة جديدة عند كل طلب، Scoped = نسخة واحدة لكل طلب HTTP، Singleton = نسخة واحدة لكل عمر التطبيق", "ok": true, "why_en": "Correct — Transient (per call), Scoped (per HTTP request), Singleton (app-wide).", "why_ar": "صحيح — Transient (عند كل استدعاء)، Scoped (لكل طلب HTTP)، Singleton (للتطبيق بالكامل)."}, {"en": "Transient = New instance per HTTP request", "ar": "Transient = نسخة لكل طلب HTTP", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "Scoped = New instance every time requested", "ar": "Scoped = نسخة عند كل استدعاء", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}, {"en": "Singleton = New instance every 5 minutes", "ar": "Singleton = نسخة جديدة كل 5 دقائق", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L5-Q5", "lec": 5, "slide_ref": "L5-S102", "type": "direct", "en": "Trace the complete request execution workflow in Clean Architecture when a client calls `POST /api/accounts/transfer`.", "ar": "تتبع دورة تنفيذ الطلب الكاملة في المعمارية النظيفة عند استدعاء العميل لـ `POST /api/accounts/transfer`؟", "model_ans_en": "1. HTTP Request hits AccountsController in Presentation Layer. 2. Controller delegates to TransferMoneyUseCase in Application Layer. 3. Application Layer fetches Account entities via IAccountRepository contract. 4. Account entity in Domain Layer executes business rule `account.Withdraw(amount)`. 5. Application Layer persists changes via AccountRepository in Infrastructure Layer to SQL Server database. 6. Controller returns 200 OK HTTP Response.", "model_ans_ar": "1. يستقبل AccountsController الطلب في طبقة Presentation. 2. يفوض الكنترولر التنفيذ لـ TransferMoneyUseCase في طبقة Application. 3. تجلب طبقة Application كيانات الحساب عبر واجهة IAccountRepository. 4. ينفذ كيان Account في طبقة Domain قاعدة العمل `account.Withdraw(amount)`. 5. تحفظ طبقة Application التغييرات عبر AccountRepository في طبقة Infrastructure إلى قواعد بيانات SQL Server. 6. يعيد الكنترولر استجابة 200 OK."}, {"id": "L1-Q12", "lec": 1, "slide_ref": "L1-S14", "type": "mcq", "en": "Which OOP concept allows a child class to provide a specific implementation of a method defined in its parent class?", "ar": "أي مفهوم في البرمجة كائنية التوجه يسمح للكلاس الابن بتوفير تطبيق خاص لميثود معرفة في الكلاس الأب؟", "opts": [{"en": "Polymorphism (Method Overriding)", "ar": "تعدد الأشكال (Method Overriding)", "ok": true, "why_en": "Correct — method overriding allows subclasses to tailor parent methods.", "why_ar": "صحيح — إعادة كتابة الميثود تسمح للكلاس الابن بتعديل سلوك الأب."}, {"en": "Encapsulation", "ar": "التغليف", "ok": false, "why_en": "Encapsulation hides state.", "why_ar": "التغليف يخفي الحالة."}, {"en": "Abstraction", "ar": "التجريد", "ok": false, "why_en": "Abstraction simplifies interface.", "why_ar": "التجريد يبسط الواجهة."}, {"en": "Interface Segregation", "ar": "فصل الواجهات", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}]}, {"id": "L1-Q13", "lec": 1, "slide_ref": "L1-S19", "type": "tf", "en": "In C#, a `protected` member is accessible within its declaring class and by derived class instances.", "ar": "في لغة C#، العضو المحدد بـ `protected` متاح للوصول داخل كلاسه وأيضاً داخل الكلاسات المشتقة منه.", "answer": true, "why_en": "Correct — protected permits access inside declaring class and child classes.", "why_ar": "صحيح — protected يسمح بالوصول داخل الكلاس الحالي والكلاسات الوارثة."}, {"id": "L1-Q14", "lec": 1, "slide_ref": "L1-S25", "type": "mcq", "en": "To comply with OCP when calculating discounts for different customer types (Standard, VIP, SuperVIP), one should:", "ar": "لتطبيق مبدأ OCP عند حساب الخصومات لأنواع عملاء مختلفة (Standard, VIP, SuperVIP)، يجب:", "opts": [{"en": "Use an interface `IDiscountStrategy` and create a class for each customer type", "ar": "استخدام واجهة `IDiscountStrategy` وإنشاء كلاس مستقل لكل نوع عميل", "ok": true, "why_en": "Correct — extending via new classes avoids modifying existing discount engine logic.", "why_ar": "صحيح — التوسع عن طريق كلاسات جديدة يجنبنا تعديل كود الخصم القائم."}, {"en": "Add new `if-else` branches inside the core calculation function", "ar": "إضافة شروط `if-else` جديدة داخل دالة الحساب الأساسية", "ok": false, "why_en": "Adding if-else modifies existing code, violating OCP.", "why_ar": "إضافة شروط تعدل الكود القائم وتخالف OCP."}, {"en": "Make the discount function private", "ar": "جعل دالة الخصم خاصّة private", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}, {"en": "Delete old customer discount code", "ar": "حذف كود الخصم القديم", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}, {"id": "L2-Q8", "lec": 2, "slide_ref": "L2-S18", "type": "mcq", "en": "In a multi-threaded C# application, what mechanism is necessary to prevent two threads from instantiating two Singletons simultaneously?", "ar": "في تطبيق C# متعدد الخيوط (Multi-threaded)، ما هي الآلية الضرورية لمنع خيطين من إنشاء نسختين Singleton بنفس الوقت؟", "opts": [{"en": "Thread-safe locking (e.g. `lock` statement or `Lazy<T>`)", "ar": "القفل الآمن الخيوط (مثل `lock` أو `Lazy<T>`)", "ok": true, "why_en": "Correct — thread safety prevents race conditions during Singleton creation.", "why_ar": "صحيح — القفل الآمن يمنع سباق الخيوط أثناء الإنشاء."}, {"en": "Public constructor", "ar": "كونستركتور عام", "ok": false, "why_en": "Public constructor breaks Singleton.", "why_ar": "يخرب Singleton."}, {"en": "Interface Inheritance", "ar": "وراثة الواجهات", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}, {"en": "Garbage Collection", "ar": "تجميع المهملات", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}]}, {"id": "L2-Q9", "lec": 2, "slide_ref": "L2-S26", "type": "tf", "en": "The Factory Method Pattern moves instantiation logic into derived factory classes, allowing new product types to be added without modifying existing factory code.", "ar": "ينقل نمط Factory Method كود الإنشاء إلى كلاسات مصنع فرعية، مما يسمح بإضافة منتجات جديدة دون تعديل كود المصنع القائم.", "answer": true, "why_en": "Correct — adding new products only requires adding a new concrete factory class.", "why_ar": "صحيح — إضافة منتج جديد تتطلب فقط إضافة كلاس مصنع ملموس جديد."}, {"id": "L3-Q7", "lec": 3, "slide_ref": "L3-S15", "type": "mcq", "en": "In the Adapter Pattern, the existing class with an incompatible interface that needs to be adapted is called the:", "ar": "في نمط Adapter، الكلاس القائم ذو الواجهة غير المتوافقة الذي نحتاج تحويله يُسمى:", "opts": [{"en": "Adaptee", "ar": "المحوّل منه (Adaptee)", "ok": true, "why_en": "Correct — Adaptee is the legacy/third-party object being adapted.", "why_ar": "صحيح — Adaptee هو الكائن القديم/الخارجي الذي يتم تغليفه."}, {"en": "Target", "ar": "الهدف (Target)", "ok": false, "why_en": "Target is the expected interface.", "why_ar": "Target هي الواجهة المتوقعة."}, {"en": "Facade", "ar": "Facade", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}, {"en": "Decorator", "ar": "Decorator", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}]}, {"id": "L3-Q8", "lec": 3, "slide_ref": "L3-S48", "type": "mcq", "en": "Which type of Proxy pattern delays the creation of a heavy object (e.g. large image or database connection) until it is actually needed?", "ar": "أي نوع من أنماط الوكيل Proxy يؤجل إنشاء كائن ثقيل (مثل صورة ضخمة أو اتصال قاعدة) حتى الحاجه الفعلية له؟", "opts": [{"en": "Virtual Proxy (Lazy Loading)", "ar": "الوكيل الافتراضي (Virtual Proxy - التحميل الكسول)", "ok": true, "why_en": "Correct — Virtual Proxy handles lazy initialization.", "why_ar": "صحيح — Virtual Proxy يدير التهيئة التكاسلية."}, {"en": "Protection Proxy", "ar": "وكيل الحماية", "ok": false, "why_en": "Protection Proxy handles authorization.", "why_ar": "وكيل الحماية يدير الصلاحيات."}, {"en": "Remote Proxy", "ar": "الوكيل البعيد", "ok": false, "why_en": "Remote Proxy handles network calls.", "why_ar": "الوكيل البعيد يدير الاتصال الشبكي."}, {"en": "Adapter Proxy", "ar": "وكيل المحول", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}]}, {"id": "L4-Q5", "lec": 4, "slide_ref": "L4-S5", "type": "tf", "en": "Using the Strategy Pattern allows switching calculation algorithms (e.g., Shipping by Air vs Shipping by Sea) at runtime without altering the Order class.", "ar": "استخدام نمط Strategy يسمح بتبديل خوارزميات الحساب (مثل الشحن الجوي مقابل الشحن البحري) وقت التشغيل دون التعديل على كلاس الطلب Order.", "answer": true, "why_en": "Correct — Order delegates shipping calculation to `IShippingStrategy`.", "why_ar": "صحيح — يفوض الطلب حساب الشحن لواجهة `IShippingStrategy`."}, {"id": "L4-Q6", "lec": 4, "slide_ref": "L4-S24", "type": "mcq", "en": "What method must all Concrete Observers implement to receive state updates from the Subject?", "ar": "ما هي الميثود التي يجب أن يطبقها جميع المراقبين (Concrete Observers) لاستقبال التحديثات من Subject؟", "opts": [{"en": "Update()", "ar": "دالة Update()", "ok": true, "why_en": "Correct — Subject calls Update() on each registered observer.", "why_ar": "صحيح — يستدعي Subject دالة Update() لكل مراقب."}, {"en": "Execute()", "ar": "دالة Execute()", "ok": false, "why_en": "Execute is Command pattern.", "why_ar": "Execute خاصة بنمط Command."}, {"en": "Render()", "ar": "دالة Render()", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}, {"en": "Save()", "ar": "دالة Save()", "ok": false, "why_en": "Irrelevant.", "why_ar": "غير مرتبط."}]}, {"id": "L5-Q6", "lec": 5, "slide_ref": "L5-S25", "type": "mcq", "en": "In Clean Architecture, which layer contains pure Enterprise Business Rules and core Domain Entities?", "ar": "في المعمارية النظيفة، أي طبقة تحتوي على قواعد العمل الجوهرية والكيانات الأساسية (Entities)؟", "opts": [{"en": "Domain Layer", "ar": "طبقة مجال العمل (Domain Layer)", "ok": true, "why_en": "Correct — Domain Layer is the innermost core layer.", "why_ar": "صحيح — طبقة Domain هي النواة الداخلية الجوهرية."}, {"en": "Application Layer", "ar": "طبقة التطبيق (Application Layer)", "ok": false, "why_en": "Application contains use cases.", "why_ar": "Application تحتوي حالات الاستخدام."}, {"en": "Infrastructure Layer", "ar": "طبقة البنية التحتية", "ok": false, "why_en": "Infrastructure contains DB code.", "why_ar": "Infrastructure تحتوي كود القواعد."}, {"en": "Presentation Layer", "ar": "طبقة العرض والواجهة", "ok": false, "why_en": "Presentation contains Controllers.", "why_ar": "Presentation تحتوي الكنترولرات."}]}, {"id": "L5-Q7", "lec": 5, "slide_ref": "L5-S45", "type": "tf", "en": "A Data Transfer Object (DTO) should contain complex business calculation logic.", "ar": "يجب أن يحتوي كائن نقل البيانات (DTO) على منطق حسابات عمل معقد.", "answer": false, "why_en": "False — DTOs are pure data containers without business behavior.", "why_ar": "خطأ — DTOs هي كائنات نقل بيانات مجردة خالية من السلوك المنطقي."}, {"id": "L5-Q8", "lec": 5, "slide_ref": "L5-S101", "type": "mcq", "en": "In ASP.NET Core, if a service is registered as `AddScoped`, how many instances are created during a single HTTP request?", "ar": "في ASP.NET Core، إذا سجلت خدمة كـ `AddScoped`، كم عدد النسخ التي تنشأ خلال طلب HTTP واحد؟", "opts": [{"en": "Exactly ONE instance shared across that HTTP request", "ar": "نسخة واحدة فقط مشاطرة طوال طلب HTTP نفسه", "ok": true, "why_en": "Correct — Scoped creates one instance per HTTP request lifecycle.", "why_ar": "صحيح — Scoped تنشئ نسخة واحدة لكل طلب HTTP."}, {"en": "A new instance every time it is injected", "ar": "نسخة جديدة عند كل استدعاء", "ok": false, "why_en": "That is Transient.", "why_ar": "هذا هو Transient."}, {"en": "One instance for the entire lifetime of the server", "ar": "نسخة واحدة لكل عمر السيرفر", "ok": false, "why_en": "That is Singleton.", "why_ar": "هذا هو Singleton."}, {"en": "Zero instances", "ar": "صفر نسخ", "ok": false, "why_en": "Incorrect.", "why_ar": "خطأ."}]}];
+
+let state = {
+  selectedLec: "all",
+  selectedType: "all",
+  answers: {}, // qid -> choice
+  theme: "amber"
+};
+
+document.documentElement.setAttribute("data-theme", state.theme);
+
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function renderQuestions() {
+  const container = document.getElementById("questions-container");
+  container.innerHTML = "";
+
+  const filtered = QUESTIONS.filter(q => {
+    const lecMatch = state.selectedLec === "all" || q.lec === parseInt(state.selectedLec, 10);
+    const typeMatch = state.selectedType === "all" || q.type === state.selectedType;
+    return lecMatch && typeMatch;
+  });
+
+  document.getElementById("st-total").textContent = filtered.length;
+  updateStats();
+
+  filtered.forEach((q, idx) => {
+    const card = document.createElement("div");
+    card.className = "q-card";
+    card.id = "card-" + q.id;
+
+    let typeLabel = q.type === "mcq" ? "اختيار من متعدد" : (q.type === "tf" ? "صح أم خطأ" : "سؤال مقالي مباشر");
+    
+    let html = '<div class="q-head">';
+    html += '<div class="q-head-left"><span class="q-badge">سؤال ' + (idx + 1) + ' · L' + q.lec + '</span><span class="q-type-badge">' + typeLabel + '</span></div>';
+    if (q.slide_ref) {
+      html += '<a href="AP_Midterm_Sim.html#' + q.slide_ref + '" target="_blank" class="slide-ref-link">📌 مرجع السلايد: ' + q.slide_ref.replace("-"," · ") + '</a>';
+    }
+    html += '</div>';
+
+    html += '<div class="q-title-en">' + esc(q.en) + '</div>';
+    html += '<div class="q-title-ar">' + esc(q.ar) + '</div>';
+
+    if (q.type === "mcq") {
+      html += '<div class="opts-grid">';
+      q.opts.forEach((o, oi) => {
+        html += '<div class="opt-btn" data-qid="' + q.id + '" data-oi="' + oi + '"><span class="opt-let">' + String.fromCharCode(65+oi) + '</span><div class="opt-text"><div class="opt-en">' + esc(o.en) + '</div><div class="opt-ar">' + esc(o.ar) + '</div></div></div>';
+      });
+      html += '</div>';
+      html += '<div class="ans-exp-box" id="exp-' + q.id + '"></div>';
+    } else if (q.type === "tf") {
+      html += '<div class="tf-grid">';
+      html += '<div class="tf-btn" data-qid="' + q.id + '" data-v="true">✓ True · صح</div>';
+      html += '<div class="tf-btn" data-qid="' + q.id + '" data-v="false">✗ False · خطأ</div>';
+      html += '</div>';
+      html += '<div class="ans-exp-box" id="exp-' + q.id + '"></div>';
+    } else if (q.type === "direct") {
+      html += '<div class="direct-box"><button class="btn-reveal-direct" data-qid="' + q.id + '">إظهار الإجابة النموذجية مع الشرح والترجمة 💡</button>';
+      html += '<div class="direct-model-ans" id="direct-ans-' + q.id + '"><div class="ans-exp-en"><b>Model Answer & Explanation:</b><br>' + esc(q.model_ans_en) + '</div><div class="ans-exp-ar"><b>الإجابة النموذجية والشرح:</b><br>' + esc(q.model_ans_ar) + '</div></div></div>';
+    }
+
+    card.innerHTML = html;
+    container.appendChild(card);
+
+    if (state.answers[q.id] !== undefined) {
+      restoreAnswerUI(q);
+    }
+  });
+}
+
+function handleMCQChoice(qid, oi) {
+  const card = document.getElementById("card-" + qid);
+  const exp = document.getElementById("exp-" + qid);
+  const q = QUESTIONS.find(x => x.id === qid);
+
+  // If already selected, clicking it again UNSELECTS (toggle off)
+  if (state.answers[qid] === oi) {
+    delete state.answers[qid];
+    card.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("sel-ok", "sel-no"));
+    if (exp) exp.classList.remove("show", "wrong");
+    updateStats();
+    return;
+  }
+
+  // Select new choice
+  state.answers[qid] = oi;
+  const picked = q.opts[oi];
+  const correct = picked.ok;
+
+  card.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("sel-ok", "sel-no"));
+  const btn = card.querySelector('.opt-btn[data-oi="' + oi + '"]');
+
+  if (correct) {
+    btn.classList.add("sel-ok");
+  } else {
+    btn.classList.add("sel-no");
+    const rightBtn = card.querySelector('.opt-btn[data-oi="' + q.opts.findIndex(x => x.ok) + '"]');
+    if (rightBtn) rightBtn.classList.add("sel-ok");
+  }
+
+  showExp(qid, correct, picked.why_en, picked.why_ar);
+  updateStats();
+}
+
+function handleTFChoice(qid, val) {
+  const card = document.getElementById("card-" + qid);
+  const exp = document.getElementById("exp-" + qid);
+  const q = QUESTIONS.find(x => x.id === qid);
+
+  // If already selected, clicking again UNSELECTS
+  if (state.answers[qid] === val) {
+    delete state.answers[qid];
+    card.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("sel-ok", "sel-no"));
+    if (exp) exp.classList.remove("show", "wrong");
+    updateStats();
+    return;
+  }
+
+  state.answers[qid] = val;
+  const correct = val === q.answer;
+
+  card.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("sel-ok", "sel-no"));
+  const btn = card.querySelector('.tf-btn[data-v="' + val + '"]');
+
+  if (correct) {
+    btn.classList.add("sel-ok");
+  } else {
+    btn.classList.add("sel-no");
+    const rightBtn = card.querySelector('.tf-btn[data-v="' + q.answer + '"]');
+    if (rightBtn) rightBtn.classList.add("sel-ok");
+  }
+
+  showExp(qid, correct, q.why_en, q.why_ar);
+  updateStats();
+}
+
+function restoreAnswerUI(q) {
+  const val = state.answers[q.id];
+  const card = document.getElementById("card-" + q.id);
+  if (!card || val === undefined) return;
+
+  if (q.type === "mcq") {
+    const picked = q.opts[val];
+    const btn = card.querySelector('.opt-btn[data-oi="' + val + '"]');
+    if (picked && picked.ok) btn.classList.add("sel-ok");
+    else if (btn) {
+      btn.classList.add("sel-no");
+      const rightBtn = card.querySelector('.opt-btn[data-oi="' + q.opts.findIndex(x => x.ok) + '"]');
+      if (rightBtn) rightBtn.classList.add("sel-ok");
+    }
+    if (picked) showExp(q.id, picked.ok, picked.why_en, picked.why_ar);
+  } else if (q.type === "tf") {
+    const btn = card.querySelector('.tf-btn[data-v="' + val + '"]');
+    const correct = val === q.answer;
+    if (correct && btn) btn.classList.add("sel-ok");
+    else if (btn) {
+      btn.classList.add("sel-no");
+      const rightBtn = card.querySelector('.tf-btn[data-v="' + q.answer + '"]');
+      if (rightBtn) rightBtn.classList.add("sel-ok");
+    }
+    showExp(q.id, correct, q.why_en, q.why_ar);
+  }
+}
+
+function showExp(qid, correct, whyEn, whyAr) {
+  const exp = document.getElementById("exp-" + qid);
+  if (!exp) return;
+  exp.classList.add("show");
+  if (!correct) exp.classList.add("wrong");
+  else exp.classList.remove("wrong");
+  exp.innerHTML = '<div class="ans-status ' + (correct?"ok":"no") + '">' + (correct?"✓ إجابة صحيحة · Correct":"✗ إجابة خاطئة · Incorrect") + '</div><div class="ans-exp-en"><b>Explanation:</b> ' + esc(whyEn) + '</div><div class="ans-exp-ar"><b>الشرح باللغة العربية:</b> ' + esc(whyAr) + '</div>';
+}
+
+function updateStats() {
+  let answered = 0;
+  let correct = 0;
+  Object.keys(state.answers).forEach(qid => {
+    answered++;
+    const q = QUESTIONS.find(x => x.id === qid);
+    if (q) {
+      if (q.type === "mcq" && q.opts[state.answers[qid]] && q.opts[state.answers[qid]].ok) correct++;
+      else if (q.type === "tf" && state.answers[qid] === q.answer) correct++;
+    }
+  });
+
+  document.getElementById("st-answered").textContent = answered;
+  const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  document.getElementById("st-score").textContent = pct + "%";
+}
+
+function resetAllChoices() {
+  state.answers = {};
+  renderQuestions();
+}
+
+// Event Listeners
+document.addEventListener("click", e => {
+  const opt = e.target.closest(".opt-btn");
+  if (opt) {
+    handleMCQChoice(opt.dataset.qid, parseInt(opt.dataset.oi, 10));
+    return;
+  }
+
+  const tf = e.target.closest(".tf-btn");
+  if (tf) {
+    handleTFChoice(tf.dataset.qid, tf.dataset.v === "true");
+    return;
+  }
+
+  const rev = e.target.closest(".btn-reveal-direct");
+  if (rev) {
+    const qid = rev.dataset.qid;
+    const box = document.getElementById("direct-ans-" + qid);
+    box.classList.toggle("show");
+    rev.textContent = box.classList.contains("show") ? "إخفاء الإجابة النموذجية 💡" : "إظهار الإجابة النموذجية مع الشرح والترجمة 💡";
+    return;
+  }
+});
+
+// Filters
+document.querySelectorAll("#lec-filters .fchip").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("#lec-filters .fchip").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  state.selectedLec = btn.dataset.f;
+  renderQuestions();
+}));
+
+document.querySelectorAll("#type-filters .fchip").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("#type-filters .fchip").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  state.selectedType = btn.dataset.tf;
+  renderQuestions();
+}));
+
+// Reset Buttons
+document.getElementById("btn-top-reset").addEventListener("click", resetAllChoices);
+document.getElementById("btn-reset-banner").addEventListener("click", resetAllChoices);
+
+// Themes
+document.querySelectorAll(".tdot").forEach(d => d.addEventListener("click", () => {
+  state.theme = d.dataset.t;
+  document.documentElement.setAttribute("data-theme", state.theme);
+  document.querySelectorAll(".tdot").forEach(x => x.classList.toggle("active", x === d));
+}));
+
+renderQuestions();
+</script>
+</body>
+</html>
