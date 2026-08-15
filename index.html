@@ -72,7 +72,8 @@ mark{background:var(--acc-g);color:var(--acc-b);border-radius:3px;padding:0 2px}
 .slide-body code{font-family:var(--fm);font-size:.78rem;color:var(--acc);background:var(--acc-g);padding:1px 5px;border-radius:3px}
 
 .slide-en{direction:ltr;text-align:left}
-.slide-ar{direction:rtl;text-align:right;font-family:var(--fa);font-size:.82rem;line-height:1.6;color:var(--ink-m);margin-top:2px;margin-bottom:6px}
+.slide-ar{direction:rtl;text-align:right;font-family:var(--fa);font-size:.82rem;line-height:1.6;color:var(--ink-m);margin-top:2px;margin-bottom:6px;display:none}
+.slide-ar.show{display:block;animation:rise .25s var(--ease)}
 
 /* explanation */
 .explain{margin:10px 0;padding:11px 13px;background:var(--ex-bg);border:1px solid color-mix(in srgb,var(--acc) 22%,transparent);border-left:3px solid var(--acc);border-radius:var(--r-s)}
@@ -276,6 +277,16 @@ function buildLectures(){
     c.appendChild(lb);
   });
   restoreAnswers();
+  // Restore saved Arabic translation visibility
+  Object.keys(S.showAr).forEach(sid => {
+    if (S.showAr[sid]) {
+      const card = document.getElementById(sid);
+      if (card) {
+        card.querySelectorAll(".slide-ar").forEach(el => el.classList.add("show"));
+        card.querySelectorAll(".explain-ar").forEach(el => el.classList.add("show"));
+      }
+    }
+  });
 }
 
 /* lecture toggle (event delegation) */
@@ -291,6 +302,9 @@ document.addEventListener("click", e => {
     S.showAr[sid] = !S.showAr[sid];
     const ar = tb.parentElement.nextElementSibling.nextElementSibling;
     ar.classList.toggle("show", S.showAr[sid]);
+    // Also toggle slide-ar blocks in same slide card
+    const slideCard = tb.closest(".slide");
+    if (slideCard) slideCard.querySelectorAll(".slide-ar").forEach(el => el.classList.toggle("show", S.showAr[sid]));
     tb.textContent = S.showAr[sid] ? "إخفاء العربي" : "إظهار العربي";
     save();
     return;
@@ -426,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (globalBtn) {
     globalBtn.addEventListener("click", () => {
       allArShown = !allArShown;
-      globalBtn.textContent = allArShown ? "إخفاء كل الترجمات العربية" : "إظهار كل الترجمات العربية";
+      globalBtn.textContent = allArShown ? "🌍 إخفاء" : "🌍 الترجمة";
       
       DATA.slides.forEach(l => l.slides.forEach(s => {
         const sid = "L" + l.lec + "-S" + s.n;
@@ -434,6 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
       
       document.querySelectorAll(".explain-ar").forEach(el => el.classList.toggle("show", allArShown));
+      document.querySelectorAll(".slide-ar").forEach(el => el.classList.toggle("show", allArShown));
       document.querySelectorAll(".btn-toggle-ar[data-slide]").forEach(btn => {
         btn.textContent = allArShown ? "إخفاء العربي" : "إظهار العربي";
       });
