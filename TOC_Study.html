@@ -104,7 +104,7 @@ html.lang-ar-only .en-line{display:none!important}
 html.lang-en-only .ar-txt,html.lang-en-only .sep{display:none!important}
 html.lang-ar-only .en-txt,html.lang-ar-only .sep{display:none!important}
 /* promote English subtitle to main title in en-only */
-html.lang-en-only .lhead h2 .en{font-size:1rem;font-weight:700;color:var(--ink)}
+html.lang-en-only .lhead h2 .en,html.lang-en-only .lhead h2 .en-txt{font-size:1rem;font-weight:700;color:var(--ink)}
 html.lang-en-only .intro h1 .en{display:block;font-size:1.5rem;font-weight:800;color:var(--ink);margin-top:0}
 html.lang-ar-only .lhead h2 .en,html.lang-ar-only .intro h1 .en,html.lang-ar-only .intro p .en{display:none}
 /* FUL slide titles: EN default, AR in arabic-primary modes */
@@ -238,6 +238,7 @@ main{max-width:780px;margin:0 auto;padding:14px}
 /* summary */
 .sum-item{margin:8px 0;padding:11px 13px;background:var(--ex-bg);border:1px solid color-mix(in srgb,var(--acc) 20%,transparent);border-radius:var(--r-s)}
 .sum-item h3{font-family:var(--fa);font-size:.88rem;font-weight:700;color:var(--acc-b);margin-bottom:4px}
+.sum-item h3 .en-txt{font-family:var(--fd);direction:ltr;unicode-bidi:embed}
 .sum-item .s-en{font-family:var(--fd);direction:ltr;text-align:left;font-size:.78rem;color:var(--ink-m);line-height:1.6}
 .sum-item .s-ar{font-size:.8rem;color:var(--ink);line-height:1.75;margin-top:4px}
 .sum-item .s-ar code{font-family:var(--fm);font-size:.74rem;color:var(--acc);background:var(--acc-g);padding:1px 5px;border-radius:3px;direction:ltr;unicode-bidi:embed}
@@ -348,9 +349,7 @@ function applyLang(){
       Object.keys(S.showAr).forEach(id => {
         if (!S.showAr[id]) return;
         const sl = document.getElementById(id);
-        const ar = sl && sl.querySelector(".explain-ar");
-        if (ar) ar.classList.add("show");
-        if (sl) sl.querySelectorAll(".ar-line").forEach(el => el.classList.add("show"));
+        if (sl) sl.querySelectorAll(secList()).forEach(el => el.classList.add("show"));
         const b = document.querySelector('.btn-toggle-ar[data-slide="' + id + '"]');
         if (b) b.textContent = secLabel(true);
       });
@@ -361,9 +360,9 @@ function applyLang(){
   // sync every per-slide toggle label + the global secondary button
   document.querySelectorAll(".btn-toggle-ar[data-slide]").forEach(b => {
     const sl = document.getElementById(b.dataset.slide); if (!sl) return;
-    const sel = S.lang === "ar-first" ? ".explain-en" : ".explain-ar";
-    const sec = sl.querySelector(sel);
-    b.textContent = secLabel(!!(sec && sec.classList.contains("show")));
+    const secEls = sl.querySelectorAll(secList());
+    const anyShown = [...secEls].some(el => el.classList.contains("show"));
+    b.textContent = secLabel(anyShown);
   });
   const ball = document.getElementById("btn-all-ar");
   if (ball) ball.textContent = S.lang === "ar-first" ? "🌍 الإنجليزي" : "🌍 العربي";
@@ -399,7 +398,10 @@ function questionsHTML(id){
 }
 function slideHTML(s){
   const hasEx = !!DATA.explain[s.id], hasQ = !!(qsBySlide[s.id] && qsBySlide[s.id].length);
-  let h = '<article class="slide" id="'+s.id+'"><div class="slide-head"><span class="slide-badge">'+s.id.replace('-',' · ')+'</span><span class="slide-title">'+(s.titleHTML ? s.titleHTML : esc(s.title))+'</span>'+(hasEx?'<span class="explain-badge" style="font-size:.5rem">● <span class="ar-txt">شرح</span><span class="en-txt">Explain</span></span>':'')+(hasQ?'<span class="explain-badge" style="font-size:.5rem;color:var(--acc)">● <span class="ar-txt">أسئلة</span><span class="en-txt">Questions</span></span>':'')+'</div>';
+  const hasArLines = s.html && s.html.indexOf('ar-line') > -1;
+  let h = '<article class="slide" id="'+s.id+'"><div class="slide-head"><span class="slide-badge">'+s.id.replace('-',' · ')+'</span><span class="slide-title">'+(s.titleHTML ? s.titleHTML : esc(s.title))+'</span>'+(hasEx?'<span class="explain-badge" style="font-size:.5rem">● <span class="ar-txt">شرح</span><span class="en-txt">Explain</span></span>':'')+(hasQ?'<span class="explain-badge" style="font-size:.5rem;color:var(--acc)">● <span class="ar-txt">أسئلة</span><span class="en-txt">Questions</span></span>':'');
+  if (!hasEx && hasArLines) h += '<button class="btn-toggle-ar" data-slide="'+s.id+'" style="margin-left:auto">'+secLabel(false)+'</button>';
+  h += '</div>';
   h += '<div class="slide-body">' + s.html + '</div>';
   if (hasEx) h += explainHTML(s.id);
   if (hasQ) h += questionsHTML(s.id);
@@ -409,12 +411,13 @@ function build(){
   const c = document.getElementById("lectures");
   // summary block
   let sh = '<div class="lbody" id="lbody-SUM">';
-  DATA.summary.forEach(it => {
-    sh += '<div class="sum-item"><h3>'+esc(it.t)+'</h3><div class="s-en">'+it.en+'</div><div class="s-ar">'+it.ar+'</div><div class="refs">'+it.refs.map(r=>'<span class="ref-chip" data-goto="'+r+'">'+r+'</span>').join('')+'</div></div>';
+  DATA.summary.forEach((it, idx) => {
+    const enTitle = it.en.split(/[.;!?—–]/)[0].trim();
+    sh += '<div class="sum-item" id="SUM-'+idx+'"><h3><span class="ar-txt">'+esc(it.t)+'</span><span class="en-txt">'+esc(enTitle)+'</span></h3><button class="btn-toggle-ar" data-slide="SUM-'+idx+'" style="float:right;margin:-2px 0 4px 8px">'+secLabel(false)+'</button><div class="s-en">'+it.en+'</div><div class="s-ar">'+it.ar+'</div><div class="refs">'+it.refs.map(r=>'<span class="ref-chip" data-goto="'+r+'">'+r+'</span>').join('')+'</div></div>';
   });
   sh += '</div>';
   const sb = document.createElement("div"); sb.className = "lecture"; sb.id = "lec-SUM";
-  sb.innerHTML = '<div class="lhead" data-lec="SUM"><span class="lt">📋 SUM</span><h2><span class="ar-txt">الملخص الشامل — خريطة المراجعة</span><span class="en">Summary · '+DATA.summary.length+' key points, linked to source slides</span></h2><button class="cb" aria-expanded="false">+</button></div>' + sh;
+  sb.innerHTML = '<div class="lhead" data-lec="SUM"><span class="lt">📋 SUM</span><h2><span class="ar-txt">الملخص الشامل — خريطة المراجعة</span><span class="sep"> · </span><span class="en-txt">Summary · '+DATA.summary.length+' key points</span></h2><button class="cb" aria-expanded="false">+</button></div>' + sh;
   c.appendChild(sb);
   DATA.lecs.forEach(l => {
     let bh = '<div class="lbody" id="lbody-'+l.key+'">';
@@ -531,10 +534,10 @@ document.addEventListener("click", e => {
   if (tb && tb.dataset.slide) {
     const sid = tb.dataset.slide;
     const sl = document.getElementById(sid);
-    const secSel = S.lang === "ar-first" ? ".explain-en" : ".explain-ar";
-    const sec = sl.querySelector(secSel);
-    const now = !sec.classList.contains("show");
-    sl.querySelectorAll(secList()).forEach(el => el.classList.toggle("show", now));
+    if (!sl) return;
+    const secEls = sl.querySelectorAll(secList());
+    const now = [...secEls].some(el => !el.classList.contains("show"));
+    secEls.forEach(el => el.classList.toggle("show", now));
     if (S.lang === "en-first") S.showAr[sid] = now;
     tb.textContent = secLabel(now);
     save(); return;
