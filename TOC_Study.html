@@ -10,7 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 :root{--r-s:8px;--r-m:14px;--r-l:20px;--dur:.35s;--ease:cubic-bezier(.32,.72,0,1);--fd:"Outfit","Noto Kufi Arabic",sans-serif;--fa:"Noto Kufi Arabic",sans-serif;--fm:"IBM Plex Mono",monospace}
-[data-theme="amber"]{--bg:#0d0c0a;--bg-s:#16140f;--sf:#1c1914;--sf2:#25211a;--ln:#34302a;--ln-s:#28241f;--ink:#f4ede0;--ink-m:#a89e8c;--ink-f:#6b6357;--acc:#d4a24c;--acc-b:#e8b85e;--acc-d:#8a6a2e;--acc-g:rgba(212,162,76,.18);--ok:#7fa67a;--ok-bg:rgba(127,166,122,.12);--err:#c47a5e;--err-bg:rgba(196,122,94,.13);--ex-bg:rgba(212,162,76,.06);--sh:0 1px 2px rgba(20,16,8,.4),0 8px 24px -8px rgba(20,16,8,.5);--ga:rgba(212,162,76,.12);--gb:rgba(138,106,46,.1);--gc:rgba(127,166,122,.06);--gr:.025}
+
+[data-theme="amber"]{--bg:#0c0d10;--bg-s:#13151b;--sf:#191c24;--sf2:#212530;--ln:#2d3342;--ln-s:#242936;--ink:#f0f3f8;--ink-m:#9ba7be;--ink-f:#647087;--acc:#e5ad45;--acc-b:#f5c464;--acc-d:#a87922;--acc-g:rgba(229,173,69,.15);--ok:#7fa67a;--ok-bg:rgba(127,166,122,.12);--err:#c47a5e;--err-bg:rgba(196,122,94,.13);--ex-bg:rgba(229,173,69,.06);--sh:0 2px 8px rgba(0,0,0,.4),0 12px 32px -8px rgba(0,0,0,.5);--ga:rgba(229,173,69,.1);--gb:rgba(168,121,34,.08);--gc:rgba(127,166,122,.05);--gr:.025}
+[data-theme="obsidian"]{--bg:#090a0f;--bg-s:#10121a;--sf:#161924;--sf2:#1e2230;--ln:#2a3044;--ln-s:#212638;--ink:#f8fafc;--ink-m:#94a3b8;--ink-f:#64748b;--acc:#38bdf8;--acc-b:#7dd3fc;--acc-d:#0284c7;--acc-g:rgba(56,189,248,.15);--ok:#4ade80;--ok-bg:rgba(74,222,128,.12);--err:#fb7185;--err-bg:rgba(251,113,133,.12);--ex-bg:rgba(56,189,248,.06);--sh:0 2px 8px rgba(0,0,0,.5),0 12px 32px -8px rgba(0,0,0,.6);--ga:rgba(56,189,248,.1);--gb:rgba(2,132,199,.08);--gc:rgba(74,222,128,.05);--gr:.025}
 [data-theme="mist"]{--bg:#f5f2ec;--bg-s:#ebe7df;--sf:#fff;--sf2:#faf7f1;--ln:#d8d2c5;--ln-s:#e4dfd4;--ink:#2a2520;--ink-m:#6b6357;--ink-f:#9a9082;--acc:#9a6b2e;--acc-b:#b8842e;--acc-d:#6b4818;--acc-g:rgba(154,107,46,.1);--ok:#4a7a4a;--ok-bg:rgba(74,122,74,.1);--err:#b8553e;--err-bg:rgba(184,85,62,.1);--ex-bg:rgba(154,107,46,.04);--sh:0 1px 2px rgba(60,50,30,.04),0 8px 24px -8px rgba(60,50,30,.1);--ga:rgba(154,107,46,.08);--gb:rgba(120,90,50,.06);--gc:rgba(74,122,74,.04);--gr:.015}
 [data-theme="ocean"]{--bg:#0a1020;--bg-s:#0e1526;--sf:#121a30;--sf2:#182342;--ln:#28365c;--ln-s:#1f2a4a;--ink:#e7edf8;--ink-m:#8fa0c0;--ink-f:#5a6b8f;--acc:#5b9bff;--acc-b:#82b7ff;--acc-d:#2f5fb0;--acc-g:rgba(91,155,255,.17);--ok:#66c29a;--ok-bg:rgba(102,194,154,.12);--err:#e0796a;--err-bg:rgba(224,121,106,.12);--ex-bg:rgba(91,155,255,.06);--sh:0 1px 2px rgba(4,10,26,.5),0 8px 24px -8px rgba(4,10,26,.6);--ga:rgba(91,155,255,.12);--gb:rgba(47,95,176,.12);--gc:rgba(102,194,154,.07);--gr:.025}
 [data-theme="sage"]{--bg:#f3f4ef;--bg-s:#e9ebe2;--sf:#fdfdfb;--sf2:#f6f8f2;--ln:#d5dac9;--ln-s:#e0e4d6;--ink:#24291f;--ink-m:#5f6752;--ink-f:#98a087;--acc:#4f7a3c;--acc-b:#63944c;--acc-d:#375629;--acc-g:rgba(79,122,60,.11);--ok:#4f7a3c;--ok-bg:rgba(79,122,60,.1);--err:#b2543c;--err-bg:rgba(178,84,60,.1);--ex-bg:rgba(79,122,60,.05);--sh:0 1px 2px rgba(50,58,40,.05),0 8px 24px -8px rgba(50,58,40,.12);--ga:rgba(79,122,60,.08);--gb:rgba(60,90,45,.06);--gc:rgba(79,122,60,.05);--gr:.015}
@@ -26,8 +28,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .topbar-in{display:flex;align-items:center;gap:8px;padding:8px 14px;max-width:920px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);flex:1}
 .brand .lm{width:22px;height:22px;display:grid;place-items:center;background:var(--acc-g);border:1px solid var(--acc);border-radius:6px;font-size:.68rem}
-.gear{width:28px;height:28px;display:grid;place-items:center;background:var(--sf);border:1px solid var(--ln);border-radius:8px;color:var(--acc);cursor:pointer;font-size:.95rem;transition:all var(--dur) var(--ease)}
-.gear:hover{border-color:var(--acc);background:var(--acc-g)}
+
+.btn-search-top, .gear{width:28px;height:28px;display:grid;place-items:center;background:var(--sf);border:1px solid var(--ln);border-radius:8px;color:var(--acc);cursor:pointer;font-size:.9rem;transition:all var(--dur) var(--ease)}
+.btn-search-top:hover, .gear:hover{border-color:var(--acc);background:var(--acc-g)}
+
 .setwrap{position:absolute;top:100%;left:12px;right:12px;max-width:600px;margin:6px auto 0;background:var(--sf);border:1px solid var(--ln);border-radius:var(--r-m);box-shadow:var(--sh);padding:14px;z-index:80}
 .setgroup{margin-bottom:10px}
 .setgroup:last-child{margin-bottom:0}
@@ -37,7 +41,8 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .set-opt:hover{border-color:color-mix(in srgb,var(--acc) 45%,transparent);color:var(--ink)}
 .set-opt.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
 .tdot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all var(--dur) var(--ease)}
-.tdot[data-t="amber"]{background:linear-gradient(135deg,#d4a24c,#8a6a2e)}
+.tdot[data-t="amber"]{background:linear-gradient(135deg,#e5ad45,#a87922)}
+.tdot[data-t="obsidian"]{background:linear-gradient(135deg,#38bdf8,#0284c7)}
 .tdot[data-t="mist"]{background:linear-gradient(135deg,#f5f2ec,#d8d2c5)}
 .tdot[data-t="neon"]{background:linear-gradient(135deg,#00e5d4,#ff4d8d)}
 .tdot[data-t="ocean"]{background:linear-gradient(135deg,#5b9bff,#28365c)}
@@ -370,9 +375,9 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
   <div class="topbar-in">
     <div class="brand"><span class="lm">◆</span> TOC · Study Platform</div>
     <div style="display:flex;align-items:center;gap:6px;margin-inline-start:auto;">
-      <button id="btn-search-toggle" class="btn-toggle-ar" style="padding:5px 10px;font-family:var(--fa);font-weight:700;">بحث ⌕</button>
       <button id="btn-all-ar" class="btn-toggle-ar" style="padding:5px 11px;">العربي</button>
-      <button class="gear" id="btn-set" aria-label="الإعدادات">⚙</button>
+      <button id="btn-search-toggle" class="btn-search-top" aria-label="بحث" title="بحث في المحاضرات">🔍</button>
+      <button class="gear" id="btn-set" aria-label="الإعدادات" title="الإعدادات">⚙</button>
     </div>
   </div>
   
