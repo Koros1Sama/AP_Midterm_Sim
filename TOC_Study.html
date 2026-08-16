@@ -48,20 +48,31 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .tdot.active{border-color:var(--acc);transform:scale(1.15);box-shadow:0 0 0 2px var(--bg)}
 
 
-/* ---------- Top Tabs Navigation (Systematic Clean Layout) ---------- */
-.tabs-wrap{background:color-mix(in srgb,var(--bg) 95%,transparent);border-bottom:1px solid var(--ln);padding:6px 12px;position:sticky;top:49px;z-index:45;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+
+/* ---------- Top Tabs Navigation (Sleek Theme-Integrated) ---------- */
+.tabs-wrap{background:color-mix(in srgb,var(--bg) 94%,transparent);border-bottom:1px solid var(--ln);padding:6px 12px;position:sticky;top:49px;z-index:45;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .tab-bar{display:flex;gap:8px;max-width:940px;margin:0 auto;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 0}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab-btn{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink-m);font-family:var(--fa);font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--dur) var(--ease);user-select:none;flex-shrink:0}
-.tab-btn .ic{font-size:1rem;line-height:1}
+.tab-btn{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink-m);font-family:var(--fa);font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--dur) var(--ease);user-select:none;flex-shrink:0}
+.tab-btn .ic{display:inline-flex;align-items:center;justify-content:center;font-size:.95rem;line-height:1}
 .tab-btn .tab-title{display:flex;flex-direction:column;align-items:flex-start;text-align:right;line-height:1.2}
 .tab-btn .ar-txt{font-size:.78rem;font-weight:700;color:inherit}
 .tab-btn .en-txt{font-family:var(--fd);font-size:.56rem;color:var(--ink-f);letter-spacing:.02em}
 .tab-btn.active .en-txt{color:color-mix(in srgb,var(--bg) 85%,transparent)}
-.tab-btn .badge{font-family:var(--fm);font-size:.58rem;padding:2px 6px;border-radius:999px;background:var(--bg-s);color:var(--ink-f);border:1px solid var(--ln-s)}
+.tab-btn .badge{font-family:var(--fm);font-size:.58rem;padding:2px 7px;border-radius:999px;background:var(--sf2);color:var(--ink-m);border:1px solid var(--ln)}
 .tab-btn:hover{color:var(--ink);border-color:color-mix(in srgb,var(--acc) 50%,transparent);background:var(--sf2)}
 .tab-btn.active{background:var(--acc);color:var(--bg);border-color:var(--acc);box-shadow:0 2px 12px var(--acc-g)}
 .tab-btn.active .badge{background:var(--bg);color:var(--acc);border-color:transparent}
+
+/* Sub-lecture Pills (Clean, Theme-colored, Zero Raw White) */
+.subnav-bar{display:flex;gap:8px;overflow-x:auto;padding:8px 2px 14px;margin-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.subnav-bar::-webkit-scrollbar{display:none}
+.sub-pill{padding:6px 14px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink-m);font-family:var(--fa);font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--dur) var(--ease);flex-shrink:0}
+.sub-pill:hover{border-color:var(--acc);color:var(--ink);background:var(--sf2)}
+.sub-pill.active{background:var(--acc-g);border-color:var(--acc);color:var(--acc-b);box-shadow:0 2px 8px var(--acc-g)}
+.sub-pill.expand{border-style:dashed;border-color:var(--acc);color:var(--acc);background:transparent;display:inline-flex;align-items:center;gap:4px}
+.sub-pill.expand:hover{background:var(--acc-g)}
+.sub-pill.expand .en-txt{font-family:var(--fd);font-size:.56rem;opacity:.75}
 
 /* Search Bar (Sleek and compact) */
 .search-bar{padding:6px 14px 8px;max-width:940px;margin:0 auto;position:relative}
@@ -69,9 +80,9 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .search-bar input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-g);background:var(--sf2)}
 .search-bar::before{content:"⌕";position:absolute;left:26px;top:50%;transform:translateY(-50%);color:var(--ink-f);font-size:1.1rem;pointer-events:none}
 
-/* Desktop Margin Index (TOC) Clean Layout */
+/* Desktop Margin Index (TOC) - Only on extra wide screens to prevent clutter */
 #tocnav{display:none}
-@media (min-width:1440px){
+@media (min-width:1560px){
 #tocnav{display:flex;flex-direction:column;position:fixed;top:110px;right:0;bottom:16px;width:280px;z-index:40;padding:6px 14px 6px 4px;gap:6px}
 #tocnav .toc-title{font-family:var(--fm);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);padding:4px 8px;border-bottom:1px solid var(--ln-s)}
 #tocnav .toc-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:4px 2px;scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
