@@ -238,7 +238,8 @@ main{max-width:780px;margin:0 auto;padding:14px}
 /* summary */
 .sum-item{margin:8px 0;padding:11px 13px;background:var(--ex-bg);border:1px solid color-mix(in srgb,var(--acc) 20%,transparent);border-radius:var(--r-s)}
 .sum-item h3{font-family:var(--fa);font-size:.88rem;font-weight:700;color:var(--acc-b);margin-bottom:4px}
-.sum-item h3 .en-txt{font-family:var(--fd);direction:ltr;unicode-bidi:embed}
+.sum-item h3 .ar-txt,.sum-item h3 .en-txt{display:block}
+.sum-item h3 .en-txt{font-family:var(--fd);direction:ltr;unicode-bidi:embed;font-size:.78rem;font-weight:600}
 .sum-item .s-en{font-family:var(--fd);direction:ltr;text-align:left;font-size:.78rem;color:var(--ink-m);line-height:1.6}
 .sum-item .s-ar{font-size:.8rem;color:var(--ink);line-height:1.75;margin-top:4px}
 .sum-item .s-ar code{font-family:var(--fm);font-size:.74rem;color:var(--acc);background:var(--acc-g);padding:1px 5px;border-radius:3px;direction:ltr;unicode-bidi:embed}
@@ -413,7 +414,7 @@ function build(){
   let sh = '<div class="lbody" id="lbody-SUM">';
   DATA.summary.forEach((it, idx) => {
     const enTitle = it.en.split(/[.;!?—–]/)[0].trim();
-    sh += '<div class="sum-item" id="SUM-'+idx+'"><h3><span class="ar-txt">'+esc(it.t)+'</span><span class="en-txt">'+esc(enTitle)+'</span></h3><button class="btn-toggle-ar" data-slide="SUM-'+idx+'" style="float:right;margin:-2px 0 4px 8px">'+secLabel(false)+'</button><div class="s-en">'+it.en+'</div><div class="s-ar">'+it.ar+'</div><div class="refs">'+it.refs.map(r=>'<span class="ref-chip" data-goto="'+r+'">'+r+'</span>').join('')+'</div></div>';
+    sh += '<div class="sum-item" id="SUM-'+idx+'"><h3><span class="ar-txt ar-line">'+esc(it.t)+'</span><span class="en-txt">'+esc(enTitle)+'</span></h3><button class="btn-toggle-ar" data-slide="SUM-'+idx+'" style="float:right;margin:-2px 0 4px 8px">'+secLabel(false)+'</button><div class="s-en">'+it.en+'</div><div class="s-ar">'+it.ar+'</div><div class="refs">'+it.refs.map(r=>'<span class="ref-chip" data-goto="'+r+'">'+r+'</span>').join('')+'</div></div>';
   });
   sh += '</div>';
   const sb = document.createElement("div"); sb.className = "lecture"; sb.id = "lec-SUM";
