@@ -401,7 +401,7 @@ function slideHTML(s){
   const hasEx = !!DATA.explain[s.id], hasQ = !!(qsBySlide[s.id] && qsBySlide[s.id].length);
   const hasArLines = s.html && s.html.indexOf('ar-line') > -1;
   let h = '<article class="slide" id="'+s.id+'"><div class="slide-head"><span class="slide-badge">'+s.id.replace('-',' · ')+'</span><span class="slide-title">'+(s.titleHTML ? s.titleHTML : esc(s.title))+'</span>'+(hasEx?'<span class="explain-badge" style="font-size:.5rem">● <span class="ar-txt">شرح</span><span class="en-txt">Explain</span></span>':'')+(hasQ?'<span class="explain-badge" style="font-size:.5rem;color:var(--acc)">● <span class="ar-txt">أسئلة</span><span class="en-txt">Questions</span></span>':'');
-  if (!hasEx && hasArLines) h += '<button class="btn-toggle-ar" data-slide="'+s.id+'" style="margin-left:auto">'+secLabel(false)+'</button>';
+  if (hasArLines) h += '<button class="btn-toggle-ar" data-slide="'+s.id+'" style="margin-left:auto">'+secLabel(false)+'</button>';
   h += '</div>';
   h += '<div class="slide-body">' + s.html + '</div>';
   if (hasEx) h += explainHTML(s.id);
@@ -540,7 +540,8 @@ document.addEventListener("click", e => {
     const now = [...secEls].some(el => !el.classList.contains("show"));
     secEls.forEach(el => el.classList.toggle("show", now));
     if (S.lang === "en-first") S.showAr[sid] = now;
-    tb.textContent = secLabel(now);
+    // sync ALL toggle buttons targeting this slide
+    document.querySelectorAll('.btn-toggle-ar[data-slide="'+sid+'"]').forEach(b => b.textContent = secLabel(now));
     save(); return;
   }
   const bAll = e.target.closest("#btn-all-ar");
