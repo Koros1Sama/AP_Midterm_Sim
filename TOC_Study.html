@@ -47,38 +47,46 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .theme-opt .tdot{width:16px;height:16px;flex-shrink:0}
 .tdot.active{border-color:var(--acc);transform:scale(1.15);box-shadow:0 0 0 2px var(--bg)}
 
-/* ---------- Top Tabs Navigation ---------- */
-.tabs-wrap{background:color-mix(in srgb,var(--bg) 95%,transparent);border-bottom:1px solid var(--ln);padding:4px 10px;position:sticky;top:49px;z-index:45;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.tab-bar{display:flex;gap:6px;max-width:920px;margin:0 auto;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 0}
+
+/* ---------- Top Tabs Navigation (Systematic Clean Layout) ---------- */
+.tabs-wrap{background:color-mix(in srgb,var(--bg) 95%,transparent);border-bottom:1px solid var(--ln);padding:6px 12px;position:sticky;top:49px;z-index:45;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.tab-bar{display:flex;gap:8px;max-width:940px;margin:0 auto;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 0}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink-m);font-family:var(--fa);font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--dur) var(--ease);user-select:none;flex-shrink:0}
-.tab-btn .ic{font-size:.95rem}
-.tab-btn .badge{font-family:var(--fm);font-size:.58rem;padding:1px 6px;border-radius:999px;background:var(--bg-s);color:var(--ink-f);border:1px solid var(--ln-s)}
+.tab-btn{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink-m);font-family:var(--fa);font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--dur) var(--ease);user-select:none;flex-shrink:0}
+.tab-btn .ic{font-size:1rem;line-height:1}
+.tab-btn .tab-title{display:flex;flex-direction:column;align-items:flex-start;text-align:right;line-height:1.2}
+.tab-btn .ar-txt{font-size:.78rem;font-weight:700;color:inherit}
+.tab-btn .en-txt{font-family:var(--fd);font-size:.56rem;color:var(--ink-f);letter-spacing:.02em}
+.tab-btn.active .en-txt{color:color-mix(in srgb,var(--bg) 85%,transparent)}
+.tab-btn .badge{font-family:var(--fm);font-size:.58rem;padding:2px 6px;border-radius:999px;background:var(--bg-s);color:var(--ink-f);border:1px solid var(--ln-s)}
 .tab-btn:hover{color:var(--ink);border-color:color-mix(in srgb,var(--acc) 50%,transparent);background:var(--sf2)}
-.tab-btn.active{background:var(--acc);color:var(--bg);border-color:var(--acc);box-shadow:0 2px 10px var(--acc-g)}
+.tab-btn.active{background:var(--acc);color:var(--bg);border-color:var(--acc);box-shadow:0 2px 12px var(--acc-g)}
 .tab-btn.active .badge{background:var(--bg);color:var(--acc);border-color:transparent}
-/* stacked bilingual labels inside each tab pill (keeps the bar narrow enough to never clip) */
-.tab-btn > span:nth-child(2){display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.15}
-.tab-btn .ar-txt{font-size:.74rem}
-.tab-btn .en-txt{font-family:var(--fd);font-size:.5rem;letter-spacing:.05em;text-transform:uppercase;opacity:.75}
-html.lang-en-only .tab-btn .en-txt{font-size:.7rem;opacity:1}
-html.lang-ar-only .tab-btn .ar-txt{font-size:.78rem}
 
-/* Sub-lecture quick navigation */
-.subnav-bar{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 12px;margin-bottom:8px;scrollbar-width:none}
-.subnav-bar::-webkit-scrollbar{display:none}
-.sub-pill{padding:5px 12px;background:var(--sf2);border:1px solid var(--ln);border-radius:var(--r-s);color:var(--ink-m);font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--dur) var(--ease);flex-shrink:0}
-.sub-pill:hover{border-color:var(--acc);color:var(--ink)}
-.sub-pill.active{background:var(--acc-g);border-color:var(--acc);color:var(--acc-b)}
-.sub-pill.expand{border-style:dashed;color:var(--acc);gap:5px}
-.sub-pill.expand .en-txt{font-family:var(--fd);font-size:.55rem;opacity:.7}
+/* Search Bar (Sleek and compact) */
+.search-bar{padding:6px 14px 8px;max-width:940px;margin:0 auto;position:relative}
+.search-bar input{width:100%;padding:8px 14px 8px 36px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink);font-family:var(--fa);font-size:.82rem;transition:all var(--dur) var(--ease)}
+.search-bar input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-g);background:var(--sf2)}
+.search-bar::before{content:"⌕";position:absolute;left:26px;top:50%;transform:translateY(-50%);color:var(--ink-f);font-size:1.1rem;pointer-events:none}
 
-/* Search Bar */
-.search-bar{padding:6px 14px 10px;max-width:920px;margin:0 auto;position:relative}
-.search-bar input{width:100%;padding:10px 14px 10px 38px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;color:var(--ink);font-family:inherit;font-size:.86rem;transition:all var(--dur) var(--ease)}
-.search-bar input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-g)}
-.search-bar::before{content:"⌕";position:absolute;left:28px;top:50%;transform:translateY(-50%);color:var(--ink-f);font-size:1rem;pointer-events:none}
-
+/* Desktop Margin Index (TOC) Clean Layout */
+#tocnav{display:none}
+@media (min-width:1440px){
+#tocnav{display:flex;flex-direction:column;position:fixed;top:110px;right:0;bottom:16px;width:280px;z-index:40;padding:6px 14px 6px 4px;gap:6px}
+#tocnav .toc-title{font-family:var(--fm);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);padding:4px 8px;border-bottom:1px solid var(--ln-s)}
+#tocnav .toc-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:4px 2px;scrollbar-width:thin;scrollbar-color:var(--ln) transparent}
+#tocnav .toc-lec{display:flex;align-items:center;gap:7px;padding:6px 8px;cursor:pointer;border-radius:var(--r-s);color:var(--ink);font-family:var(--fa);font-size:.76rem;font-weight:700;transition:all var(--dur) var(--ease)}
+#tocnav .toc-lec:hover{background:var(--acc-g);color:var(--acc-b)}
+#tocnav .toc-lec .k{font-family:var(--fm);font-size:.56rem;color:var(--acc);background:var(--acc-g);border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);border-radius:4px;padding:1px 5px;flex-shrink:0}
+#tocnav .toc-lec .ti{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+#tocnav .toc-item{display:flex;align-items:center;gap:6px;padding:4px 8px;cursor:pointer;color:var(--ink-m);font-family:var(--fa);font-size:.7rem;line-height:1.4;border-right:2px solid transparent;border-radius:var(--r-s);transition:all var(--dur) var(--ease)}
+#tocnav .toc-item:hover{color:var(--acc-b);background:var(--acc-g)}
+#tocnav .toc-item .b{font-family:var(--fm);font-size:.54rem;color:var(--acc);background:var(--acc-g);border-radius:3px;padding:1px 4px;flex-shrink:0;direction:ltr}
+#tocnav .toc-item .ti{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;direction:rtl;unicode-bidi:plaintext}
+#tocnav .toc-item.active{color:var(--acc-b);background:var(--acc-g);border-right-color:var(--acc)}
+#tocnav .toc-item.active .b{background:var(--acc);color:var(--bg)}
+#tocnav .toc-lec.active .k{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+}
 /* Main Content & Tab Panels */
 main{max-width:920px;margin:0 auto;padding:14px}
 .tab-panel{display:none}
@@ -391,12 +399,12 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 </div>
 <div class="tabs-wrap">
   <div class="tab-bar" id="mainTabBar" role="tablist">
-    <button class="tab-btn active" data-tab="theory" role="tab"><span class="ic">📖</span><span><span class="ar-txt">سلايدات النظري (د. رويدا)</span><span class="en-txt">Theory (Dr. Rowaida)</span></span><span class="badge">3 مح</span></button>
-    <button class="tab-btn" data-tab="practical" role="tab"><span class="ic">💻</span><span><span class="ar-txt">سلايدات العملي (أ. وائل)</span><span class="en-txt">Practical (Eng. Wael)</span></span><span class="badge">6 مح</span></button>
-    <button class="tab-btn" data-tab="full" role="tab"><span class="ic">🗺️</span><span><span class="ar-txt">الشرح الشامل</span><span class="en-txt">Full Course</span></span><span class="badge">12 ف</span></button>
-    <button class="tab-btn" data-tab="defs" role="tab"><span class="ic">📑</span><span><span class="ar-txt">بنك التعاريف</span><span class="en-txt">Definitions</span></span><span class="badge">49</span></button>
-    <button class="tab-btn" data-tab="exams" role="tab"><span class="ic">📝</span><span><span class="ar-txt">نماذج الاختبار</span><span class="en-txt">Mock Exams</span></span><span class="badge">2</span></button>
-    <button class="tab-btn" data-tab="summary" role="tab"><span class="ic">⚡</span><span><span class="ar-txt">ملخص المراجعة</span><span class="en-txt">Summary</span></span><span class="badge">27</span></button>
+    <button class="tab-btn active" data-tab="theory" role="tab"><span class="ic">📖</span><span class="tab-title"><span class="ar-txt">سلايدات النظري (د. رويدا)</span><span class="en-txt">Theory Slides · Dr. Rowaida</span></span><span class="badge">3 مح</span></button>
+    <button class="tab-btn" data-tab="practical" role="tab"><span class="ic">💻</span><span class="tab-title"><span class="ar-txt">سلايدات العملي (أ. وائل)</span><span class="en-txt">Practical Slides · Eng. Wael</span></span><span class="badge">6 مح</span></button>
+    <button class="tab-btn" data-tab="full" role="tab"><span class="ic">🗺️</span><span class="tab-title"><span class="ar-txt">الشرح الشامل</span><span class="en-txt">Full Course Guide</span></span><span class="badge">12 ف</span></button>
+    <button class="tab-btn" data-tab="defs" role="tab"><span class="ic">📑</span><span class="tab-title"><span class="ar-txt">بنك التعاريف</span><span class="en-txt">Definitions Bank</span></span><span class="badge">49</span></button>
+    <button class="tab-btn" data-tab="exams" role="tab"><span class="ic">📝</span><span class="tab-title"><span class="ar-txt">نماذج الاختبار</span><span class="en-txt">Mock Exams</span></span><span class="badge">2</span></button>
+    <button class="tab-btn" data-tab="summary" role="tab"><span class="ic">⚡</span><span class="tab-title"><span class="ar-txt">ملخص المراجعة</span><span class="en-txt">Summary Map</span></span><span class="badge">27</span></button>
   </div>
 </div>
 
@@ -1481,14 +1489,14 @@ function buildTOC(){
     DATA.lecs.filter(l => l.tab === "theory").forEach(l => {
       h += lecEntry(l.key, l.emoji, l.t, l.en);
       l.slides.forEach(s => {
-        h += '<div class="toc-item" data-sid="'+s.id+'"><span class="b">'+s.id+'</span><span class="ti">'+esc(s.title)+'</span></div>';
+        const cleanTi = s.title.replace(/^[RW]\d+-S\d+\s*[:·-]?\s*/i, ''); h += '<div class="toc-item" data-sid="'+s.id+'"><span class="b">'+s.id+'</span><span class="ti">'+esc(cleanTi)+'</span></div>';
       });
     });
   } else if (S.activeTab === "practical") {
     DATA.lecs.filter(l => l.tab === "practical").forEach(l => {
       h += lecEntry(l.key, l.emoji, l.t, l.en);
       l.slides.forEach(s => {
-        h += '<div class="toc-item" data-sid="'+s.id+'"><span class="b">'+s.id+'</span><span class="ti">'+esc(s.title)+'</span></div>';
+        const cleanTi = s.title.replace(/^[RW]\d+-S\d+\s*[:·-]?\s*/i, ''); h += '<div class="toc-item" data-sid="'+s.id+'"><span class="b">'+s.id+'</span><span class="ti">'+esc(cleanTi)+'</span></div>';
       });
     });
   } else if (S.activeTab === "full") {
@@ -1549,6 +1557,14 @@ function spy(){
   if (!panel.matches(":hover")) cur.scrollIntoView({block:"nearest"});
 }
 window.addEventListener("scroll", () => { if (!spyTick) { spyTick = true; requestAnimationFrame(spy); } }, {passive:true});
+
+
+// Force clean reset of open state so lectures always start collapsed by default
+if (!localStorage.getItem("toc_v3_clean_init")) {
+  localStorage.removeItem("toc_open_lecs");
+  localStorage.setItem("toc_v3_clean_init", "true");
+  S.openLecs = {};
+}
 
 // ---------- App Initialization ----------
 buildTheory();
