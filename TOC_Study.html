@@ -385,14 +385,18 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
   </div>
 </div>
 
+
+<div class="trust-banner" style="background:color-mix(in srgb,var(--acc-g) 75%,transparent);border-bottom:1px solid var(--acc);padding:7px 14px;font-size:.76rem;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;">
+  <span>📖 <b>المنهج المعتمد:</b> تفريغ وترجمة مباشرة لسلايدات <b>د. رويدا العامري (نظري)</b> و <b>أ. وائل الوظاف (عملي)</b> حرفياً وموثقة بالكامل.</span>
+</div>
 <div class="tabs-wrap">
   <div class="tab-bar" id="mainTabBar" role="tablist">
-    <button class="tab-btn active" data-tab="theory" role="tab"><span class="ic">🧭</span><span><span class="ar-txt">نظري</span><span class="en-txt">Theory</span></span><span class="badge">3 مح</span></button>
-    <button class="tab-btn" data-tab="practical" role="tab"><span class="ic">🧪</span><span><span class="ar-txt">عملي</span><span class="en-txt">Practical</span></span><span class="badge">6 مح</span></button>
-    <button class="tab-btn" data-tab="full" role="tab"><span class="ic">📖</span><span><span class="ar-txt">الشرح الشامل</span><span class="en-txt">Full Course</span></span><span class="badge">12 ف</span></button>
-    <button class="tab-btn" data-tab="defs" role="tab"><span class="ic">📚</span><span><span class="ar-txt">التعاريف</span><span class="en-txt">Definitions</span></span><span class="badge">49</span></button>
+    <button class="tab-btn active" data-tab="theory" role="tab"><span class="ic">📖</span><span><span class="ar-txt">سلايدات النظري (د. رويدا)</span><span class="en-txt">Theory (Dr. Rowaida)</span></span><span class="badge">3 مح</span></button>
+    <button class="tab-btn" data-tab="practical" role="tab"><span class="ic">💻</span><span><span class="ar-txt">سلايدات العملي (أ. وائل)</span><span class="en-txt">Practical (Eng. Wael)</span></span><span class="badge">6 مح</span></button>
+    <button class="tab-btn" data-tab="full" role="tab"><span class="ic">🗺️</span><span><span class="ar-txt">الشرح الشامل</span><span class="en-txt">Full Course</span></span><span class="badge">12 ف</span></button>
+    <button class="tab-btn" data-tab="defs" role="tab"><span class="ic">📑</span><span><span class="ar-txt">بنك التعاريف</span><span class="en-txt">Definitions</span></span><span class="badge">49</span></button>
     <button class="tab-btn" data-tab="exams" role="tab"><span class="ic">📝</span><span><span class="ar-txt">نماذج الاختبار</span><span class="en-txt">Mock Exams</span></span><span class="badge">2</span></button>
-    <button class="tab-btn" data-tab="summary" role="tab"><span class="ic">📋</span><span><span class="ar-txt">الملخص</span><span class="en-txt">Summary</span></span><span class="badge">27</span></button>
+    <button class="tab-btn" data-tab="summary" role="tab"><span class="ic">⚡</span><span><span class="ar-txt">ملخص المراجعة</span><span class="en-txt">Summary</span></span><span class="badge">27</span></button>
   </div>
 </div>
 
@@ -407,13 +411,13 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
   <section class="tab-panel active" id="panel-theory">
     <div class="intro">
       <h1><span class="ar-txt">المحاضرات النظرية — <span class="ac">د. رويدا العامري</span></span><span class="en">Theoretical Foundations · Dr. Rowaida Al-Amri</span></h1>
-      <p><span class="ar-txt">المفاهيم الأساسية، الأوتوماتا المنتهية، وتفاصيل الآلة الحتمية DFA مع شرح خطوة بخطوة وأسئلة تدريبية.</span><span class="en">3 comprehensive lectures covering alphabets, strings, set operations, FA, and DFA formal definitions.</span></p>
+      <p><span class="ar-txt">3 محاضرات تغطي الأبجديات، اللغات الصورية، والأوتوماتا الحتمية DFA.</span><span class="en">3 lectures covering alphabets, formal languages, and DFA.</span></p>
     </div>
     <div class="subnav-bar" id="subnav-theory">
       <button class="sub-pill active" data-filter-lec="all">الكل · All</button>
-      <button class="sub-pill" data-filter-lec="R1">🧭 R1 · المفاهيم الأساسية</button>
-      <button class="sub-pill" data-filter-lec="R2">⚙️ R2 · الأوتوماتا المنتهية</button>
-      <button class="sub-pill" data-filter-lec="R3">🔁 R3 · الآلة الحتمية DFA</button>
+      <button class="sub-pill" data-filter-lec="R1">المحاضرة 1 · المفاهيم واللغات</button>
+      <button class="sub-pill" data-filter-lec="R2">المحاضرة 2 · الأوتوماتا المنتهية</button>
+      <button class="sub-pill" data-filter-lec="R3">المحاضرة 3 · الآلة الحتمية DFA</button>
       <button class="sub-pill expand" data-expandall="1"><span class="ar-txt">فتح الكل ⌄</span><span class="en-txt">Expand all</span></button>
     </div>
     <div id="container-theory"></div>
@@ -423,16 +427,16 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
   <section class="tab-panel" id="panel-practical">
     <div class="intro">
       <h1><span class="ar-txt">المحاضرات العملية — <span class="ac">أ. وائل الوظاف</span></span><span class="en">Practical Sessions · Eng. Wael Al-Wazaf</span></h1>
-      <p><span class="ar-txt">الأساسيات الرياضية وفق مرجع Sipser، تمارين وتصميم DFA، التعبيرات المنتظمة Regex، والأوتوماتا غير الحتمية NFA مع تفريغ رسوم الآلات.</span><span class="en">6 in-depth practical lessons with solved exercises, state machine diagrams, and trace tables.</span></p>
+      <p><span class="ar-txt">6 معامل تطبيقية في حل التمارين، وتصميم DFA، و Regex، و NFA مع رسوم الآلات.</span><span class="en">6 practical lab sessions with exercises and state machine diagrams.</span></p>
     </div>
     <div class="subnav-bar" id="subnav-practical">
       <button class="sub-pill active" data-filter-lec="all">الكل · All</button>
-      <button class="sub-pill" data-filter-lec="W0">🌐 W0 · مقدمة</button>
-      <button class="sub-pill" data-filter-lec="W1">📐 W1 · أساسيات رياضية</button>
-      <button class="sub-pill" data-filter-lec="W2">🧪 W2 · تمارين DFA</button>
-      <button class="sub-pill" data-filter-lec="W3">🎯 W3 · تصميم DFA</button>
-      <button class="sub-pill" data-filter-lec="W4">🔤 W4 · Regex</button>
-      <button class="sub-pill" data-filter-lec="W5">🌿 W5 · NFA</button>
+      <button class="sub-pill" data-filter-lec="W0">معمل 0 · مقدمة نظرية الحاسوب</button>
+      <button class="sub-pill" data-filter-lec="W1">معمل 1 · أساسيات رياضية</button>
+      <button class="sub-pill" data-filter-lec="W2">معمل 2 · تمارين DFA</button>
+      <button class="sub-pill" data-filter-lec="W3">معمل 3 · تصميم DFA</button>
+      <button class="sub-pill" data-filter-lec="W4">معمل 4 · تعبيرات Regex</button>
+      <button class="sub-pill" data-filter-lec="W5">معمل 5 · أوتوماتا NFA</button>
       <button class="sub-pill expand" data-expandall="1"><span class="ar-txt">فتح الكل ⌄</span><span class="en-txt">Expand all</span></button>
     </div>
     <div id="container-practical"></div>
@@ -518,12 +522,12 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 </main>
 
 <nav class="bottom-nav" aria-label="Main Navigation">
-  <button data-nav-tab="theory" class="active"><span class="ic">🧭</span><span class="ar-txt">نظري</span><span class="en-txt">Theory</span></button>
-  <button data-nav-tab="practical"><span class="ic">🧪</span><span class="ar-txt">عملي</span><span class="en-txt">Practical</span></button>
-  <button data-nav-tab="full"><span class="ic">📖</span><span class="ar-txt">شامل</span><span class="en-txt">FULL</span></button>
-  <button data-nav-tab="defs"><span class="ic">📚</span><span class="ar-txt">تعاريف</span><span class="en-txt">Defs</span></button>
+  <button data-nav-tab="theory" class="active"><span class="ic">📖</span><span class="ar-txt">نظري</span><span class="en-txt">Theory</span></button>
+  <button data-nav-tab="practical"><span class="ic">💻</span><span class="ar-txt">عملي</span><span class="en-txt">Practical</span></button>
+  <button data-nav-tab="full"><span class="ic">🗺️</span><span class="ar-txt">شامل</span><span class="en-txt">Full</span></button>
+  <button data-nav-tab="defs"><span class="ic">📑</span><span class="ar-txt">تعاريف</span><span class="en-txt">Defs</span></button>
   <button data-nav-tab="exams"><span class="ic">📝</span><span class="ar-txt">اختبار</span><span class="en-txt">Exams</span></button>
-  <button data-nav-tab="summary"><span class="ic">📋</span><span class="ar-txt">ملخص</span><span class="en-txt">Summary</span></button>
+  <button data-nav-tab="summary"><span class="ic">⚡</span><span class="ar-txt">ملخص</span><span class="en-txt">Summary</span></button>
 </nav>
 
 <aside id="tocnav" aria-label="فهرس المحتويات">
@@ -715,7 +719,7 @@ function buildTheory(){
     l.slides.forEach(s => bh += slideHTML(s));
     bh += '</div>';
     const el = document.createElement("div"); el.className = "lecture"; el.id = "lec-"+l.key;
-    el.innerHTML = '<div class="lhead" data-lec="'+l.key+'"><span class="lt">'+l.emoji+' '+l.key+'</span><h2><span class="ar-txt">'+esc(l.t)+'</span><span class="en">'+esc(l.en)+' · '+l.slides.length+' slides</span></h2><button class="cb" aria-expanded="false">+</button></div>' + bh;
+    el.innerHTML = '<div class="lhead" data-lec="'+l.key+'"><span class="lt">' + (l.tab==='theory'?'نظري ':'عملي ') + l.key.slice(1) + '</span><h2><span class="ar-txt">'+esc(l.t)+'</span><span class="en">'+esc(l.en)+' · '+l.slides.length+' slides</span></h2><button class="cb" aria-expanded="false">+</button></div>' + bh;
     c.appendChild(el);
   });
 }
@@ -739,7 +743,7 @@ function buildPractical(){
     }
     bh += '</div>';
     const el = document.createElement("div"); el.className = "lecture"; el.id = "lec-"+l.key;
-    el.innerHTML = '<div class="lhead" data-lec="'+l.key+'"><span class="lt">'+l.emoji+' '+l.key+'</span><h2><span class="ar-txt">'+esc(l.t)+'</span><span class="en">'+esc(l.en)+' · '+l.slides.length+' slides</span></h2><button class="cb" aria-expanded="false">+</button></div>' + bh;
+    el.innerHTML = '<div class="lhead" data-lec="'+l.key+'"><span class="lt">' + (l.tab==='theory'?'نظري ':'عملي ') + l.key.slice(1) + '</span><h2><span class="ar-txt">'+esc(l.t)+'</span><span class="en">'+esc(l.en)+' · '+l.slides.length+' slides</span></h2><button class="cb" aria-expanded="false">+</button></div>' + bh;
     c.appendChild(el);
   });
 }
@@ -1560,9 +1564,9 @@ restoreAnswers();
 
 // Apply persisted lecture states (default: everything open on first visit)
 ["theory", "practical"].forEach(tab => {
-  DATA.lecs.filter(l => l.tab === tab).forEach(l => toggleLec(l.key, S.openLecs[l.key] !== false));
+  DATA.lecs.filter(l => l.tab === tab).forEach(l => toggleLec(l.key, S.openLecs[l.key] === true));
 });
-DATA.full.forEach(it => toggleLec(it.id, S.openLecs[it.id] !== false));
+DATA.full.forEach(it => toggleLec(it.id, S.openLecs[it.id] === true));
 updateExpandBtns();
 </script>
 </body>
