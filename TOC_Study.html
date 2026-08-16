@@ -368,9 +368,16 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 
 <div class="topbar">
   <div class="topbar-in">
-    <div class="brand"><span class="lm">◆</span> TOC · Slide Study Platform</div>
-    <button id="btn-all-ar" class="btn-toggle-ar" style="padding:5px 11px;">العربي</button>
-    <button class="gear" id="btn-set" aria-label="الإعدادات">⚙</button>
+    <div class="brand"><span class="lm">◆</span> TOC · Study Platform</div>
+    <div style="display:flex;align-items:center;gap:6px;margin-inline-start:auto;">
+      <button id="btn-search-toggle" class="btn-toggle-ar" style="padding:5px 10px;font-family:var(--fa);font-weight:700;">بحث ⌕</button>
+      <button id="btn-all-ar" class="btn-toggle-ar" style="padding:5px 11px;">العربي</button>
+      <button class="gear" id="btn-set" aria-label="الإعدادات">⚙</button>
+    </div>
+  </div>
+  
+  <div class="search-bar-wrap" id="searchBarWrap" hidden style="padding:8px 14px 10px;background:var(--sf);border-bottom:1px solid var(--ln);max-width:940px;margin:0 auto;">
+    <input type="search" id="search" placeholder="اكتب للبحث الفوري في التبويب الحالي... · Search active tab..." aria-label="Search" style="width:100%;padding:8px 14px;background:var(--sf2);border:1px solid var(--ln);border-radius:999px;color:var(--ink);font-family:var(--fa);font-size:.82rem;outline:none;" />
   </div>
   
   <div class="setwrap" id="setPanel" hidden>
@@ -410,12 +417,12 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 </div>
 <div class="tabs-wrap">
   <div class="tab-bar" id="mainTabBar" role="tablist">
-    <button class="tab-btn active" data-tab="theory" role="tab"><span class="ic">📖</span><span class="tab-title"><span class="ar-txt">سلايدات النظري (د. رويدا)</span><span class="en-txt">Theory Slides · Dr. Rowaida</span></span></button>
-    <button class="tab-btn" data-tab="practical" role="tab"><span class="ic">💻</span><span class="tab-title"><span class="ar-txt">سلايدات العملي (أ. وائل)</span><span class="en-txt">Practical Slides · Eng. Wael</span></span></button>
-    <button class="tab-btn" data-tab="full" role="tab"><span class="ic">🗺️</span><span class="tab-title"><span class="ar-txt">الشرح الشامل</span><span class="en-txt">Full Course Guide</span></span></button>
-    <button class="tab-btn" data-tab="defs" role="tab"><span class="ic">📑</span><span class="tab-title"><span class="ar-txt">بنك التعاريف</span><span class="en-txt">Definitions Bank</span></span></button>
-    <button class="tab-btn" data-tab="exams" role="tab"><span class="ic">📝</span><span class="tab-title"><span class="ar-txt">نماذج الاختبار</span><span class="en-txt">Mock Exams</span></span></button>
-    <button class="tab-btn" data-tab="summary" role="tab"><span class="ic">⚡</span><span class="tab-title"><span class="ar-txt">ملخص المراجعة</span><span class="en-txt">Summary Map</span></span></button>
+    <button class="tab-btn active" data-tab="theory" role="tab"><span class="tab-title"><span class="ar-txt">سلايدات النظري (د. رويدا)</span><span class="en-txt">Theory Slides · Dr. Rowaida</span></span></button>
+    <button class="tab-btn" data-tab="practical" role="tab"><span class="tab-title"><span class="ar-txt">سلايدات العملي (أ. وائل)</span><span class="en-txt">Practical Slides · Eng. Wael</span></span></button>
+    <button class="tab-btn" data-tab="full" role="tab"><span class="tab-title"><span class="ar-txt">الشرح الشامل</span><span class="en-txt">Full Course Guide</span></span></button>
+    <button class="tab-btn" data-tab="defs" role="tab"><span class="tab-title"><span class="ar-txt">بنك التعاريف</span><span class="en-txt">Definitions Bank</span></span></button>
+    <button class="tab-btn" data-tab="exams" role="tab"><span class="tab-title"><span class="ar-txt">نماذج الاختبار</span><span class="en-txt">Mock Exams</span></span></button>
+    <button class="tab-btn" data-tab="summary" role="tab"><span class="tab-title"><span class="ar-txt">ملخص المراجعة</span><span class="en-txt">Summary Map</span></span></button>
   </div>
 </div>
 
@@ -541,12 +548,12 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 </main>
 
 <nav class="bottom-nav" aria-label="Main Navigation">
-  <button data-nav-tab="theory" class="active"><span class="ic">📖</span><span class="ar-txt">نظري</span><span class="en-txt">Theory</span></button>
-  <button data-nav-tab="practical"><span class="ic">💻</span><span class="ar-txt">عملي</span><span class="en-txt">Practical</span></button>
-  <button data-nav-tab="full"><span class="ic">🗺️</span><span class="ar-txt">شامل</span><span class="en-txt">Full</span></button>
-  <button data-nav-tab="defs"><span class="ic">📑</span><span class="ar-txt">تعاريف</span><span class="en-txt">Defs</span></button>
-  <button data-nav-tab="exams"><span class="ic">📝</span><span class="ar-txt">اختبار</span><span class="en-txt">Exams</span></button>
-  <button data-nav-tab="summary"><span class="ic">⚡</span><span class="ar-txt">ملخص</span><span class="en-txt">Summary</span></button>
+  <button data-nav-tab="theory" class="active"><span class="ar-txt">نظري</span><span class="en-txt">Theory</span></button>
+  <button data-nav-tab="practical"><span class="ar-txt">عملي</span><span class="en-txt">Practical</span></button>
+  <button data-nav-tab="full"><span class="ar-txt">شامل</span><span class="en-txt">Full</span></button>
+  <button data-nav-tab="defs"><span class="ar-txt">تعاريف</span><span class="en-txt">Defs</span></button>
+  <button data-nav-tab="exams"><span class="ar-txt">اختبار</span><span class="en-txt">Exams</span></button>
+  <button data-nav-tab="summary"><span class="ar-txt">ملخص</span><span class="en-txt">Summary</span></button>
 </nav>
 
 <aside id="tocnav" aria-label="فهرس المحتويات">
@@ -1248,6 +1255,21 @@ document.addEventListener("click", e => {
     syncThemeUI(); save(); return;
   }
   
+  
+  // Toggle Topbar Search Bar
+  const sToggle = e.target.closest("#btn-search-toggle");
+  if (sToggle) {
+    const sw = document.getElementById("searchBarWrap");
+    if (sw) {
+      sw.hidden = !sw.hidden;
+      if (!sw.hidden) {
+        const inp = sw.querySelector("input");
+        if (inp) inp.focus();
+      }
+    }
+    return;
+  }
+
   // Tab Switcher
   const tBtn = e.target.closest(".tab-btn, [data-nav-tab]");
   if (tBtn) {
@@ -1494,7 +1516,7 @@ searchEl.addEventListener("input", () => {
 function buildTOC(){
   const tb = document.getElementById("tocbody"); if (!tb) return;
   let h = "";
-  const lecEntry = (key, ic, ar, en) => '<div class="toc-lec" data-lec="'+key+'"><span class="k">'+key+'</span><span class="ti"><span class="ar-txt">'+esc(ar)+'</span><span class="en-txt">'+esc(en)+'</span></span><span style="font-size:.9rem">'+ic+'</span></div>';
+  const lecEntry = (key, ic, ar, en) => '<div class="toc-lec" data-lec="'+key+'"><span class="k">'+key+'</span><span class="ti"><span class="ar-txt">'+esc(ar)+'</span><span class="en-txt">'+esc(en)+'</span></span></div>';
 
   if (S.activeTab === "theory") {
     DATA.lecs.filter(l => l.tab === "theory").forEach(l => {
