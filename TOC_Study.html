@@ -24,7 +24,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--fa);background:var(--bg);color:var(--ink);line-height:1.8;font-size:16px;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:calc(76px + env(safe-area-inset-bottom));transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(800px 400px at 85% -5%,var(--ga),transparent 60%),radial-gradient(600px 500px at 5% 15%,var(--gb),transparent 55%),radial-gradient(500px 350px at 50% 100%,var(--gc),transparent 60%)}
 .topbar,main,.tab-bar,.bottom-nav{position:relative;z-index:2}
-.topbar{position:sticky;top:0;z-index:50;padding-top:env(safe-area-inset-top);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--ln-s)}
+.topbar{position:relative;top:auto;z-index:60;padding-top:env(safe-area-inset-top);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--ln-s)}
 .topbar-in{display:flex;align-items:center;gap:8px;padding:8px 14px;max-width:920px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);flex:1}
 .brand .lm{width:22px;height:22px;display:grid;place-items:center;background:var(--acc-g);border:1px solid var(--acc);border-radius:6px;font-size:.68rem}
@@ -32,7 +32,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .btn-search-top, .gear{width:28px;height:28px;display:grid;place-items:center;background:var(--sf);border:1px solid var(--ln);border-radius:8px;color:var(--acc);cursor:pointer;font-size:.9rem;transition:all var(--dur) var(--ease)}
 .btn-search-top:hover, .gear:hover{border-color:var(--acc);background:var(--acc-g)}
 
-.setwrap{position:absolute;top:100%;left:12px;right:12px;max-width:600px;margin:6px auto 0;background:var(--sf);border:1px solid var(--ln);border-radius:var(--r-m);box-shadow:var(--sh);padding:14px;z-index:80}
+.setwrap{position:absolute;top:100%;left:12px;right:12px;max-width:600px;margin:6px auto 0;background:var(--sf);border:1px solid var(--ln);border-radius:var(--r-m);box-shadow:0 8px 30px rgba(0,0,0,.6);padding:14px;z-index:100}
 .setgroup{margin-bottom:10px}
 .setgroup:last-child{margin-bottom:0}
 .setlabel{font-size:.72rem;font-weight:700;color:var(--acc);margin-bottom:7px}
@@ -374,10 +374,10 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 <div class="topbar">
   <div class="topbar-in">
     <div class="brand"><span class="lm">◆</span> TOC · Study Platform</div>
-    <div class="top-actions">
-      <button id="btn-all-ar" class="top-btn" title="التبديل بين العربية والإنجليزية">العربي</button>
-      <button id="btn-search-toggle" class="top-btn icon-only" aria-label="بحث" title="بحث في المحاضرات">🔍</button>
-      <button id="btn-set" class="top-btn icon-only gear" aria-label="الإعدادات" title="الإعدادات">⚙</button>
+    <div style="display:flex;align-items:center;gap:6px;margin-inline-start:auto;">
+      <button id="btn-all-ar" class="btn-toggle-ar" style="padding:5px 11px;">العربي</button>
+      <button id="btn-search-toggle" class="btn-search-top" aria-label="بحث" title="بحث في المحاضرات">🔍</button>
+      <button class="gear" id="btn-set" aria-label="الإعدادات" title="الإعدادات">⚙</button>
     </div>
   </div>
   
@@ -1172,14 +1172,8 @@ document.addEventListener("click", e => {
   const sp = document.getElementById("setPanel");
   if (sp && !sp.hidden && !e.target.closest("#setPanel") && !e.target.closest("#btn-set")) sp.hidden = true;
   
-  
   const gear = e.target.closest("#btn-set, .gear");
-  if (gear) {
-    const sp = document.getElementById("setPanel");
-    if (sp) sp.hidden = !sp.hidden;
-    return;
-  }
-
+  if (gear) { sp.hidden = !sp.hidden; return; }
   
   const setLang = e.target.closest("[data-lang]");
   if (setLang) { S.lang = setLang.dataset.lang; save(); applyLang(); toast("تم تطبيق إعداد اللغة", "Language setting applied"); return; }
