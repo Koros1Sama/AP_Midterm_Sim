@@ -1172,8 +1172,14 @@ document.addEventListener("click", e => {
   const sp = document.getElementById("setPanel");
   if (sp && !sp.hidden && !e.target.closest("#setPanel") && !e.target.closest("#btn-set")) sp.hidden = true;
   
-  const gear = e.target.closest("#btn-set");
-  if (gear) { sp.hidden = !sp.hidden; return; }
+  
+  const gear = e.target.closest("#btn-set, .gear");
+  if (gear) {
+    const sp = document.getElementById("setPanel");
+    if (sp) sp.hidden = !sp.hidden;
+    return;
+  }
+
   
   const setLang = e.target.closest("[data-lang]");
   if (setLang) { S.lang = setLang.dataset.lang; save(); applyLang(); toast("تم تطبيق إعداد اللغة", "Language setting applied"); return; }
