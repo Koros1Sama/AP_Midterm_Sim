@@ -374,15 +374,45 @@ footer{padding:28px 0 12px;text-align:center;color:var(--ink-f);font-size:.72rem
 <div class="topbar">
   <div class="topbar-in">
     <div class="brand"><span class="lm">◆</span> TOC · Study Platform</div>
-    <div style="display:flex;align-items:center;gap:6px;margin-inline-start:auto;">
-      <button id="btn-all-ar" class="btn-toggle-ar" style="padding:5px 11px;">العربي</button>
-      <button id="btn-search-toggle" class="btn-search-top" aria-label="بحث" title="بحث في المحاضرات">🔍</button>
-      <button class="gear" id="btn-set" aria-label="الإعدادات" onclick="toggleSetPanel(event)" title="الإعدادات">⚙</button>
+    <div class="top-actions">
+      <button id="btn-all-ar" class="top-btn" title="التبديل بين العربية والإنجليزية">العربي</button>
+      <button id="btn-search-toggle" class="top-btn icon-only" aria-label="بحث" title="بحث في المحاضرات">🔍</button>
+      <button class="gear top-btn icon-only" id="btn-set" aria-label="الإعدادات" title="الإعدادات" onclick="toggleSetPanel(event)">⚙</button>
     </div>
   </div>
   
   <div class="search-bar-wrap" id="searchBarWrap" hidden style="padding:8px 14px 10px;background:var(--sf);border-bottom:1px solid var(--ln);max-width:940px;margin:0 auto;">
     <input type="search" id="search" placeholder="اكتب للبحث الفوري في التبويب الحالي... · Search active tab..." aria-label="Search" style="width:100%;padding:8px 14px;background:var(--sf2);border:1px solid var(--ln);border-radius:999px;color:var(--ink);font-family:var(--fa);font-size:.82rem;outline:none;" />
+  </div>
+
+  <div class="setwrap" id="setPanel" hidden>
+    <div class="setgroup" id="setThemeGroup">
+      <div class="setlabel">🎨 الثيم · Theme</div>
+      <div class="setopts" id="themeRow">
+        <button class="set-opt theme-opt" data-t="amber"><span class="tdot" data-t="amber"></span><span class="ar-txt">كهرماني دافئ</span><span class="en-txt">Warm Amber</span></button>
+        <button class="set-opt theme-opt" data-t="obsidian"><span class="tdot" data-t="obsidian"></span><span class="ar-txt">أوبسيديان هادئ</span><span class="en-txt">Obsidian Slate</span></button>
+        <button class="set-opt theme-opt" data-t="ocean"><span class="tdot" data-t="ocean"></span><span class="ar-txt">المحيط الليلي</span><span class="en-txt">Deep Ocean</span></button>
+        <button class="set-opt theme-opt" data-t="mist"><span class="tdot" data-t="mist"></span><span class="ar-txt">ضباب النهار</span><span class="en-txt">Daylight Mist</span></button>
+        <button class="set-opt theme-opt" data-t="neon"><span class="tdot" data-t="neon"></span><span class="ar-txt">نيون</span><span class="en-txt">Neon Pulse</span></button>
+        <button class="set-opt theme-opt" data-t="sage"><span class="tdot" data-t="sage"></span><span class="ar-txt">مريمية</span><span class="en-txt">Sage</span></button>
+      </div>
+    </div>
+    <div class="setgroup" id="setLangGroup">
+      <div class="setlabel">🌐 اللغة الأساسية · Primary language</div>
+      <div class="setopts">
+        <button class="set-opt" data-lang="en-first">English أساسي + عربي ثانوي</button>
+        <button class="set-opt" data-lang="ar-first">عربي أساسي + English ثانوي</button>
+        <button class="set-opt" data-lang="en-only">English فقط</button>
+        <button class="set-opt" data-lang="ar-only">عربي فقط</button>
+      </div>
+    </div>
+    <div class="setgroup" id="setSecGroup">
+      <div class="setlabel">👁️ اللغة الثانوية · Secondary visibility</div>
+      <div class="setopts">
+        <button class="set-opt" data-sec="always">ظاهرة دائماً · Always</button>
+        <button class="set-opt" data-sec="btn">زر إظهار · On demand</button>
+      </div>
+    </div>
   </div>
 </div>
 
